@@ -1,0 +1,705 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "on-error-container": "#93000a",
+        "surface-container-high": "#e7e8e9",
+        "on-primary": "#ffffff",
+        "error": "#ba1a1a",
+        "background": "#f8f9fa",
+        "on-secondary": "#ffffff",
+        "surface-container-low": "#f3f4f5",
+        "secondary": "#575f67",
+        "primary-container": "#0066cc",
+        "tertiary-fixed": "#83fc8e",
+        "tertiary": "#005d1e",
+        "primary-fixed": "#d7e3ff",
+        "inverse-surface": "#2e3132",
+        "secondary-container": "#d8e1ea",
+        "primary": "#004e9f",
+        "outline": "#727784",
+        "on-tertiary": "#ffffff",
+        "inverse-on-surface": "#f0f1f2",
+        "on-secondary-fixed-variant": "#3f484f",
+        "on-tertiary-container": "#98ff9d",
+        "error-container": "#ffdad6",
+        "on-primary-container": "#dfe8ff",
+        "on-tertiary-fixed": "#002106",
+        "surface-container-lowest": "#ffffff",
+        "on-surface": "#191c1d",
+        "secondary-fixed-dim": "#bfc8d0",
+        "inverse-primary": "#aac7ff",
+        "secondary-fixed": "#dbe4ed",
+        "on-secondary-container": "#5b646b",
+        "surface-container-highest": "#e1e3e4",
+        "on-surface-variant": "#414753",
+        "primary-fixed-dim": "#aac7ff",
+        "on-background": "#191c1d",
+        "surface-variant": "#e1e3e4",
+        "surface-dim": "#d9dadb",
+        "surface-tint": "#005cba",
+        "surface-container": "#edeeef",
+        "on-secondary-fixed": "#141d23",
+        "tertiary-fixed-dim": "#66df75",
+        "on-primary-fixed-variant": "#00458e",
+        "surface-bright": "#f8f9fa",
+        "on-error": "#ffffff",
+        "tertiary-container": "#00792a",
+        "on-primary-fixed": "#001b3e",
+        "on-tertiary-fixed-variant": "#00531a",
+        "surface": "#f8f9fa",
+        "outline-variant": "#c1c6d5"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "gutter-lg": "1.5rem",
+        "space-md": "0.75rem",
+        "gutter": "1rem",
+        "margin-lg": "2rem",
+        "margin-md": "1.5rem",
+        "space-sm": "0.5rem",
+        "margin": "1rem",
+        "space-lg": "1rem",
+        "space-xs": "0.25rem",
+        "space-2xl": "2rem",
+        "space-xl": "1.5rem"
+      },
+      "fontFamily": {
+        "headline-md": ["Inter"],
+        "body-lg": ["Inter"],
+        "body-base-semibold": ["Inter"],
+        "body-base": ["Inter"],
+        "headline-sm": ["Inter"],
+        "label-base": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-xl": ["Inter"],
+        "label-badge": ["Inter"],
+        "headline-xl-mobile": ["Inter"],
+        "headline-lg": ["Inter"],
+        "code-mono": ["JetBrains Mono"]
+      },
+      "fontSize": {
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "body-base-semibold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+        "body-base": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+        "label-base": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "label-badge": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "headline-xl-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "code-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-base text-body-base text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.06)]"><div class="h-16 w-full px-margin-lg flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><img alt="ParkCore Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCz9T9ip66HY41UEGKqHnnP6VNwQ_0_uOpIzOEu4aX4g-MEUYoCCU-fKESQ2fT3ZJHxOxw62e475skg-Vft-s3fB-YiuJVd6PvHRjb_sm0xY-XM8Al1sIGci6FTQnUzFyN8HOljNy8DWJHzqubJrbw2k2EH-mT1fR2QpePow9JNdo53Wy7Xr1aJ6ADNgaEWuJqEzhUuK5tU-6vxpxw0mJ9PLUCJqh222Wh1W-bOKAfFQrd1QZHuIPm"><span class="font-headline-sm text-headline-sm text-primary tracking-tight hidden sm:inline-block">ParkCore - Quản lý Bãi đỗ xe</span></div></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-base-semibold text-body-base-semibold rounded-lg shadow-sm"><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="trang-chu-tong-quan" href="#">Trang chủ / Tổng quan</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="ban-do-bai-do" href="#">Bản đồ bãi đỗ</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="xe-vao-xe-ra" href="#">Xe vào / Xe ra</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="ve-dang-ky" href="#">Vé &amp; Đăng ký</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="khach-hang" href="#">Khách hàng</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container hover:text-on-surface transition-colors whitespace-nowrap" data-path="bao-cao" href="#">Báo cáo</a></nav><div class="flex items-center gap-space-md shrink-0"><button aria-label="Tìm kiếm nhanh" class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><div class="relative"><button aria-label="Thông báo" class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-error text-on-error font-label-badge text-label-badge">3</span></button></div><div class="h-6 w-px bg-surface-container-highest hidden sm:block"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right hidden md:block"><p class="font-body-base-semibold text-body-base-semibold text-on-surface leading-tight">Trần Minh Quân</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Quản trị viên</p></div><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdV-N8QTvjWyDOtjoX1VRcvu2p_AO4UEGZ1WdheJAASI2q2zFmvPwXyKXjatBgPwEQNsWZ4ozSBcPIZzYtQm3WM720hJWP-MJt1OH5ObSWZPQUT98KwEDpMCtSBiXGATqHndHsr1r2NT8omKYPxwayDQxrq5DfkaPAgBNxvPwC_DSfvsXZoGESNtSGWwc5tlCNPbWao2EEROhNaOU3gQFV1JDmBabXdcCgFQqb3IB39IZ8hi2xZKPa"><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary ring-2 ring-surface-container-lowest"></span></div><button aria-label="Đăng xuất" class="text-error hover:bg-error-container hover:text-on-error-container p-space-xs rounded-lg transition-colors flex items-center justify-center" title="Đăng xuất" type="button"><span class="material-symbols-outlined text-[20px]">logout</span></button></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-16rem)]"><div class="flex flex-col w-full">
+<!-- TOP CONTEXT BAR & TELEMETRY -->
+<div class="w-full bg-surface-container-low px-margin-lg py-space-sm border-b border-surface-container-highest">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-sm">
+<!-- Breadcrumb & Title Context -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-xs sm:gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span>Trang chủ</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Vận hành cổng</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-body-base-semibold text-body-base-semibold">Kiểm soát lượt xe</span>
+</div>
+<span class="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-body-base-semibold text-body-base-semibold text-on-surface">Cổng Kiểm Soát Tự Động</span>
+</div>
+</div>
+<!-- Telemetry Status Badges -->
+<div class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">sensor_door</span>
+<span class="font-body-sm text-body-sm text-on-surface">02 Làn vào • 02 Làn ra</span>
+</div>
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">visibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">OCR AI: <strong class="text-tertiary font-body-base-semibold">99.4%</strong> (Chuẩn)</span>
+</div>
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">bolt</span>
+<span class="font-body-sm text-body-sm text-on-surface">Barie: Tự động</span>
+</div>
+</div>
+</div>
+</div>
+<!-- HOTKEY RIBBON -->
+<div class="w-full bg-surface-container px-margin-lg py-1.5 flex flex-wrap items-center justify-between gap-space-sm font-code-mono text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap items-center gap-space-md">
+<span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest shadow-sm text-on-surface font-body-base-semibold text-[11px]">[F1]</kbd> Quét xe vào</span>
+<span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest shadow-sm text-on-surface font-body-base-semibold text-[11px]">[F2]</kbd> Quét xe ra</span>
+<span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest shadow-sm text-on-surface font-body-base-semibold text-[11px]">[Space]</kbd> Mở Barie khẩn cấp</span>
+<span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-lowest shadow-sm text-on-surface font-body-base-semibold text-[11px]">[ESC]</kbd> Reset form</span>
+</div>
+<div class="hidden lg:flex items-center gap-space-xs font-body-sm text-body-sm text-primary">
+<span class="material-symbols-outlined text-[16px]">speed</span>
+<span>Độ trễ xử lý barie: 0.18s</span>
+</div>
+</div>
+<!-- MAIN OPERATIONAL WORKSPACE -->
+<div class="w-full px-margin-lg py-space-md flex flex-col gap-space-md">
+<!-- GATE NAVIGATION TABS & LANE SELECTOR -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<!-- 2 Main Tabs -->
+<div class="flex items-center p-1 bg-surface-container rounded-lg gap-space-xs self-start lg:self-auto">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-body-base-semibold text-body-base-semibold shadow-sm transition-all" id="tabInbound" onclick="switchMainGate('in')">
+<span class="material-symbols-outlined text-[18px]">login</span>
+<span>Luồng Xe Vào (Làn 01 &amp; 02)</span>
+<span class="px-1.5 py-0.5 rounded text-[11px] font-label-badge bg-surface-container-lowest text-tertiary">ĐANG MỞ</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container-highest transition-all" id="tabOutbound" onclick="switchMainGate('out')">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Luồng Xe Ra (Làn 03 &amp; 04)</span>
+<span class="px-1.5 py-0.5 rounded text-[11px] font-label-badge bg-surface-container-high text-on-surface-variant">SẴN SÀNG</span>
+</button>
+</div>
+<!-- Quick Lane Selection -->
+<div class="flex items-center gap-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden sm:inline-block">Chọn làn xử lý:</span>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-primary font-body-base-semibold text-body-base-semibold shadow-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Làn 01 (Hỗn hợp)</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-body-base text-body-base hover:bg-surface-container-high transition-colors flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span>Làn 02 (Ưu tiên VIP)</span>
+</button>
+</div>
+</div>
+<!-- 2-COLUMN DESKTOP SPLIT SCREEN -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT COLUMN: SCAN SECTION & LIVE CAMERA FEED (7 Columns) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Live Camera Viewport -->
+<div class="relative w-full rounded-xl overflow-hidden bg-inverse-surface shadow-md aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center">
+<!-- Live Vehicle Feed Simulation -->
+<img class="w-full h-full object-cover" data-alt="A front view photo of a luxury white Mercedes sedan approaching an automated security barrier gate at an underground parking facility entrance, modern concrete architecture, bright LED ceiling strip lighting, crisp license plate reading 30F-889.92 visible clearly under surveillance lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6Ltiwi0sXTBEZixQ1V1kEgTwv3xsqmtTkaAfelkx03U1AqQl-wxcJLusTUgREg2CiBe8LGZt6xqF21TMeeLrL3pwbfxNBO-_gilZZTUal8NI8Mte6BTrJw0gX0JyoSGcfTxEDVadjVRW6g32CnKn7QE4wmcVHzj814QM6lNMcmITdFTGQcTBpCG20TtxF2OjBC9A7fPTR7J7u3wKT-dJmP-gm2axGyZdm3zcYaWpNbRPsrA7l0LT7">
+<!-- Camera Dark Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-transparent to-inverse-surface/60 pointer-events-none"></div>
+<!-- Top Camera HUD -->
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between text-on-primary font-code-mono text-body-sm z-10">
+<div class="flex items-center gap-space-sm bg-inverse-surface/75 backdrop-blur-md px-2.5 py-1 rounded-lg">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="font-bold text-[12px]">REC • CAM-IN-01</span>
+<span class="text-on-primary/60">|</span>
+<span class="text-tertiary-fixed font-bold">FPS: 30</span>
+<span class="hidden sm:inline-block text-on-primary/60">|</span>
+<span class="hidden sm:inline-block">Độ trễ: 12ms</span>
+</div>
+<div class="bg-inverse-surface/75 backdrop-blur-md px-2.5 py-1 rounded-lg text-[12px]" id="liveTimer">18/10/2026 15:18:04</div>
+</div>
+<!-- AI ANPR Bounding Box Visualizer -->
+<div class="absolute inset-x-[28%] bottom-[24%] top-[38%] pointer-events-none flex flex-col justify-between p-1.5 rounded bg-tertiary/10">
+<!-- Box Corners -->
+<div class="w-full flex justify-between">
+<span class="w-3 h-3 bg-tertiary"></span>
+<span class="w-3 h-3 bg-tertiary"></span>
+</div>
+<!-- License Plate Detection Tag -->
+<div class="self-center bg-tertiary text-on-tertiary px-2 py-0.5 rounded text-[11px] font-code-mono font-bold tracking-wider shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+<span>AI OCR MATCH: 99.2%</span>
+</div>
+<div class="w-full flex justify-between">
+<span class="w-3 h-3 bg-tertiary"></span>
+<span class="w-3 h-3 bg-tertiary"></span>
+</div>
+</div>
+<!-- Bottom Camera Bar Overlay -->
+<div class="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-space-xs z-10">
+<div class="flex items-center gap-1.5 bg-inverse-surface/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-on-primary text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">sensors</span>
+<span class="font-body-base-semibold">Vòng từ xe: KÍCH HOẠT</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest/90 hover:bg-surface-container-lowest text-on-surface font-body-sm text-body-sm flex items-center gap-1 shadow-sm transition-colors" title="Chuyển sang camera tài xế">
+<span class="material-symbols-outlined text-[16px]">switch_video</span>
+<span class="hidden sm:inline">Góc toàn cảnh</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm flex items-center gap-1 shadow-sm hover:opacity-90 transition-opacity" onclick="triggerRescan()">
+<span class="material-symbols-outlined text-[16px] animate-spin hidden" id="scanSpinner">refresh</span>
+<span class="material-symbols-outlined text-[16px]" id="scanIcon">photo_camera</span>
+<span>Quét lại</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recognition Status Bar & Manual Dropzone Box -->
+<div class="flex flex-col gap-space-xs">
+<!-- Success Status Notification -->
+<div class="w-full p-space-sm rounded-lg bg-[#EAF5EA] text-[#1E7E34] flex items-center justify-between shadow-sm" id="statusNotification">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-tertiary">check_circle</span>
+<p class="font-body-base-semibold text-body-base-semibold text-on-surface">
+                Nhận diện thành công: <strong class="font-code-mono text-tertiary">30F - 889.92</strong> • Đã liên kết thẻ RFID <span class="font-code-mono text-on-surface-variant font-normal">#RF-88219</span>
+</p>
+</div>
+<span class="text-label-badge font-label-badge uppercase tracking-wider bg-surface-container-lowest px-2 py-0.5 rounded text-tertiary">KHỚP CSDL</span>
+</div>
+<!-- Fallback / Error State Demo Widget (collapsible/switchable) -->
+<div class="w-full p-space-sm rounded-lg bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm shadow-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">cloud_upload</span>
+<span>Chế độ nạp ảnh thủ công: Kéo thả file JPG/PNG (Tối đa 5MB)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm hover:bg-surface-container transition-colors" onclick="toggleErrorDemo()">
+                Mô phỏng lỗi quét ảnh
+              </button>
+<label class="px-space-sm py-1 rounded bg-secondary-container text-on-secondary-container font-body-base-semibold text-body-sm cursor-pointer hover:opacity-90">
+                Chọn ảnh
+                <input accept="image/*" class="hidden" type="file">
+</label>
+</div>
+</div>
+<!-- Dynamic Simulated Error Banner (Hidden by default) -->
+<div class="hidden w-full p-space-sm rounded-lg bg-error-container text-on-error-container flex items-center gap-space-xs" id="errorBanner">
+<span class="material-symbols-outlined text-[20px] text-error">warning</span>
+<div class="flex-1 font-body-sm text-body-sm">
+<strong class="font-body-base-semibold">Cảnh báo OCR:</strong> Biển số bị bám bẩn hoặc chói sáng đèn pha (Độ tin cậy &lt; 65%). Vui lòng kiểm tra màn hình phụ hoặc nhập tay.
+            </div>
+<button class="font-body-base-semibold text-error hover:underline text-body-sm" onclick="toggleErrorDemo()">Đóng</button>
+</div>
+</div>
+<!-- Simulation Secondary Angle / Snapshot Preview Card -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container-high shrink-0">
+<img class="w-full h-full object-cover" data-alt="A driver side view surveillance snapshot photo capturing the front windshield and driver of a vehicle at an automatic security checkpoint booth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABAGdp8XR5WQyBWp88eGu5lwzM3ABE1chzd7l24ynjbuUuxZV4UITcSPubvgUS9sm8tq0XXL6M1cFgT171Zl2R9xQX4_-rUwZetynlGS8-NBEg8wYEg_cMvxyIJQD9mKU8PB2gbq-LJJ7Ptxs4Tv80pwfYqKkLZb-kOrLmm1hXU58jSUyWVrCpTa46HUpsQpYspUrPwovK3y99A-5D-5Cwk0peCP53aI-dE0qYDHLwT1JWGwNef2wJ">
+</div>
+<div class="flex flex-col min-w-0">
+<p class="font-body-base-semibold text-body-base-semibold text-on-surface truncate">Ảnh phụ: Toàn cảnh cabin &amp; tài xế</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Góc chụp phụ CAM-SIDE-01 • Đồng bộ thời gian thực</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 text-[12px] font-body-base-semibold text-tertiary shrink-0">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+            Đã lưu log
+          </span>
+</div>
+</div>
+<!-- RIGHT COLUMN: RESULT SECTION & AUTOMATED CHECK-IN TICKET (5 Columns) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Interactive Scenario Toggle for Operational Flexibility -->
+<div class="p-space-xs bg-surface-container rounded-lg flex items-center justify-between text-body-sm">
+<span class="font-label-base text-label-base text-on-surface-variant px-space-xs hidden sm:inline">Kịch bản:</span>
+<div class="flex items-center gap-1 w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial px-space-sm py-1 rounded bg-primary-container text-on-primary font-body-base-semibold text-[12px] shadow-sm" id="scenarioBtn1" onclick="setScenario('monthly')">
+              1. Vé tháng
+            </button>
+<button class="flex-1 sm:flex-initial px-space-sm py-1 rounded text-on-surface-variant hover:bg-surface-container-high font-body-base text-[12px] transition-colors" id="scenarioBtn2" onclick="setScenario('casual')">
+              2. Vé vãng lai
+            </button>
+<button class="flex-1 sm:flex-initial px-space-sm py-1 rounded text-on-surface-variant hover:bg-surface-container-high font-body-base text-[12px] transition-colors" id="scenarioBtn3" onclick="setScenario('alert')">
+              3. Cảnh báo lỗi
+            </button>
+</div>
+</div>
+<!-- EMBOSSED VIETNAMESE LICENSE PLATE DISPLAY -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center gap-space-xs text-center">
+<span class="font-label-base text-label-base uppercase tracking-wider text-on-surface-variant">Biển số nhận diện tự động</span>
+<!-- Realistic Plate Box -->
+<div class="w-full max-w-[320px] px-space-lg py-space-sm rounded-lg bg-surface-container-lowest shadow-md flex flex-col items-center justify-center relative">
+<!-- Simulated mounting screw indents -->
+<span class="absolute left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-surface-dim"></span>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-surface-dim"></span>
+<div class="text-on-surface font-code-mono text-headline-xl tracking-wider select-all" id="plateDisplay">
+              30F - 889.92
+            </div>
+<div class="font-body-sm text-[11px] text-on-surface-variant uppercase tracking-widest mt-0.5">
+              Việt Nam • Tự động xác thực
+            </div>
+</div>
+</div>
+<!-- VEHICLE & CUSTOMER DETAILS CARD (5 KEY FIELDS) -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-highest">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+<span>Thông tin lượt gửi xe</span>
+</h3>
+<span class="px-2 py-0.5 rounded text-label-badge font-label-badge uppercase bg-[#EAF5EA] text-[#1E7E34]" id="customerTypeBadge">
+              VÉ THÁNG HỢP LỆ
+            </span>
+</div>
+<!-- Field 1: Vehicle Type & Model -->
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Loại phương tiện &amp; Hãng xe</span>
+<p class="font-body-base-semibold text-body-base-semibold text-on-surface truncate" id="fieldVehicle">
+                Ô tô 5 chỗ • Mercedes-Benz C200 (Trắng)
+              </p>
+</div>
+</div>
+<!-- Field 2: Customer Classification -->
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Phân loại khách hàng &amp; Căn hộ</span>
+<div class="flex items-center gap-space-xs flex-wrap" id="fieldCustomer">
+<span class="font-body-base-semibold text-body-base-semibold text-on-surface">Cư dân Central Plaza</span>
+<span class="px-1.5 py-0.2 rounded bg-secondary-container text-on-secondary-container font-code-mono text-[11px]">Căn: P2-1804</span>
+</div>
+</div>
+</div>
+<!-- Field 3: Owner & Contact Phone -->
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Chủ xe &amp; Số điện thoại liên hệ</span>
+<p class="font-body-base-semibold text-body-base-semibold text-on-surface truncate" id="fieldOwner">
+                Nguyễn Văn Hùng • <span class="font-code-mono text-primary font-semibold">0988.123.456</span>
+</p>
+</div>
+</div>
+<!-- Field 4: Allocated Parking Slot -->
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">local_parking</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vị trí đỗ chỉ định</span>
+<p class="font-body-base-semibold text-body-base-semibold text-tertiary" id="fieldSlot">
+                Hầm B1 • Ô đỗ A-14 <span class="text-on-surface-variant font-normal font-body-sm text-body-sm">(Còn 24 chỗ tại Khu A)</span>
+</p>
+</div>
+</div>
+<!-- PROTOTYPE ONLY: Sprint 1 supports upload/preview, OCR scan, vehicle result fields, visitor vehicle creation modal, check-in and check-out. RFID, camera feeds, barrier control, ticket printing and payment are OUT OF SCOPE. -->
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-surface-container text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Thời gian vào &amp; Trạng thái thẻ</span>
+<p class="font-body-base-semibold text-body-base-semibold text-on-surface" id="fieldTime">
+                18/10/2026 14:35:18 • <span class="text-tertiary">RFID Hợp lệ (HSD: 31/12/2026)</span>
+</p>
+</div>
+</div>
+<!-- Dynamic Casual Fee Box (Only shown for Scenario 2) -->
+<div class="hidden p-space-sm rounded-lg bg-[#FFF9E6] text-[#856404] flex items-center justify-between" id="casualFeeBox">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-sm text-body-sm">Phí gửi dự kiến: <strong class="font-body-base-semibold">20.000 VNĐ</strong> (2 giờ đầu)</span>
+</div>
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-body-base-semibold text-[11px] shadow-sm hover:bg-surface-container transition-colors">
+              + Đăng ký vé tháng
+            </button>
+</div>
+</div>
+<!-- CRITICAL ACTION BUTTONS FOR GATE CONTROL -->
+<div class="flex flex-col gap-space-xs">
+<!-- Primary Gate Trigger Button (Success Green) -->
+<button class="w-full min-h-[52px] py-space-sm px-space-md rounded-xl bg-[#28A745] hover:bg-[#218838] active:bg-[#1e7e34] text-white font-headline-sm text-headline-sm shadow-md transition-all flex items-center justify-center gap-space-sm" id="btnOpenBarrier" onclick="triggerGateOpen()">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span>CHO XE VÀO &amp; MỞ BARIE [F1]</span>
+</button>
+<!-- Ticket Generation Button (Primary Blue) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<button class="py-space-sm px-space-md rounded-lg bg-primary-container hover:bg-[#0052A3] text-on-primary font-body-base-semibold text-body-base-semibold shadow-sm transition-colors flex items-center justify-center gap-1.5 min-h-[42px]" onclick="triggerPrintTicket()">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>In Phiếu Gửi / QR</span>
+</button>
+<button class="py-space-sm px-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-body-base-semibold text-body-base-semibold shadow-sm transition-colors flex items-center justify-center gap-1.5 min-h-[42px]" onclick="resetVehicleForm()">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Xóa &amp; Quét lại [ESC]</span>
+</button>
+</div>
+<!-- Emergency Gate Release (Controlled Secondary Actions) -->
+<div class="flex items-center justify-between pt-1">
+<button class="text-error hover:bg-error-container hover:text-on-error-container px-2 py-1 rounded text-body-sm font-body-base-semibold flex items-center gap-1 transition-colors" onclick="alert('CẢNH BÁO: Đã kích hoạt lệnh mở cưỡng bức Barie Làn 01. Nhật ký đã được lưu.')">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+<span>Mở Barie khẩn cấp [Space]</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface px-2 py-1 rounded text-body-sm flex items-center gap-1 transition-colors" onclick="alert('Đã khóa làn 01 tạm thời để bảo trì.')">
+<span class="material-symbols-outlined text-[16px]">block</span>
+<span>Khóa tạm thời làn này</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- LOWER SECTION: LIVE GATE LOGS & SHIFT SUMMARY TABLE -->
+<div class="w-full rounded-xl bg-surface-container-lowest shadow-sm p-space-md flex flex-col gap-space-md">
+<!-- Table Header & Shift Real-time KPI Ribbon -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-xs border-b border-surface-container-highest">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Lịch sử lượt xe qua làn gần nhất</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Làn 01 • Tự động đồng bộ với camera cảm biến và cổng kiểm soát</p>
+</div>
+<!-- Shift KPI Counter Widgets -->
+<div class="flex flex-wrap items-center gap-space-sm text-body-sm">
+<div class="px-space-sm py-1 rounded-lg bg-surface-container flex items-center gap-1.5">
+<span class="text-on-surface-variant">Tổng vào ca này:</span>
+<span class="font-body-base-semibold text-primary text-[15px]">248 xe</span>
+</div>
+<div class="px-space-sm py-1 rounded-lg bg-surface-container flex items-center gap-1.5">
+<span class="text-on-surface-variant">Ô tô:</span>
+<span class="font-body-base-semibold text-on-surface">142</span>
+</div>
+<div class="px-space-sm py-1 rounded-lg bg-surface-container flex items-center gap-1.5">
+<span class="text-on-surface-variant">Xe máy:</span>
+<span class="font-body-base-semibold text-on-surface">106</span>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Xuất báo cáo ca trực">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<!-- Logs Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-base text-body-base">
+<thead>
+<tr class="text-on-surface-variant font-label-base text-[12px] uppercase tracking-wider bg-surface-container-low">
+<th class="py-2.5 px-space-sm rounded-l">Mã Vé / Thẻ</th>
+<th class="py-2.5 px-space-sm">Biển số xe</th>
+<th class="py-2.5 px-space-sm">Loại xe</th>
+<th class="py-2.5 px-space-sm">Phân loại vé</th>
+<th class="py-2.5 px-space-sm">Thời gian vào</th>
+<th class="py-2.5 px-space-sm">Người duyệt / Chế độ</th>
+<th class="py-2.5 px-space-sm rounded-r">Trạng thái Barie</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high" id="recentEntriesTable">
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-primary">#RF-88219</td>
+<td class="py-2.5 px-space-sm">
+<span class="font-code-mono text-body-base-semibold text-on-surface px-1.5 py-0.5 rounded bg-surface-container">30F - 889.92</span>
+</td>
+<td class="py-2.5 px-space-sm text-on-surface">Mercedes C200</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-label-badge bg-[#EAF5EA] text-[#1E7E34]">VÉ THÁNG</span>
+</td>
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-on-surface-variant">14:35:18</td>
+<td class="py-2.5 px-space-sm text-body-sm text-on-surface-variant">Auto AI OCR</td>
+<td class="py-2.5 px-space-sm">
+<span class="inline-flex items-center gap-1 text-[12px] text-tertiary font-body-base-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Đã đóng an toàn
+                </span>
+</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-primary">#QR-10492</td>
+<td class="py-2.5 px-space-sm">
+<span class="font-code-mono text-body-base-semibold text-on-surface px-1.5 py-0.5 rounded bg-surface-container">51K - 240.18</span>
+</td>
+<td class="py-2.5 px-space-sm text-on-surface">Toyota Cross</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-label-badge bg-[#FFF9E6] text-[#856404]">VÃNG LAI</span>
+</td>
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-on-surface-variant">14:32:05</td>
+<td class="py-2.5 px-space-sm text-body-sm text-on-surface-variant">Trần Minh Quân</td>
+<td class="py-2.5 px-space-sm">
+<span class="inline-flex items-center gap-1 text-[12px] text-tertiary font-body-base-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Đã đóng an toàn
+                </span>
+</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-primary">#RF-44102</td>
+<td class="py-2.5 px-space-sm">
+<span class="font-code-mono text-body-base-semibold text-on-surface px-1.5 py-0.5 rounded bg-surface-container">29A - 911.04</span>
+</td>
+<td class="py-2.5 px-space-sm text-on-surface">Honda SH 150i</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-label-badge bg-[#EAF5EA] text-[#1E7E34]">VÉ THÁNG</span>
+</td>
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-on-surface-variant">14:28:44</td>
+<td class="py-2.5 px-space-sm text-body-sm text-on-surface-variant">Auto AI OCR</td>
+<td class="py-2.5 px-space-sm">
+<span class="inline-flex items-center gap-1 text-[12px] text-tertiary font-body-base-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Đã đóng an toàn
+                </span>
+</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-primary">#QR-10490</td>
+<td class="py-2.5 px-space-sm">
+<span class="font-code-mono text-body-base-semibold text-on-surface px-1.5 py-0.5 rounded bg-surface-container">30H - 512.89</span>
+</td>
+<td class="py-2.5 px-space-sm text-on-surface">Hyundai Accent</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-label-badge bg-[#FFF9E6] text-[#856404]">VÃNG LAI</span>
+</td>
+<td class="py-2.5 px-space-sm font-code-mono text-body-sm text-on-surface-variant">14:24:19</td>
+<td class="py-2.5 px-space-sm text-body-sm text-on-surface-variant">Trần Minh Quân</td>
+<td class="py-2.5 px-space-sm">
+<span class="inline-flex items-center gap-1 text-[12px] text-tertiary font-body-base-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Đã đóng an toàn
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Realtime Clock Simulation
+  function updateLiveClock() {
+    const el = document.getElementById('liveTimer');
+    if (!el) return;
+    const now = new Date();
+    const d = String(now.getDate()).padStart(2, '0');
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const y = now.getFullYear();
+    const h = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    el.innerText = `${d}/${m}/${y} ${h}:${min}:${s}`;
+  }
+  setInterval(updateLiveClock, 1000);
+
+  // Keyboard shortcut listener: F1, F2, Space, Escape
+  window.addEventListener('keydown', function(e) {
+    if (e.key === 'F1') {
+      e.preventDefault();
+      triggerGateOpen();
+    } else if (e.key === 'F2') {
+      e.preventDefault();
+      switchMainGate('out');
+    } else if (e.code === 'Space') {
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
+      e.preventDefault();
+      alert('KÍCH HOẠT PHÍM TẮT: Mở Barie cưỡng bức thành công.');
+    } else if (e.key === 'Escape') {
+      resetVehicleForm();
+    }
+  });
+
+  // Switch between Inbound and Outbound Flow
+  function switchMainGate(type) {
+    const tabIn = document.getElementById('tabInbound');
+    const tabOut = document.getElementById('tabOutbound');
+    if (type === 'out') {
+      tabOut.className = 'flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-body-base-semibold text-body-base-semibold shadow-sm transition-all';
+      tabIn.className = 'flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container-highest transition-all';
+      document.getElementById('plateDisplay').innerText = '51K - 240.18';
+      document.getElementById('fieldVehicle').innerText = 'Ô tô 5 chỗ • Toyota Cross (Bạc)';
+      document.getElementById('fieldSlot').innerText = 'Đang rời Hầm B2 • Cửa ra số 3';
+      document.getElementById('btnOpenBarrier').innerHTML = '<span class="material-symbols-outlined text-[26px]">garage</span><span>XÁC NHẬN THU PHÍ & CHO XE RA [F2]</span>';
+    } else {
+      tabIn.className = 'flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-body-base-semibold text-body-base-semibold shadow-sm transition-all';
+      tabOut.className = 'flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-body-base text-body-base hover:bg-surface-container-highest transition-all';
+      document.getElementById('plateDisplay').innerText = '30F - 889.92';
+      document.getElementById('fieldVehicle').innerText = 'Ô tô 5 chỗ • Mercedes-Benz C200 (Trắng)';
+      document.getElementById('fieldSlot').innerText = 'Hầm B1 • Ô đỗ A-14 (Còn 24 chỗ tại Khu A)';
+      document.getElementById('btnOpenBarrier').innerHTML = '<span class="material-symbols-outlined text-[26px]">garage</span><span>CHO XE VÀO & MỞ BARIE [F1]</span>';
+    }
+  }
+
+  // Quick Scenarios Demo Switcher
+  function setScenario(sc) {
+    const b1 = document.getElementById('scenarioBtn1');
+    const b2 = document.getElementById('scenarioBtn2');
+    const b3 = document.getElementById('scenarioBtn3');
+    const plate = document.getElementById('plateDisplay');
+    const badge = document.getElementById('customerTypeBadge');
+    const casualBox = document.getElementById('casualFeeBox');
+    const fieldCustomer = document.getElementById('fieldCustomer');
+    const fieldOwner = document.getElementById('fieldOwner');
+
+    // Reset base button classes
+    [b1, b2, b3].forEach(b => {
+      b.className = 'flex-1 sm:flex-initial px-space-sm py-1 rounded text-on-surface-variant hover:bg-surface-container-high font-body-base text-[12px] transition-colors';
+    });
+
+    if (sc === 'monthly') {
+      b1.className = 'flex-1 sm:flex-initial px-space-sm py-1 rounded bg-primary-container text-on-primary font-body-base-semibold text-[12px] shadow-sm';
+      plate.innerText = '30F - 889.92';
+      badge.className = 'px-2 py-0.5 rounded text-label-badge font-label-badge uppercase bg-[#EAF5EA] text-[#1E7E34]';
+      badge.innerText = 'VÉ THÁNG HỢP LỆ';
+      casualBox.classList.add('hidden');
+      fieldCustomer.innerHTML = '<span class="font-body-base-semibold text-body-base-semibold text-on-surface">Cư dân Central Plaza</span><span class="px-1.5 py-0.2 rounded bg-secondary-container text-on-secondary-container font-code-mono text-[11px]">Căn: P2-1804</span>';
+      fieldOwner.innerHTML = 'Nguyễn Văn Hùng &bull; <span class="font-code-mono text-primary font-semibold">0988.123.456</span>';
+    } else if (sc === 'casual') {
+      b2.className = 'flex-1 sm:flex-initial px-space-sm py-1 rounded bg-primary-container text-on-primary font-body-base-semibold text-[12px] shadow-sm';
+      plate.innerText = '29E - 452.19';
+      badge.className = 'px-2 py-0.5 rounded text-label-badge font-label-badge uppercase bg-[#FFF9E6] text-[#856404]';
+      badge.innerText = 'KHÁCH VÃNG LAI';
+      casualBox.classList.remove('hidden');
+      fieldCustomer.innerHTML = '<span class="font-body-base-semibold text-body-base-semibold text-on-surface">Khách vãng lai (Chưa tạo hồ sơ)</span>';
+      fieldOwner.innerHTML = '<span class="text-on-surface-variant italic">Chưa xác định &bull; Yêu cầu xuất vé QR</span>';
+    } else if (sc === 'alert') {
+      b3.className = 'flex-1 sm:flex-initial px-space-sm py-1 rounded bg-error text-on-error font-body-base-semibold text-[12px] shadow-sm';
+      plate.innerText = '51A - 999.01';
+      badge.className = 'px-2 py-0.5 rounded text-label-badge font-label-badge uppercase bg-[#FDECEE] text-[#BD2130]';
+      badge.innerText = 'CẢNH BÁO / DANH SÁCH ĐEN';
+      casualBox.classList.add('hidden');
+      fieldCustomer.innerHTML = '<span class="font-body-base-semibold text-error">Hết hạn thanh toán / Thẻ bị khóa</span>';
+      fieldOwner.innerHTML = 'Lê Anh Tuấn &bull; <span class="text-error font-body-base-semibold">Yêu cầu giữ xe kiểm tra</span>';
+    }
+  }
+
+  // Trigger Re-scan Camera Mock
+  function triggerRescan() {
+    const spinner = document.getElementById('scanSpinner');
+    const icon = document.getElementById('scanIcon');
+    spinner.classList.remove('hidden');
+    icon.classList.add('hidden');
+    setTimeout(() => {
+      spinner.classList.add('hidden');
+      icon.classList.remove('hidden');
+      alert('Đã quét lại biển số thành công. Kết quả trùng khớp 99.4%.');
+    }, 600);
+  }
+
+  // Open Barrier Action
+  function triggerGateOpen() {
+    const btn = document.getElementById('btnOpenBarrier');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[26px] animate-spin">sync</span><span>ĐANG KÍCH HOẠT BARIE...</span>';
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[26px]">check_circle</span><span>BARIE ĐÃ MỞ (XE QUA)</span>';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 1600);
+    }, 700);
+  }
+
+  // Print Ticket Action
+  function triggerPrintTicket() {
+    alert('Lệnh in vé QR đã được gửi tới máy in nhiệt Làn 01. Mã vé: #QR-10493');
+  }
+
+  // Reset Vehicle Form
+  function resetVehicleForm() {
+    document.getElementById('plateDisplay').innerText = '-- -- - ---.--';
+    alert('Đã làm mới form và sẵn sàng cho lượt xe tiếp theo.');
+  }
+
+  // Toggle Error Demo Banner
+  function toggleErrorDemo() {
+    const b = document.getElementById('errorBanner');
+    b.classList.toggle('hidden');
+  }
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(0,0,0,0.03)]"><div class="w-full px-margin-lg py-space-2xl"><div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-lg pb-space-xl border-b border-surface-container-highest"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-primary">ParkCore Vietnam</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Hệ thống tự động hóa điều phối lưu lượng, kiểm soát cửa an ninh và quản lý hạ tầng bãi đỗ xe thông minh theo tiêu chuẩn đô thị hiện đại.</p><div class="flex flex-col gap-space-xs mt-space-xs font-body-sm text-body-sm text-on-surface-variant"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary">call</span><span>Hotline hỗ trợ: <strong class="font-body-base-semibold text-body-base-semibold text-on-surface">1900 6868 (24/7)</strong></span></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary">location_on</span><span>Khu Công Nghệ Cao, TP. Thủ Đức, TP. Hồ Chí Minh</span></div></div></div><div class="flex flex-col gap-space-sm md:items-center"><div class="flex flex-col gap-space-sm"><h3 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wider text-[13px]">Liên kết nhanh</h3><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm"><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span><a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Điều khoản sử dụng</a></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span><a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Chính sách bảo mật</a></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span><a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Hướng dẫn sử dụng</a></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span><a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Liên hệ kỹ thuật</a></li></ul></div></div><div class="flex flex-col gap-space-sm md:items-end justify-between"><div class="flex flex-col md:items-end gap-space-xs"><span class="font-label-base text-label-base text-on-surface-variant">Trạng thái hệ thống:</span><div class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-lowest shadow-sm ring-1 ring-outline-variant"><span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-pulse"></span><span class="font-body-base-semibold text-body-base-semibold text-tertiary text-[13px]">Hệ thống vận hành ổn định</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs">Độ trễ nhận diện biển số: &lt; 0.3s</p></div><div class="font-code-mono text-code-mono text-on-surface-variant text-[11px] md:text-right">v2.8.4-build.1042</div></div></div><div class="pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md text-center sm:text-left"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 ParkCore Management System. All rights reserved.</p><div class="flex items-center gap-space-lg font-body-sm text-body-sm text-on-surface-variant"><span>ISO 27001 Certified</span><span class="w-1 h-1 rounded-full bg-outline-variant"></span><span>Real-time Telemetry Active</span></div></div></div></footer></body></html>
