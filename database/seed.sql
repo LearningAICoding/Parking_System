@@ -6,6 +6,7 @@
 SET time_zone = '+07:00';
 SET FOREIGN_KEY_CHECKS = 0;
 
+TRUNCATE TABLE parking_scan_tokens;
 TRUNCATE TABLE parking_sessions;
 TRUNCATE TABLE tickets;
 TRUNCATE TABLE parking_slots;

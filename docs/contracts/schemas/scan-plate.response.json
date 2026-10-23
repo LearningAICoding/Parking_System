@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"type": "object", "additionalProperties": false, "required": ["exists", "licensePlate", "vehicleId", "vehicleName", "brand", "customerName", "phone", "slotCode", "scanToken"], "properties": {"exists": {"type": "boolean"}, "licensePlate": {"type": ["string", "null"]}, "vehicleId": {"type": ["integer", "null"]}, "vehicleName": {"type": ["string", "null"]}, "brand": {"type": ["string", "null"]}, "customerName": {"type": ["string", "null"]}, "phone": {"type": ["string", "null"]}, "slotCode": {"type": ["string", "null"]}, "scanToken": {"type": "string", "minLength": 1}}}}
+}

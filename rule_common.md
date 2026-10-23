@@ -4,7 +4,7 @@
 
 ## Tài liệu triển khai
 
-Các rule triển khai nằm tại `.claude/rules/`:
+Các rule triển khai nằm tại `.agents/rules/`:
 
 - `nodejs.md`: phân tầng Express, xử lý lỗi và quy ước backend.
 - `mysql.md`: pool, prepared statements, SQL an toàn và transaction.
@@ -16,7 +16,7 @@ Các rule triển khai nằm tại `.claude/rules/`:
 
 ## Quy trình trước khi code
 
-Đọc `AGENTS.md`, xác nhận Task và dependency, sau đó đọc rule lớp liên quan. Nếu yêu cầu chưa được quy định hoặc muốn đổi A3–A7, sửa `AGENTS.md` trước và cập nhật contract/schema/seed/test tương ứng. Không tự thêm tính năng ngoài Sprint 1.
+Đọc `AGENTS.md`, xác nhận Task và dependency, sau đó đọc rule lớp liên quan. Nếu yêu cầu chưa được quy định hoặc muốn đổi A3–A8, sửa `AGENTS.md` trước và cập nhật contract/schema/seed/test tương ứng. Không tự thêm tính năng ngoài Sprint 1.
 
 ## Checklist code
 
@@ -34,4 +34,4 @@ npx eslint src/ tests/
 npm test -- --runInBand
 ```
 
-Cập nhật test hồi quy và blackbox tương ứng; không để `test.only` hoặc `test.skip`. Xem `AGENTS.md` và `.claude/rules/testing.md` để biết quality gate.
+Cập nhật test hồi quy và blackbox tương ứng; không để `test.only` hoặc `test.skip`. Xem `AGENTS.md` và `.agents/rules/testing.md` để biết quality gate.

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"type": "object", "additionalProperties": false, "required": ["items"], "properties": {"items": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "slotCode", "zone", "status"], "properties": {"id": {"type": "integer"}, "slotCode": {"type": "string"}, "zone": {"type": "string"}, "status": {"enum": ["AVAILABLE", "RESERVED", "OCCUPIED", "MAINTENANCE"]}}}}}}}
+}

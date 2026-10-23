@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"type": "object", "additionalProperties": false, "required": ["id", "licensePlate", "vehicleName", "brand", "vehicleType", "customerId"], "properties": {"id": {"type": "integer", "minimum": 1}, "licensePlate": {"type": "string", "pattern": "^[0-9A-Z]{6,10}$"}, "vehicleName": {"type": "string"}, "brand": {"type": ["string", "null"]}, "vehicleType": {"enum": ["MOTORBIKE", "CAR"]}, "customerId": {"type": ["integer", "null"]}}}}
+}

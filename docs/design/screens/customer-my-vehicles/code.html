@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<!-- SPRINT-1-SCOPE: prototype tham khảo; API/RBAC/state machine theo AGENTS.md; ngoài Sprint 1 (RFID/ePass/VETC, camera realtime, barie, EV, IoT, thanh toán, xuất file, dữ liệu căn hộ, vé tháng, gia hạn/hủy vé) đã được gỡ hoặc ghi OUT OF SCOPE. --><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-fixed":"#341100","secondary-container":"#dadfef","primary-fixed":"#d7e3ff","on-primary":"#ffffff","inverse-surface":"#2e3132","surface-variant":"#e1e3e4","primary":"#004e9f","on-surface":"#191c1d","outline":"#727784","on-secondary-fixed":"#161c26","inverse-primary":"#aac7ff","error-container":"#ffdad6","on-secondary-fixed-variant":"#414753","on-primary-fixed-variant":"#00458e","on-error":"#ffffff","surface-container-highest":"#e1e3e4","tertiary":"#883700","surface-tint":"#005cba","surface-bright":"#f8f9fa","on-tertiary-fixed-variant":"#793000","outline-variant":"#c1c6d5","on-tertiary-container":"#ffe3d6","on-secondary-container":"#5d636f","on-surface-variant":"#414753","inverse-on-surface":"#eff1f2","tertiary-container":"#af4900","tertiary-fixed-dim":"#ffb692","secondary-fixed-dim":"#c1c6d5","secondary-fixed":"#dde2f1","surface":"#f8f9fa","on-tertiary":"#ffffff","secondary":"#585e6b","background":"#f8f9fa","tertiary-fixed":"#ffdbcb","primary-fixed-dim":"#aac7ff","on-error-container":"#93000a","on-primary-container":"#dfe8ff","surface-dim":"#d8dadb","error":"#ba1a1a","surface-container":"#eceeef","primary-container":"#0066cc","on-background":"#191c1d","surface-container-high":"#e7e8e9","on-primary-fixed":"#001b3e","on-secondary":"#ffffff","surface-container-low":"#f2f4f5","surface-container-lowest":"#ffffff"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-xs":"0.25rem","gutter-desktop":"1.5rem","space-md":"1rem","space-sm":"0.5rem","gutter":"1rem","space-lg":"1.5rem","space-xl":"2rem","margin":"1rem","margin-desktop":"2rem"},fontFamily:{"body-lg":["Inter"],"label-md":["Inter"],"label-plate":["JetBrains Mono"],"headline-sm":["Inter"],"label-sm":["Inter"],"headline-md":["Inter"],"display-lg-mobile":["Inter"],"display-lg":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"label-code":["JetBrains Mono"],"headline-lg":["Inter"]},fontSize:{"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"500"}],"label-plate":["15px",{lineHeight:"20px",fontWeight:"700"}],"headline-sm":["16px",{lineHeight:"24px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",fontWeight:"600"}],"display-lg-mobile":["24px",{lineHeight:"32px",fontWeight:"700"}],"display-lg":["32px",{lineHeight:"40px",fontWeight:"700"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-code":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-lg":["24px",{lineHeight:"32px",fontWeight:"600"}]}}}}</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-14 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[20px]">local_parking</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold">ParkCore</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium tracking-wide leading-none">Xe Của Tôi</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-24 bg-surface px-margin"><div class="flex flex-col w-full pb-8">
+<!-- Customer Quick Profile Card -->
+<section class="w-full bg-surface-container-lowest rounded-xl shadow-sm p-space-md mb-space-md">
+<div class="flex items-center gap-space-md mb-space-sm">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-headline-sm">
+        LM
+      </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Lê Minh Hoàng</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-primary-fixed text-primary">KHÁCH HÀNG</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">apartment</span>
+<span class="truncate">Hà Nội, ParkCore Tower</span>
+</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low p-space-sm rounded-lg">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-[16px] text-primary">call</span>
+<span class="truncate text-on-surface font-medium">0988 776 655</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-[16px] text-primary">mail</span>
+<span class="truncate text-on-surface font-medium">hoang.le@email.com</span>
+</div>
+</div>
+</section>
+<!-- Error Alert Frame: 409 Conflict (Dismissible/Toggleable) -->
+<div class="w-full bg-error-container text-on-error-container p-space-md rounded-xl shadow-sm mb-space-md flex items-start gap-space-sm" id="conflictAlert">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">error</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-error font-bold">Xung đột dữ liệu (Mã 409)</span>
+<button class="text-on-error-container/70 hover:text-on-error-container" onclick="document.getElementById('conflictAlert').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm mt-0.5 text-on-error-container leading-tight">
+        Biển số xe <span class="font-label-code text-label-code font-bold bg-surface-container-lowest px-1 py-0.5 rounded text-error">30A-889.92</span> đã tồn tại trên hệ thống. Vui lòng kiểm tra lại.
+      </p>
+</div>
+</div>
+<!-- Action Bar & Registered Vehicles Count -->
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Phương tiện</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold" id="vehicleCountBadge">2</span>
+</div>
+<button class="h-[38px] px-3.5 bg-primary-container hover:bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold flex items-center gap-1.5 shadow-sm active:scale-95 transition-all" id="openModalBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Thêm xe mới</span>
+</button>
+</div>
+<!-- Vehicle Card List -->
+<div class="flex flex-col gap-space-md mb-space-lg" id="vehicleListSection">
+<!-- Vehicle 1: Mazda CX-5 -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">directions_car</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Mazda CX-5</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hãng: Mazda</p>
+</div>
+</div>
+<!-- Status: In Parking -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#dcfce7] text-[#166534] font-label-sm text-label-sm font-semibold shrink-0">
+<span class="w-2 h-2 rounded-full bg-[#16a34a] animate-pulse"></span>
+          Đang trong bãi (Ô A-06)
+        </span>
+</div>
+<!-- Real Vehicle Plate Display Badge -->
+<div class="flex items-center justify-between bg-surface-container-low p-space-sm rounded-lg">
+<div class="inline-block bg-surface-container-lowest px-3 py-1 rounded shadow-sm">
+<span class="font-label-plate text-label-plate tracking-wider text-on-surface uppercase select-all font-bold">30A - 889.92</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Thời gian vào</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">08:15 • Hôm nay</span>
+</div>
+</div>
+</article>
+<!-- Vehicle 2: Honda SH 150i -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">two_wheeler</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Honda SH 150i</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hãng: Honda • Xe máy</p>
+</div>
+</div>
+<!-- Status: Exited -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold shrink-0">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+          Đã rời bãi
+        </span>
+</div>
+<!-- Vehicle Plate Monospace Frame -->
+<div class="flex items-center justify-between bg-surface-container-low p-space-sm rounded-lg">
+<div class="inline-block bg-surface-container-lowest px-3 py-1 rounded shadow-sm">
+<span class="font-label-plate text-label-plate tracking-wider text-on-surface uppercase select-all font-bold">29G1 - 778.23</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Lượt đỗ gần nhất</span>
+<span class="font-body-sm text-body-sm text-on-surface">Hôm qua</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Toggle Empty State Demo Bar (For Inspection & Testing) -->
+<div class="flex items-center justify-between px-space-sm py-2 bg-surface-container-high rounded-lg mb-space-md text-on-surface-variant font-body-sm text-body-sm">
+<span>Kiểm thử trạng thái rỗng:</span>
+<button class="text-primary font-semibold hover:underline" id="toggleEmptyBtn" type="button">
+      Chuyển sang Chưa có xe
+    </button>
+</div>
+<!-- Empty State (Hidden by default, can be toggled) -->
+<div class="hidden flex-col items-center justify-center text-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm mb-space-md" id="emptyStateSection">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-outline-variant mb-space-md">
+<span class="material-symbols-outlined text-[44px]">no_crash</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-1">Bạn chưa đăng ký xe nào</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs mb-space-lg">
+      Đăng ký phương tiện chính chủ để quản lý xe và đăng ký chỗ đỗ thuận tiện hơn.
+    </p>
+<button class="h-[42px] px-space-lg bg-primary-container hover:bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold flex items-center gap-2 shadow-sm transition-all" id="addFirstVehicleBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Thêm xe đầu tiên</span>
+</button>
+</div>
+<!-- Modal Backdrop & Registration Form -->
+<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-on-surface/40 backdrop-blur-sm transition-opacity" id="addVehicleModal">
+<div class="w-full sm:max-w-md bg-surface-container-lowest rounded-t-2xl sm:rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[795px]">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-space-lg py-space-md bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">directions_car</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Thêm xe mới</span>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container" id="closeModalCross" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Registration Form Body -->
+<form class="p-space-lg flex flex-col gap-space-md overflow-y-auto" id="vehicleForm">
+<!-- Input: Plate -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Biển số xe <span class="text-error">*</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Ví dụ: 30E-123.45</span>
+</label>
+<div class="relative">
+<input class="w-full h-[42px] px-3 font-label-plate text-label-plate uppercase text-on-surface bg-surface-container-lowest rounded-lg placeholder:text-outline-variant focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all" id="plateInput" placeholder="30E-123.45" required="" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant text-[20px] pointer-events-none">pin</span>
+</div>
+</div>
+<!-- Input: Vehicle Name -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Tên xe <span class="text-error">*</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Ví dụ: VinFast VF8</span>
+</label>
+<input class="w-full h-[42px] px-3 font-body-md text-body-md text-on-surface bg-surface-container-low rounded-lg placeholder:text-outline-variant focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all" id="vehicleNameInput" placeholder="Nhập tên xe..." required="" type="text"/>
+</div>
+<!-- Input: Vehicle Brand (Optional) -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Hãng xe <span class="font-normal text-on-surface-variant">(Tùy chọn)</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Ví dụ: VinFast</span>
+</label>
+<input class="w-full h-[42px] px-3 font-body-md text-body-md text-on-surface bg-surface-container-low rounded-lg placeholder:text-outline-variant focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all" id="vehicleBrandInput" placeholder="VinFast, Toyota, Honda..." type="text"/>
+</div>
+<!-- Dropdown: Vehicle Category -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+            Loại xe <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-[42px] px-3 pr-8 font-body-md text-body-md text-on-surface bg-surface-container-low rounded-lg focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all appearance-none cursor-pointer" id="vehicleTypeSelect">
+<option value="MOTORBIKE">Xe máy</option>
+<option value="CAR">Ô tô</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Modal Action Footer -->
+<div class="flex items-center justify-end gap-space-sm pt-space-sm mt-space-sm">
+<button class="h-[42px] px-space-md rounded-lg font-label-md text-label-md text-on-surface bg-surface-container hover:bg-surface-container-high transition-colors font-medium" id="closeModalBtn" type="button">
+            Đóng
+          </button>
+<button class="h-[42px] px-space-lg rounded-lg font-label-md text-label-md text-on-primary bg-primary-container hover:bg-primary font-semibold shadow-sm transition-all active:scale-95 flex items-center gap-1.5" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Lưu thông tin xe</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+  (function () {
+    const modal = document.getElementById('addVehicleModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const closeCross = document.getElementById('closeModalCross');
+    const addFirstBtn = document.getElementById('addFirstVehicleBtn');
+    const form = document.getElementById('vehicleForm');
+
+    const toggleEmptyBtn = document.getElementById('toggleEmptyBtn');
+    const vehicleListSection = document.getElementById('vehicleListSection');
+    const emptyStateSection = document.getElementById('emptyStateSection');
+    const vehicleCountBadge = document.getElementById('vehicleCountBadge');
+    const conflictAlert = document.getElementById('conflictAlert');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+
+    openBtn?.addEventListener('click', openModal);
+    addFirstBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    closeCross?.addEventListener('click', closeModal);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Toggle between regular state and empty state
+    let isEmpty = false;
+    toggleEmptyBtn?.addEventListener('click', () => {
+      isEmpty = !isEmpty;
+      if (isEmpty) {
+        vehicleListSection.classList.add('hidden');
+        emptyStateSection.classList.remove('hidden');
+        emptyStateSection.classList.add('flex');
+        vehicleCountBadge.textContent = '0';
+        toggleEmptyBtn.textContent = 'Hiện danh sách 2 xe';
+      } else {
+        vehicleListSection.classList.remove('hidden');
+        emptyStateSection.classList.add('hidden');
+        emptyStateSection.classList.remove('flex');
+        vehicleCountBadge.textContent = '2';
+        toggleEmptyBtn.textContent = 'Chuyển sang Chưa có xe';
+      }
+    });
+
+    // Handle form submit with sample 409 conflict detection
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const plateValue = document.getElementById('plateInput').value.trim().toUpperCase();
+      
+      if (plateValue.includes('30A-889.92') || plateValue.includes('30A88992')) {
+        closeModal();
+        conflictAlert.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        closeModal();
+        alert('Đã gửi yêu cầu lưu thông tin xe: ' + plateValue);
+      }
+    });
+  })();
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary-container font-semibold"><div class="flex justify-around items-center h-16 px-gutter"><a class="flex flex-col items-center justify-center gap-space-xs min-w-[64px] min-h-[44px] text-on-surface-variant transition-colors hover:text-on-surface" data-path="trang-chu" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm">Trang chủ</span></a><a class="flex flex-col items-center justify-center gap-space-xs min-w-[64px] min-h-[44px] text-on-surface-variant transition-colors hover:text-on-surface" data-path="xe-cua-toi" href="#"><span class="material-symbols-outlined text-[24px]">directions_car</span><span class="font-label-sm text-label-sm">Xe của tôi</span></a><a class="flex flex-col items-center justify-center gap-space-xs min-w-[64px] min-h-[44px] text-on-surface-variant transition-colors hover:text-on-surface" data-path="ban-do-bai-xe" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-label-sm text-label-sm">Bản đồ bãi xe</span></a></div></nav></body></html>

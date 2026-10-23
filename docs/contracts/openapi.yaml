@@ -1,0 +1,462 @@
+openapi: 3.1.0
+info:
+  title: Parking System Sprint 1 API
+  version: 1.1.0
+  description: Contract derived from AGENTS.md. Vietnamese business rules remain authoritative.
+  license: {name: Internal, url: https://example.invalid/internal}
+servers:
+  - url: /
+tags:
+  - {name: Auth, description: Login and password recovery}
+  - {name: Pages, description: Session-protected HTML routes}
+  - {name: Employees, description: Employee CRUD}
+  - {name: Customers, description: Customer and profile routes}
+  - {name: Vehicles, description: Vehicle creation and search}
+  - {name: Parking, description: OCR and parking state transitions}
+  - {name: Slots, description: Slot grid and administration}
+  - {name: Tickets, description: Ticket viewing and manager mutations}
+  - {name: Statistics, description: Manager-only reports}
+  - {name: Files, description: Protected plate images}
+paths:
+  /api/vehicles:
+    post:
+      tags: [Vehicles]
+      summary: Create a vehicle
+      operationId: createVehicle
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateVehicleRequest'}
+      responses:
+        '201': {$ref: '#/components/responses/VehicleCreated'}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/vehicles/search:
+    get:
+      tags: [Vehicles]
+      summary: Search vehicles for operations
+      operationId: searchVehicles
+      security: [{sessionCookie: []}]
+      parameters:
+        - in: query
+          name: keyword
+          required: true
+          schema: {type: string, minLength: 1, maxLength: 50}
+      responses:
+        '200': {$ref: '#/components/responses/VehicleSearch'}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/parking/check-in:
+    post:
+      tags: [Parking]
+      summary: Check a vehicle into a slot
+      operationId: checkIn
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [vehicleId, slotId]
+              additionalProperties: false
+              properties:
+                vehicleId: {type: integer, minimum: 1}
+                slotId: {type: integer, minimum: 1}
+                ticketId: {type: integer, minimum: 1}
+                scanToken: {type: string, minLength: 1}
+      responses:
+        '201': {$ref: '#/components/responses/CheckInCreated'}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/parking/check-out:
+    post:
+      tags: [Parking]
+      summary: Check a vehicle out and calculate its fee
+      operationId: checkOut
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sessionId]
+              additionalProperties: false
+              properties:
+                sessionId: {type: integer, minimum: 1}
+      responses:
+        '200': {$ref: '#/components/responses/CheckOut'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/slots:
+    get:
+      tags: [Slots]
+      summary: List slot grid without vehicle data
+      operationId: listSlots
+      security: [{sessionCookie: []}]
+      parameters:
+        - {in: query, name: zone, schema: {type: string}}
+        - {in: query, name: status, schema: {type: string, enum: [AVAILABLE, RESERVED, OCCUPIED, MAINTENANCE]}}
+      responses:
+        '200': {$ref: '#/components/responses/Slots'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /api/slots/{id}/register:
+    post:
+      tags: [Slots]
+      summary: Reserve an available slot
+      operationId: registerSlot
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters:
+        - {$ref: '#/components/parameters/Id'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [vehicleId]
+              additionalProperties: false
+              properties:
+                vehicleId: {type: integer, minimum: 1}
+      responses:
+        '201': {$ref: '#/components/responses/Registration'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /stats/report:
+    get:
+      tags: [Statistics]
+      summary: Return a time-bucketed statistics report
+      operationId: getStatsReport
+      security: [{sessionCookie: []}]
+      parameters:
+        - {in: query, name: mode, required: true, schema: {type: string, enum: [day, month, year]}}
+        - {in: query, name: from, required: true, schema: {type: string, format: date}}
+        - {in: query, name: to, required: true, schema: {type: string, format: date}}
+      responses:
+        '200': {$ref: '#/components/responses/Stats'}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/my-vehicles:
+    get:
+      tags: [Vehicles]
+      summary: List vehicles owned by current customer
+      operationId: listMyVehicles
+      security: [{sessionCookie: []}]
+      responses:
+        '200': {$ref: '#/components/responses/MyVehicles'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/parking/scan-plate:
+    post:
+      tags: [Parking]
+      summary: OCR a plate image and issue a one-time scan token
+      operationId: scanPlate
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [plateImage]
+              additionalProperties: false
+              properties: {plateImage: {type: string, format: binary}}
+      responses:
+        '200': {$ref: '#/components/responses/ScanPlate'}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '413': {$ref: '#/components/responses/PayloadTooLarge'}
+  /api/slots/{id}/vehicle:
+    get:
+      tags: [Slots]
+      summary: Read the vehicle occupying a slot
+      operationId: getSlotVehicle
+      security: [{sessionCookie: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {$ref: '#/components/responses/SlotVehicle'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /files/plates/{filename}:
+    get:
+      tags: [Files]
+      summary: Serve a protected plate image
+      operationId: getPlateFile
+      security: [{sessionCookie: []}]
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema: {type: string, pattern: '^[0-9a-f-]{36}\.(jpg|png|webp)$'}
+      responses:
+        '200': {description: Image bytes, content: {image/jpeg: {schema: {type: string, format: binary}}, image/png: {schema: {type: string, format: binary}}, image/webp: {schema: {type: string, format: binary}}}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /login:
+    get: {tags: [Auth, Pages], summary: Render login page, operationId: renderLogin, security: [], responses: {'200': {$ref: '#/components/responses/HtmlPage'}}}
+    post:
+      tags: [Auth]
+      summary: Authenticate a user
+      operationId: login
+      security: []
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/LoginRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '429': {$ref: '#/components/responses/HtmlRateLimited'}}
+  /forgot-password:
+    get: {tags: [Auth, Pages], summary: Render forgot-password page, operationId: renderForgotPassword, security: [], responses: {'200': {$ref: '#/components/responses/HtmlPage'}}}
+    post:
+      tags: [Auth]
+      summary: Request password reset
+      operationId: forgotPassword
+      security: []
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/ForgotPasswordRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '429': {$ref: '#/components/responses/HtmlRateLimited'}}
+  /reset-password/{token}:
+    get: {tags: [Auth, Pages], summary: Render reset-password page, operationId: renderResetPassword, security: [], parameters: [{$ref: '#/components/parameters/ResetToken'}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '400': {$ref: '#/components/responses/HtmlValidation'}}}
+    post:
+      tags: [Auth]
+      summary: Consume a one-time password reset token
+      operationId: resetPassword
+      security: []
+      parameters: [{$ref: '#/components/parameters/ResetToken'}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/ResetPasswordRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /:
+    get: {tags: [Pages], summary: Render role-specific home, operationId: renderHome, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '302': {$ref: '#/components/responses/Redirect'}}}
+  /news:
+    get: {tags: [Pages], summary: Render news, operationId: renderNews, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}}}
+  /employees:
+    get: {tags: [Employees, Pages], summary: Render employee list, operationId: renderEmployees, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /employees/create:
+    post:
+      tags: [Employees]
+      summary: Create employee and linked account
+      operationId: createEmployee
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/CreateEmployeeRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /employees/{id}/edit:
+    post:
+      tags: [Employees]
+      summary: Edit employee profile fields
+      operationId: editEmployee
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/EditEmployeeRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /employees/{id}:
+    delete:
+      tags: [Employees]
+      summary: Soft-delete an employee
+      operationId: deleteEmployee
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses: {'200': {$ref: '#/components/responses/EmployeeDeleted'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /customers:
+    get: {tags: [Customers, Pages], summary: Render customer list, operationId: renderCustomers, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /customers/create:
+    post:
+      tags: [Customers]
+      summary: Create customer and linked account
+      operationId: createCustomer
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/CreateCustomerRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /customers/{id}/vehicles:
+    get: {tags: [Customers, Pages], summary: Render customer vehicles, operationId: renderCustomerVehicles, security: [{sessionCookie: []}], parameters: [{$ref: '#/components/parameters/Id'}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}}}
+  /customers/{id}/edit:
+    post:
+      tags: [Customers]
+      summary: Edit a customer profile
+      operationId: editCustomer
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/EditCustomerRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /customers/{id}:
+    delete:
+      tags: [Customers]
+      summary: Soft-delete customer and deactivate account
+      operationId: deleteCustomer
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses: {'200': {$ref: '#/components/responses/CustomerDeleted'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /my-vehicles:
+    get: {tags: [Customers, Pages], summary: Render current customer vehicles, operationId: renderMyVehicles, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /profile:
+    get: {tags: [Customers, Pages], summary: Render current customer profile, operationId: renderProfile, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+    post:
+      tags: [Customers]
+      summary: Update current customer profile
+      operationId: updateProfile
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/EditCustomerRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /parking/checkin-checkout:
+    get: {tags: [Parking, Pages], summary: Render check-in/check-out page, operationId: renderCheckInOut, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /parking/map:
+    get: {tags: [Parking, Pages], summary: Render operations map, operationId: renderParkingMap, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /tickets:
+    get: {tags: [Tickets, Pages], summary: Render ticket list, operationId: renderTickets, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /tickets/{id}/edit:
+    get: {tags: [Tickets, Pages], summary: Render ticket edit page, operationId: renderTicketEdit, security: [{sessionCookie: []}], parameters: [{$ref: '#/components/parameters/Id'}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}}}
+    post:
+      tags: [Tickets]
+      summary: Edit ticket dates as manager
+      operationId: editTicket
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/EditTicketRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /tickets/{id}:
+    delete:
+      tags: [Tickets]
+      summary: Soft-delete an unused ticket
+      operationId: deleteTicket
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses: {'200': {$ref: '#/components/responses/TicketDeleted'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /stats:
+    get: {tags: [Statistics, Pages], summary: Render statistics page, operationId: renderStats, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /slots:
+    get: {tags: [Slots, Pages], summary: Render slot list, operationId: renderSlots, security: [{sessionCookie: []}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}}}
+  /slots/create:
+    post:
+      tags: [Slots]
+      summary: Create a parking slot
+      operationId: createSlot
+      security: [{sessionCookie: [], csrfHeader: []}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/CreateSlotRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /slots/{id}:
+    get: {tags: [Slots, Pages], summary: Render slot detail, operationId: renderSlotDetail, security: [{sessionCookie: []}], parameters: [{$ref: '#/components/parameters/Id'}], responses: {'200': {$ref: '#/components/responses/HtmlPage'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}}}
+    delete:
+      tags: [Slots]
+      summary: Delete an unused slot
+      operationId: deleteSlot
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses: {'200': {$ref: '#/components/responses/SlotDeleted'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+  /slots/{id}/edit:
+    post:
+      tags: [Slots]
+      summary: Edit slot zone, status or note
+      operationId: editSlot
+      security: [{sessionCookie: [], csrfHeader: []}]
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/x-www-form-urlencoded: {schema: {$ref: '#/components/schemas/EditSlotRequest'}}}}
+      responses: {'302': {$ref: '#/components/responses/Redirect'}, '400': {$ref: '#/components/responses/HtmlValidation'}, '401': {$ref: '#/components/responses/Unauthorized'}, '403': {$ref: '#/components/responses/Forbidden'}, '404': {$ref: '#/components/responses/NotFound'}, '409': {$ref: '#/components/responses/Conflict'}}
+components:
+  securitySchemes:
+    sessionCookie: {type: apiKey, in: cookie, name: connect.sid}
+    csrfHeader: {type: apiKey, in: header, name: X-CSRF-Token}
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema: {type: integer, minimum: 1}
+    ResetToken:
+      name: token
+      in: path
+      required: true
+      schema: {type: string, minLength: 1}
+  schemas:
+    CreateVehicleRequest:
+      type: object
+      required: [licensePlate, vehicleName, vehicleType]
+      additionalProperties: false
+      properties:
+        licensePlate: {type: string, minLength: 1, maxLength: 20}
+        vehicleName: {type: string, minLength: 1}
+        brand: {type: [string, 'null'], maxLength: 50}
+        vehicleType: {type: string, enum: [MOTORBIKE, CAR]}
+        customerId: {type: [integer, 'null'], minimum: 1}
+    LoginRequest:
+      type: object
+      required: [username, password, _csrf]
+      additionalProperties: false
+      properties: {username: {type: string, minLength: 1, maxLength: 50}, password: {type: string, minLength: 1}, _csrf: {type: string, minLength: 1}}
+    ForgotPasswordRequest:
+      type: object
+      required: [email, _csrf]
+      additionalProperties: false
+      properties: {email: {type: string, format: email}, _csrf: {type: string, minLength: 1}}
+    ResetPasswordRequest:
+      type: object
+      required: [password, passwordConfirmation, _csrf]
+      additionalProperties: false
+      properties: {password: {type: string, minLength: 12}, passwordConfirmation: {type: string, minLength: 12}, _csrf: {type: string, minLength: 1}}
+    CreateEmployeeRequest:
+      type: object
+      required: [fullName, username, email, password, phone, address, position, role, _csrf]
+      additionalProperties: false
+      properties: {fullName: {type: string}, username: {type: string}, email: {type: string, format: email}, password: {type: string, minLength: 12}, phone: {type: string}, address: {type: string}, position: {type: string}, role: {type: string, enum: [MANAGER, STAFF]}, _csrf: {type: string, minLength: 1}}
+    EditEmployeeRequest:
+      type: object
+      required: [fullName, email, phone, address, position, _csrf]
+      additionalProperties: false
+      properties: {fullName: {type: string}, email: {type: string, format: email}, phone: {type: string}, address: {type: string}, position: {type: string}, _csrf: {type: string, minLength: 1}}
+    CreateCustomerRequest:
+      type: object
+      required: [fullName, phone, email, address, username, password, _csrf]
+      additionalProperties: false
+      properties: {fullName: {type: string}, phone: {type: string}, email: {type: string, format: email}, address: {type: string}, username: {type: string}, password: {type: string, minLength: 12}, _csrf: {type: string, minLength: 1}}
+    EditCustomerRequest:
+      type: object
+      required: [fullName, phone, email, address, _csrf]
+      additionalProperties: false
+      properties: {fullName: {type: string}, phone: {type: string}, email: {type: string, format: email}, address: {type: string}, _csrf: {type: string, minLength: 1}}
+    EditTicketRequest:
+      type: object
+      required: [startDate, endDate, _csrf]
+      additionalProperties: false
+      properties: {startDate: {type: string, format: date}, endDate: {type: string, format: date}, _csrf: {type: string, minLength: 1}}
+    CreateSlotRequest:
+      type: object
+      required: [slotCode, zone, _csrf]
+      additionalProperties: false
+      properties: {slotCode: {type: string}, zone: {type: string}, status: {type: string, enum: [AVAILABLE, MAINTENANCE]}, note: {type: string}, _csrf: {type: string, minLength: 1}}
+    EditSlotRequest:
+      type: object
+      required: [zone, _csrf]
+      additionalProperties: false
+      properties: {zone: {type: string}, status: {type: string, enum: [AVAILABLE, MAINTENANCE]}, note: {type: string}, _csrf: {type: string, minLength: 1}}
+  responses:
+    VehicleCreated: {description: Created, content: {application/json: {schema: {$ref: './schemas/vehicle-created.response.json'}}}}
+    VehicleSearch: {description: Search results, content: {application/json: {schema: {$ref: './schemas/vehicle-search.response.json'}}}}
+    MyVehicles: {description: Customer vehicles, content: {application/json: {schema: {$ref: './schemas/my-vehicles.response.json'}}}}
+    ScanPlate: {description: OCR result, content: {application/json: {schema: {$ref: './schemas/scan-plate.response.json'}}}}
+    CheckInCreated: {description: Session created, content: {application/json: {schema: {$ref: './schemas/check-in.response.json'}}}}
+    CheckOut: {description: Session closed, content: {application/json: {schema: {$ref: './schemas/check-out.response.json'}}}}
+    Registration: {description: Reservation created, content: {application/json: {schema: {$ref: './schemas/registration.response.json'}}}}
+    Slots: {description: Slot grid, content: {application/json: {schema: {$ref: './schemas/slots.response.json'}}}}
+    SlotVehicle: {description: Slot vehicle detail, content: {application/json: {schema: {$ref: './schemas/slot-vehicle.response.json'}}}}
+    Stats: {description: Statistics report, content: {application/json: {schema: {$ref: './schemas/stats.response.json'}}}}
+    EmployeeDeleted: {description: Employee deleted, content: {application/json: {schema: {$ref: './schemas/employee-delete.response.json'}}}}
+    CustomerDeleted: {description: Customer deleted, content: {application/json: {schema: {$ref: './schemas/customer-delete.response.json'}}}}
+    TicketDeleted: {description: Ticket deleted, content: {application/json: {schema: {$ref: './schemas/ticket-delete.response.json'}}}}
+    SlotDeleted: {description: Slot deleted, content: {application/json: {schema: {$ref: './schemas/slot-delete.response.json'}}}}
+    ValidationError: {description: Validation error, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    Unauthorized: {description: Authentication required, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    Forbidden: {description: Forbidden or CSRF failure, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    NotFound: {description: Resource not found, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    Conflict: {description: State or uniqueness conflict, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    PayloadTooLarge: {description: Upload exceeds 5 MiB, content: {application/json: {schema: {$ref: './schemas/error.response.json'}}}}
+    HtmlPage: {description: HTML page, content: {text/html: {schema: {type: string}}}}
+    HtmlValidation: {description: HTML validation response, content: {text/html: {schema: {type: string}}}}
+    HtmlRateLimited: {description: Rate-limit response, content: {text/html: {schema: {type: string}}}}
+    Redirect: {description: Redirect after form submission, headers: {Location: {schema: {type: string}}}}

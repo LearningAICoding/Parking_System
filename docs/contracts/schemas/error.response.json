@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["success", "message", "data", "errors"],
+  "properties": {
+    "success": {"const": false},
+    "message": {"type": "string"},
+    "data": {"type": "null"},
+    "errors": {"type": "array", "items": {"$ref": "./error.schema.json"}}
+  }
+}
