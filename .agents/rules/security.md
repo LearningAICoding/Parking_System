@@ -6,7 +6,7 @@ description: "Quy tắc bảo mật: xác thực/session, quên mật khẩu, RB
 
 # Quy Tắc Bảo Mật & Phân Quyền (`security.md`)
 
-Đặt file này tại `.agents/rules/security.md`. Rule này dùng `trigger: glob` (không dùng `model_decision`) để **luôn được nạp** khi Agent sửa route, middleware, controller, cấu hình session/upload và màn hình đăng nhập. Ma trận quyền nằm ở `agents.md` mục 7.
+Đặt file này tại `.agents/rules/security.md`. Rule này dùng `trigger: glob` (không dùng `model_decision`) để **luôn được nạp** khi Agent sửa route, middleware, controller, cấu hình session/upload và màn hình đăng nhập. Ma trận quyền nằm ở `AGENTS.md` mục 4.
 
 ## 1. Xác Thực (Đăng nhập & Quên mật khẩu)
 
@@ -22,12 +22,12 @@ description: "Quy tắc bảo mật: xác thực/session, quên mật khẩu, RB
 
 ## 2. RBAC 2 Lớp & Chống IDOR
 
-1. **Không bao giờ chỉ ẩn nút trên EJS.** Mọi route trong `src/routes/` phải gắn `requireAuth` và `authorizeRoles(...)` đúng theo ma trận ở `agents.md` mục 7. Chỉ các route công khai được bỏ trống: `/login`, `/forgot-password`, `/reset-password/:token`, tài nguyên tĩnh.
+1. **Không bao giờ chỉ ẩn nút trên EJS.** Mọi route trong `src/routes/` phải gắn `requireAuth` và `authorizeRoles(...)` đúng theo ma trận ở `AGENTS.md` mục 4. Chỉ các route công khai được bỏ trống: `/login`, `/forgot-password`, `/reset-password/:token`, tài nguyên tĩnh.
 2. **Mã phản hồi**: chưa đăng nhập -> `401` (API) / chuyển hướng `/login` (web, lưu lại trang đích); sai quyền -> `403` (JSON hoặc `errors/403.ejs`).
 3. **Màn hình Bản đồ bãi đỗ (bắt buộc)**:
    - `GET /api/slots/:id/vehicle` (Xem thông tin xe): `authorizeRoles('MANAGER', 'STAFF')`; `CUSTOMER` gọi trực tiếp -> `403`.
    - `POST /api/slots/:id/register` (Đăng ký đỗ xe): `authorizeRoles('MANAGER', 'STAFF', 'CUSTOMER')`.
-   - `GET /api/slots` (dữ liệu bản đồ): mọi vai trò đã đăng nhập, **chỉ trả** `id`, `slot_code`, `zone`, `status`; không kèm thông tin xe/khách.
+   - `GET /api/slots` (dữ liệu bản đồ): mọi vai trò đã đăng nhập, **chỉ trả** `id`, `slotCode`, `zone`, `status`; không kèm thông tin xe/khách.
 4. **Chống IDOR cho `CUSTOMER`**: kiểm tra quyền sở hữu **trong Service**, dựa trên `customerId` của session, không tin `customer_id`/`vehicle_id` do client gửi.
    - Đăng ký đỗ: xe phải thuộc `customerId` của người gọi, nếu không -> `403`.
    - `POST /api/vehicles` do CUSTOMER gọi: `customer_id` luôn lấy từ session, bỏ qua giá trị trong body.
@@ -53,7 +53,7 @@ description: "Quy tắc bảo mật: xác thực/session, quên mật khẩu, RB
 
 - **Số điện thoại**: khớp `^(0|\+84)[0-9]{9}$`, sau đó chuẩn hóa `+84...` về `0...` trước khi lưu và tìm kiếm.
 - **Biển số xe**: dùng `normalizePlate()` - viết hoa, **bỏ mọi ký tự không phải chữ/số** (`51F-123.45` và `51f 12345` cùng thành `51F12345`), kiểm tra `^[0-9A-Z]{6,10}$`. Dùng cùng hàm này khi lưu, khi tra cứu, và với kết quả OCR.
-- **Số tiền** (`price`): số dương. **Vị trí đỗ**: `slot_code` khớp `^[A-Z0-9-]{1,20}$`, `status` thuộc danh sách enum (không có trường sức chứa). **Ngày**: `start_date <= end_date`; bộ lọc Thống kê cũng kiểm tra `từ <= đến` ở backend.
+- **Số tiền** (`price`): số dương. **Vị trí đỗ**: field JSON `slotCode` ánh xạ vào cột DB `slot_code`, khớp `^[A-Z0-9-]{1,20}$`; `status` thuộc danh sách enum (không có trường sức chứa). **Ngày**: `start_date <= end_date`; bộ lọc Thống kê cũng kiểm tra `từ <= đến` ở backend.
 - Giới hạn độ dài chuỗi (từ khóa tìm kiếm tối đa 50 ký tự). Dữ liệu hiển thị luôn escape (`<%= %>`, xem `ejs.md`).
 
 ## 6. Lỗi & Log

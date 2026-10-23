@@ -6,7 +6,7 @@ description: "Quy tắc kiểm thử: ưu tiên theo mốc Sprint 1 của plan, 
 
 # Quy Tắc Kiểm Thử & Chất Lượng (`testing.md`)
 
-Đặt file này tại `.agents/rules/testing.md`. Tự kích hoạt khi viết hoặc chạy test trong `tests/`. Hợp đồng dữ liệu, vòng đời ô đỗ và RBAC xem `agents.md` mục 5, 6, 7.
+Đặt file này tại `.agents/rules/testing.md`. Tự kích hoạt khi viết hoặc chạy test trong `tests/`. Hợp đồng dữ liệu, vòng đời ô đỗ và RBAC xem `AGENTS.md` mục 5, 6, 7.
 
 ## 1. Ưu Tiên Theo Mốc Plan Sprint 1
 
@@ -45,7 +45,7 @@ Liên hệ với các mốc trong plan:
 - TC2: ảnh hợp lệ, xe **chưa tồn tại** -> `exists: false`.
 - TC3: xe tồn tại nhưng **chưa có vị trí** hoặc **chưa gắn khách hàng** -> `exists: true`, trường tương ứng là `null`.
 - TC4: file không phải ảnh, hoặc ảnh mờ không đọc được biển số -> `400` kèm thông báo tiếng Việt.
-- Cho xe vào / ra: đổi đúng trạng thái ô (`agents.md` mục 6), tính `fee`, không cho xe vào ô của xe khác (`409`).
+- Cho xe vào / ra: đổi đúng trạng thái ô (`AGENTS.md` mục 7), tính `fee`, không cho xe vào ô của xe khác (`409`).
 
 **Task 9 - Modal tìm xe**
 - Tìm chính xác và gần đúng (`LIKE`) theo từng tiêu chí: **Tên khách hàng**, **Số điện thoại**, **Biển số xe** (biển số nhập có dấu `-`, `.`, khoảng trắng vẫn tìm thấy).
@@ -58,13 +58,23 @@ Liên hệ với các mốc trong plan:
 - **Đồng thời**: hai yêu cầu đăng ký cùng một ô -> đúng một `201`, một `409` (kiểm chứng `SELECT ... FOR UPDATE`).
 - E2E: HTML bản đồ của `CUSTOMER` **không chứa** mục "Xem thông tin xe"; của MANAGER/STAFF có.
 
+**Luồng CUSTOMER**
+- `GET /api/my-vehicles`: CUSTOMER chỉ nhận vehicle thuộc `req.session.customerId`; không nhận ownership từ query/body; kiểm tra đủ `derivedStatus` và các field nullable.
+- `POST /api/vehicles`: CUSTOMER gửi `customerId` khác hoặc bỏ trống đều phải lưu theo session; biển số trùng -> `409`; thiếu/sai CSRF -> `403`.
+- Form thêm xe CUSTOMER phải gửi đúng `vehicleType = MOTORBIKE|CAR`; không dùng nhãn giao diện như `Xe máy` làm giá trị API.
+- `GET/POST /profile`: CUSTOMER chỉ đọc/sửa hồ sơ của chính mình; mass assignment với `role`, `username`, `password`, `userId`, `deletedAt` -> `400` hoặc bị bỏ qua theo contract.
+- `GET /api/slots`: CUSTOMER chỉ nhận `id`, `slotCode`, `zone`, `status`; không nhận plate/customer/session.
+- `GET /api/slots/:id/vehicle`: CUSTOMER -> `403`.
+- `POST /api/slots/:id/register`: xe khác owner -> `403`; xe đã RESERVED/PARKED hoặc slot không AVAILABLE -> `409`; hai yêu cầu cùng ô -> đúng một `201`, một `409`.
+- Sau `201`, UI giữ `ticketCode`, `price`, `startDate`, `endDate`, refresh map/my-vehicles; sau `409`, modal còn mở và hiển thị đúng message server; không có nút hủy RESERVED.
+
 **Xác thực (Task 1)**
 - Đăng nhập đúng/sai; tài khoản `is_active = 0` bị từ chối; session ID **đổi** sau khi đăng nhập (`regenerate`); đăng xuất hủy session.
 - Quá giới hạn đăng nhập sai -> `429`.
 - Quên mật khẩu: phản hồi giống nhau với email có/không tồn tại; token quá 15 phút bị từ chối; token dùng lần hai bị từ chối.
 
 **Ma trận RBAC (kiểm thử theo bảng)**
-- Một test dạng bảng (`test.each`) đi qua từng nhóm route × từng vai trò × "chưa đăng nhập" và so với `agents.md` mục 7: `401` / `403` / thành công. Thêm Task mới phải thêm dòng vào bảng này.
+- Một test dạng bảng (`test.each`) đi qua từng nhóm route × từng vai trò × "chưa đăng nhập" và so với `AGENTS.md` mục 4: `401` / `403` / thành công. Thêm Task mới phải thêm dòng vào bảng này.
 - Thiếu hoặc sai CSRF token trên `POST/DELETE` -> `403`.
 
 **Upload ảnh biển số**

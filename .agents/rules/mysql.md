@@ -5,7 +5,7 @@ description: "Quy tắc MySQL: pool, prepared statements, schema, transaction v�
 
 # Quy tắc Cơ sở dữ liệu MySQL
 
-Đặt file này tại `.claude/rules/mysql.md`. Nghiệp vụ, state machine, API và RBAC chỉ đọc từ `AGENTS.md`; file này chỉ quy định cách hiện thực SQL.
+Đặt file này tại `.agents/rules/mysql.md`. Nghiệp vụ, state machine, API và RBAC chỉ đọc từ `AGENTS.md`; file này chỉ quy định cách hiện thực SQL.
 
 ## Kết nối và truy vấn an toàn
 

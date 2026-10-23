@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"type": "object", "additionalProperties": false, "required": ["items"], "properties": {"items": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "licensePlate", "vehicleName", "brand", "vehicleType", "derivedStatus", "isVisitor", "slotCode", "checkInTime", "lastExitTime"], "properties": {"id": {"type": "integer"}, "licensePlate": {"type": "string"}, "vehicleName": {"type": "string"}, "brand": {"type": ["string", "null"]}, "vehicleType": {"enum": ["MOTORBIKE", "CAR"]}, "derivedStatus": {"enum": ["REGISTERED", "RESERVED", "PARKED", "EXITED"]}, "isVisitor": {"const": false}, "slotCode": {"type": ["string", "null"]}, "checkInTime": {"type": ["string", "null"]}, "lastExitTime": {"type": ["string", "null"]}}}}}}}
+}

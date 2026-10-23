@@ -3,6 +3,7 @@
 -- Run schema.sql and seed.sql after this file.
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS parking_scan_tokens;
 DROP TABLE IF EXISTS parking_sessions;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS parking_slots;

@@ -33,3 +33,4 @@ ALTER TABLE parking_sessions
     (check_out_time IS NULL AND fee IS NULL)
     OR (check_out_time IS NOT NULL AND fee IS NOT NULL AND fee >= 0)
   );
+

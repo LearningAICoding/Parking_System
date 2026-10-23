@@ -5,7 +5,7 @@ description: "Quy tắc kiến trúc Backend Node.js + Express: phân tầng Con
 
 # Quy Tắc Backend Node.js & Express (`nodejs.md`)
 
-Đặt file này tại `.agents/rules/nodejs.md`. Danh sách Task, hợp đồng dữ liệu và RBAC nằm ở `agents.md` (mục 3, 5, 7); file này chỉ nêu cách viết code backend.
+Đặt file này tại `.agents/rules/nodejs.md`. Danh sách Task, hợp đồng dữ liệu và RBAC nằm ở `AGENTS.md` (mục 2, 4, 6, 7); file này chỉ nêu cách viết code backend.
 
 ## 1. Phân Tầng (Controller -> Service -> Model)
 
@@ -14,7 +14,7 @@ description: "Quy tắc kiến trúc Backend Node.js + Express: phân tầng Con
    - Không viết SQL, không tính tiền vé/phí/thống kê trong Controller.
    - Hai nhóm phản hồi:
      - **Page Render**: `res.render('ten-module/ten-view', { title, data, currentUser, flash })`.
-     - **AJAX / Fetch API**: JSON theo `agents.md` mục 5.1, dùng cho: `POST /api/parking/scan-plate` (Quản lý xe vào/ra), `POST /api/vehicles` (Task 7), `GET /api/vehicles/search` (Task 9), `GET /api/slots`, `GET /api/slots/:id/vehicle`, `POST /api/slots/:id/register` (Bản đồ bãi đỗ).
+     - **AJAX / Fetch API**: JSON theo `AGENTS.md` mục 6, dùng cho: `POST /api/parking/scan-plate` (Quản lý xe vào/ra), `POST /api/vehicles` (Task 7), `GET /api/vehicles/search` (Task 9), `GET /api/slots`, `GET /api/slots/:id/vehicle`, `POST /api/slots/:id/register` (Bản đồ bãi đỗ).
 2. **Service (`src/services/<module>.service.js`)**:
    - Chứa toàn bộ quy tắc nghiệp vụ và kiểm tra điều kiện (ô còn trống không, biển số đã tồn tại chưa, vé còn hiệu lực không, quyền sở hữu của CUSTOMER).
    - Quản lý Transaction khi tác động từ 2 bảng trở lên (mẫu ở `mysql.md` mục 5).
@@ -71,6 +71,6 @@ description: "Quy tắc kiến trúc Backend Node.js + Express: phân tầng Con
 
 ## 6. Làm Việc Nhóm & Git
 
-- Nhánh: `feature/task-<số>-<tên-ngắn>` (ví dụ `feature/task-08-checkin-checkout`). Merge nền tảng (Task 1, 2, 12) trước.
-- Mỗi Task chỉ sửa file/hàm của mình; ranh giới Task 8 / Task 9 / Task 7 xem `agents.md` mục 4.
+- Nhánh: `feature/task-<số>-<tên-ngắn>` (ví dụ `feature/task-08-checkin-checkout`). Merge Task 1 và 2 trước vì đây là nền tảng dùng chung. Các Task còn lại, đặc biệt Task 12, chỉ bắt đầu/merge theo dependency trong `AGENTS.md`; Task 12 phụ thuộc Task 11.
+- Mỗi Task chỉ sửa file/hàm của mình; ranh giới Task 8 / Task 9 / Task 7 xem `AGENTS.md` mục 2 và mục 6.
 - Trước khi mở PR: `npx eslint src/ tests/` không lỗi và test của Task xanh.

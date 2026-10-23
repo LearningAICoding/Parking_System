@@ -5,7 +5,7 @@ description: "Quy tắc frontend/EJS: prototype chỉ tham khảo; partials, RBA
 
 # Quy Tắc Giao Diện EJS & Frontend
 
-Đặt file này tại `.claude/rules/ejs.md`. Phạm vi, API, state machine và RBAC chỉ đọc từ `AGENTS.md`; endpoint chi tiết đọc `docs/contracts/api.md`.
+Đặt file này tại `.agents/rules/ejs.md`. Phạm vi, API, state machine và RBAC chỉ đọc từ `AGENTS.md`; endpoint chi tiết đọc `docs/contracts/api.md`.
 
 ## Partials và bảo mật
 

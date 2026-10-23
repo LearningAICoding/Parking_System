@@ -23,6 +23,10 @@ docs/design/
 │   ├── task-11-12-tickets-sidebar/
 │   ├── task-13-statistics/
 │   └── task-14-15-16-slots/
+│   ├── customer-home/
+│   ├── customer-my-vehicles/
+│   ├── customer-parking-map/
+│   └── customer-profile/
 └── components/          # Component dùng chung (header, footer, modal, sidebar...)
 ```
 
@@ -46,6 +50,12 @@ Prototype có thể chứa chi tiết minh họa ngoài Sprint 1 như RFID/ePass
 
 Frontend thật dùng EJS + Bootstrap 5 + Vanilla JavaScript. Bản đồ chỉ hiển thị mã ô và trạng thái từ API, không hiển thị biển số/tên khách hàng trong lưới; CUSTOMER không được thấy menu xem thông tin xe. Task 8 chỉ scan/upload, thêm xe vãng lai qua modal, check-in và check-out. Thống kê chỉ có Theo ngày/Tháng/Năm và lấy KPI từ API.
 
+## Prototype CUSTOMER
+
+Bốn màn hình `customer-home`, `customer-my-vehicles`, `customer-parking-map` và `customer-profile` là prototype dành riêng cho tài khoản `CUSTOMER`, không phải màn hình quản trị khách hàng của MANAGER/STAFF. Chúng tương ứng với trang chủ, `/my-vehicles`, `/parking/map` và `/profile` theo RBAC trong `AGENTS.md`.
+
+Các file này vẫn là prototype tham khảo: code thật phải chuyển sang EJS + Bootstrap 5, lấy dữ liệu từ session/API, gửi CSRF khi thêm xe hoặc đăng ký ô, và không mở quyền xem thông tin xe tại ô cho CUSTOMER.
+
 
 Toàn bộ thiết kế dùng **ParkCore Precision** (xem `design-system.md`):
 - **Màu chính**: Primary `#0066CC`, surface `#F8F9FA`, border `#E5E7EB`.
@@ -56,7 +66,7 @@ Toàn bộ thiết kế dùng **ParkCore Precision** (xem `design-system.md`):
 
 ## Dành cho thành viên
 
-**Frontend dev**: đọc `AGENTS.md` trước, sau đó lấy `screen.png` của màn hình phụ trách, đối chiếu Design System, chuyển sang EJS + Bootstrap 5 theo `.claude/rules/ejs.md`. **Không** copy `code.html` nguyên bản (dùng Tailwind và chỉ là prototype).
+**Frontend dev**: đọc `AGENTS.md` trước, sau đó lấy `screen.png` của màn hình phụ trách, đối chiếu Design System, chuyển sang EJS + Bootstrap 5 theo `.agents/rules/ejs.md`. **Không** copy `code.html` nguyên bản (dùng Tailwind và chỉ là prototype).
 
 **Backend dev**: xem `screen.png` để biết UI cần field/validate gì.
 
@@ -68,4 +78,4 @@ Toàn bộ thiết kế dùng **ParkCore Precision** (xem `design-system.md`):
 
 - Không đặt ảnh biển số thật hoặc dữ liệu người dùng vào thư mục này.
 - Thiết kế AI là bản *gần đúng* - team review và tinh chỉnh cho khớp brand và UX thực tế; ghi lý do lệch vào `design-notes.md`.
-- Quy tắc giao diện chi tiết tại `.claude/rules/ejs.md`, còn nghiệp vụ và RBAC tại `AGENTS.md`.
+- Quy tắc giao diện chi tiết tại `.agents/rules/ejs.md`, còn nghiệp vụ và RBAC tại `AGENTS.md`.

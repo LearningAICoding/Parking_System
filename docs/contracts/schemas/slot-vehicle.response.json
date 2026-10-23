@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"anyOf": [{"type": "null"}, {"type": "object", "additionalProperties": false, "required": ["vehicleId", "licensePlate", "vehicleName", "brand", "vehicleType", "customerName", "phone", "slotCode", "sessionId", "checkInTime"], "properties": {"vehicleId": {"type": "integer"}, "licensePlate": {"type": "string"}, "vehicleName": {"type": "string"}, "brand": {"type": ["string", "null"]}, "vehicleType": {"enum": ["MOTORBIKE", "CAR"]}, "customerName": {"type": ["string", "null"]}, "phone": {"type": ["string", "null"]}, "slotCode": {"type": "string"}, "sessionId": {"type": "integer"}, "checkInTime": {"type": "string"}}}]}}
+}

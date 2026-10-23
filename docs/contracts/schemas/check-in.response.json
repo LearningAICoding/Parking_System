@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false, "required": ["success", "message", "data", "errors"],
+  "properties": {"success": {"const": true}, "message": {"type": "string"}, "errors": {"type": "array", "maxItems": 0}, "data": {"type": "object", "additionalProperties": false, "required": ["sessionId", "vehicleId", "slotId", "slotCode", "checkInTime", "ticketId"], "properties": {"sessionId": {"type": "integer"}, "vehicleId": {"type": "integer"}, "slotId": {"type": "integer"}, "slotCode": {"type": "string"}, "checkInTime": {"type": "string"}, "ticketId": {"type": ["integer", "null"]}}}}
+}
