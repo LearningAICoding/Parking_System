@@ -1,0 +1,4 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="mb-4"><a href="/slots">← Danh sách vị trí</a><h1 class="h2 mt-2">Vị trí <%= slot.slotCode %></h1></div>
+<div class="card border-0 shadow-sm"><div class="card-body"><dl class="row mb-0"><dt class="col-sm-3">Mã vị trí</dt><dd class="col-sm-9"><%= slot.slotCode %></dd><dt class="col-sm-3">Zone</dt><dd class="col-sm-9"><%= slot.zone %></dd><dt class="col-sm-3">Trạng thái</dt><dd class="col-sm-9"><%= slot.status %></dd><dt class="col-sm-3">Ghi chú</dt><dd class="col-sm-9"><%= slot.note || '—' %></dd></dl><% if (currentUser.role==='MANAGER') { %><a class="btn btn-primary mt-3" href="/slots/<%= slot.id %>/edit">Sửa vị trí</a><% } %></div></div>
+<%- include('../partials/footer') %>

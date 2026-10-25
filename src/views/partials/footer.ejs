@@ -1,0 +1,18 @@
+</main>
+<% if (currentUser) { %></div></div><% } %>
+<footer class="container-fluid text-center text-secondary small py-4">Parking System · Sprint 1</footer>
+<% if (currentUser && ['MANAGER','STAFF'].includes(currentUser.role)) { %>
+  <%- include('delete-confirmation-modal') %>
+  <div class="modal fade" id="vehicle-search-modal" tabindex="-1" aria-labelledby="vehicle-search-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg"><div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title fs-5" id="vehicle-search-title">Tìm xe</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
+      <div class="modal-body"><label class="form-label" for="vehicle-search-keyword">Tên khách hàng, điện thoại hoặc biển số</label><input class="form-control" id="vehicle-search-keyword" maxlength="50" autocomplete="off"><div class="list-group mt-3" id="vehicle-search-results"></div></div>
+    </div></div>
+  </div>
+  <script src="/js/vehicle-search.js" defer></script>
+  <script src="/js/delete-confirmation.js" defer></script>
+<% } %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/api.js"></script>
+</body>
+</html>

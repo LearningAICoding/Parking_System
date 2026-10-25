@@ -1,0 +1,16 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="mb-4"><h1 class="h2 mb-1">Hồ sơ của tôi</h1><p class="text-secondary">Bạn chỉ có thể cập nhật thông tin hồ sơ, không thể đổi tài khoản hoặc vai trò.</p></div>
+<% if (notice==='updated') { %><div class="alert alert-success">Đã cập nhật hồ sơ.</div><% } %>
+<div class="card border-0 shadow-sm form-card"><div class="card-body p-4">
+  <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+  <form method="post" action="/profile"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="row g-3">
+      <div class="col-md-6"><label class="form-label" for="fullName">Họ và tên *</label><input id="fullName" class="form-control" name="fullName" required maxlength="100" value="<%= customer.fullName %>"></div>
+      <div class="col-md-6"><label class="form-label" for="phone">Số điện thoại *</label><input id="phone" class="form-control" name="phone" required maxlength="13" value="<%= customer.phone %>"></div>
+      <div class="col-md-6"><label class="form-label" for="email">Email *</label><input id="email" class="form-control" name="email" type="email" required maxlength="150" value="<%= customer.email %>"></div>
+      <div class="col-md-6"><label class="form-label" for="address">Địa chỉ</label><input id="address" class="form-control" name="address" maxlength="255" value="<%= customer.address || '' %>"></div>
+      <div class="col-12"><button class="btn btn-primary">Lưu hồ sơ</button></div>
+    </div>
+  </form>
+</div></div>
+<%- include('../partials/footer') %>

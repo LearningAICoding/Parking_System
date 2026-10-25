@@ -1,0 +1,8 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h2 mb-1">Danh sách vị trí</h1><p class="text-secondary mb-0">STAFF chỉ xem; thay đổi vị trí chỉ dành cho MANAGER.</p></div><% if (currentUser.role==='MANAGER') { %><a class="btn btn-primary" href="/slots/create">Thêm vị trí</a><% } %></div>
+<% if (notice==='created') { %><div class="alert alert-success">Đã thêm vị trí.</div><% } %><% if (notice==='updated') { %><div class="alert alert-success">Đã cập nhật vị trí.</div><% } %>
+<div id="slot-feedback" aria-live="polite"></div><div class="card border-0 shadow-sm"><div class="card-body"><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Mã vị trí</th><th>Zone</th><th>Trạng thái</th><th>Ghi chú</th><th>Thao tác</th></tr></thead><tbody id="slot-list">
+<% if (!slots.length) { %><tr><td colspan="5" class="text-center text-secondary">Chưa có vị trí.</td></tr><% } %>
+<% slots.forEach(slot => { %><tr data-slot-row="<%= slot.id %>"><td><%= slot.slotCode %></td><td><%= slot.zone %></td><td><%= slot.status %></td><td><%= slot.note || '—' %></td><td><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-secondary" href="/slots/<%= slot.id %>">Chi tiết</a><% if (currentUser.role==='MANAGER') { %><a class="btn btn-sm btn-outline-primary" href="/slots/<%= slot.id %>/edit">Sửa</a><form action="/slots/<%= slot.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa vị trí này?"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-sm btn-outline-danger">Xóa</button></form><% } %></div></td></tr><% }) %>
+</tbody></table></div></div></div>
+<%- include('../partials/footer') %>

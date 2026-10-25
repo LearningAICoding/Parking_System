@@ -1,0 +1,16 @@
+<%- include('partials/header',{title,currentUser}) %>
+<section class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+  <div class="text-primary fw-bold small text-uppercase">Parking System</div>
+  <h1 class="display-6 fw-bold">Trang chủ vận hành</h1>
+  <p class="text-secondary">Xin chào, <%= currentUser.fullName %>. Chọn chức năng để tiếp tục quản lý hoạt động bãi đỗ.</p>
+  <div class="row g-3 mt-2">
+    <div class="col-md-6 col-xl-4"><a class="card h-100 text-decoration-none" href="/parking/checkin-checkout"><div class="card-body"><h2 class="h5">Xe vào / ra</h2><p class="text-secondary mb-0">Quét biển số và xử lý lượt gửi xe.</p></div></a></div>
+    <div class="col-md-6 col-xl-4"><a class="card h-100 text-decoration-none" href="/parking/map"><div class="card-body"><h2 class="h5">Bản đồ vị trí</h2><p class="text-secondary mb-0">Theo dõi trạng thái các vị trí đỗ.</p></div></a></div>
+    <div class="col-md-6 col-xl-4"><a class="card h-100 text-decoration-none" href="/customers"><div class="card-body"><h2 class="h5">Khách hàng</h2><p class="text-secondary mb-0">Tra cứu khách hàng và phương tiện.</p></div></a></div>
+    <% if (currentUser.role==='MANAGER') { %>
+      <div class="col-md-6 col-xl-4"><a class="card h-100 text-decoration-none" href="/employees"><div class="card-body"><h2 class="h5">Nhân viên</h2><p class="text-secondary mb-0">Quản lý tài khoản nhân viên.</p></div></a></div>
+      <div class="col-md-6 col-xl-4"><a class="card h-100 text-decoration-none" href="/stats"><div class="card-body"><h2 class="h5">Thống kê</h2><p class="text-secondary mb-0">Xem lượt xe và doanh thu theo kỳ.</p></div></a></div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/footer') %>
