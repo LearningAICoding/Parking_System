@@ -1,0 +1,12 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h2 mb-1">Xe của tôi</h1><p class="text-secondary mb-0">Chỉ hiển thị xe thuộc hồ sơ khách hàng của bạn.</p></div><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vehicle-modal">Thêm xe</button></div>
+<div id="vehicle-feedback" aria-live="polite"></div>
+<div class="card border-0 shadow-sm"><div class="card-body">
+  <% if (!vehicles.length) { %><p class="text-secondary">Bạn chưa có xe nào trong hệ thống.</p><% } else { %>
+    <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Biển số</th><th>Tên xe</th><th>Hãng</th><th>Loại</th><th>Trạng thái</th><th>Vị trí</th><th>Lần ra gần nhất</th></tr></thead>
+    <tbody><% vehicles.forEach(vehicle => { %><tr><td><%= vehicle.licensePlate %></td><td><%= vehicle.vehicleName %></td><td><%= vehicle.brand || '—' %></td><td><%= vehicle.vehicleType %></td><td><%= vehicle.derivedStatus %></td><td><%= vehicle.slotCode || '—' %></td><td><%= vehicle.lastExitTime || '—' %></td></tr><% }) %></tbody></table></div>
+  <% } %>
+</div></div>
+<%- include('../partials/vehicle-modal') %>
+<script src="/js/vehicles.js" defer></script>
+<%- include('../partials/footer') %>

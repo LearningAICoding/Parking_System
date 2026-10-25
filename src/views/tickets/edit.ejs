@@ -1,0 +1,12 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="mb-4"><a href="/tickets">← Danh sách vé</a><h1 class="h2 mt-2">Sửa vé <%= ticket.ticketCode %></h1><p class="text-secondary">Chỉ có thể sửa ngày của vé DAILY chưa được sử dụng; giá được tính theo cấu hình.</p></div>
+<div class="card border-0 shadow-sm form-card"><div class="card-body p-4">
+  <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+  <dl class="row"><dt class="col-sm-3">Biển số</dt><dd class="col-sm-9"><%= ticket.licensePlate %></dd><dt class="col-sm-3">Loại</dt><dd class="col-sm-9"><%= ticket.ticketType %></dd><dt class="col-sm-3">Giá hiện tại</dt><dd class="col-sm-9"><%= ticket.price %> VND</dd><dt class="col-sm-3">Trạng thái</dt><dd class="col-sm-9"><%= ticket.status %></dd></dl>
+  <form method="post" action="/tickets/<%= ticket.id %>/edit"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><div class="row g-3">
+    <div class="col-md-6"><label class="form-label" for="startDate">Ngày bắt đầu</label><input class="form-control" type="date" id="startDate" name="startDate" required value="<%= ticket.startDate %>"></div>
+    <div class="col-md-6"><label class="form-label" for="endDate">Ngày kết thúc</label><input class="form-control" type="date" id="endDate" name="endDate" required value="<%= ticket.endDate %>"></div>
+    <div class="col-12"><button class="btn btn-primary">Lưu thay đổi</button></div>
+  </div></form>
+</div></div>
+<%- include('../partials/footer') %>

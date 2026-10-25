@@ -1,0 +1,48 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <div>
+    <div class="text-primary fw-bold small text-uppercase">Quản lý hệ thống</div>
+    <h1 class="h2 mb-1">Danh sách nhân viên</h1>
+    <p class="text-secondary mb-0">Quản lý tài khoản MANAGER và STAFF.</p>
+  </div>
+  <a class="btn btn-primary" href="/employees/create">＋ Thêm nhân viên</a>
+</div>
+<% if (notice) { %>
+  <div class="alert alert-success"><%= notice==='created'?'Đã thêm nhân viên.':notice==='updated'?'Đã cập nhật nhân viên.':'Đã xóa nhân viên.' %></div>
+<% } %>
+<div id="employee-feedback" role="status" aria-live="polite"></div>
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+    <form class="row g-2 mb-3" method="get">
+      <div class="col-sm-9"><input class="form-control" name="q" value="<%= q %>" maxlength="50" placeholder="Tìm tên, username, email hoặc điện thoại"></div>
+      <div class="col-sm-3 d-grid"><button class="btn btn-outline-primary">Tìm kiếm</button></div>
+    </form>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Nhân viên</th><th>Liên hệ</th><th>Vai trò</th><th>Chức vụ</th><th>Thao tác</th></tr></thead>
+        <tbody id="employee-list">
+          <% if (!employees.length) { %><tr class="empty-row"><td colspan="5" class="text-center text-secondary py-4">Không có nhân viên phù hợp.</td></tr><% } %>
+          <% employees.forEach(e=> { %>
+            <tr data-employee-row="<%= e.id %>">
+              <td><div class="fw-semibold"><%= e.fullName %></div><div class="small text-secondary">@<%= e.username %></div></td>
+              <td><div><%= e.email %></div><div class="small text-secondary"><%= e.phone || 'Chưa có số điện thoại' %></div></td>
+              <td><span class="badge <%= e.role==='MANAGER'?'text-bg-primary':'text-bg-secondary' %>"><%= e.role %></span></td>
+              <td><%= e.position || '—' %></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a class="btn btn-sm btn-outline-primary" href="/employees/<%= e.id %>/edit">Sửa</a>
+                  <form method="post" action="/employees/<%= e.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa nhân viên này?">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Xóa</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div id="employee-count" class="small text-secondary" data-count="<%= employees.length %>">Tổng cộng: <%= employees.length %> nhân viên hiển thị</div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

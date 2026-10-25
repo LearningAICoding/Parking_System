@@ -1,0 +1,14 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="mb-4"><h1 class="h2 mb-1">Danh sách vé</h1><p class="text-secondary">Vé được sinh khi đăng ký vị trí đỗ.</p></div>
+<% if (notice==='updated') { %><div class="alert alert-success">Đã cập nhật vé.</div><% } %>
+<div id="ticket-feedback" aria-live="polite"></div>
+<div class="card border-0 shadow-sm"><div class="card-body"><div class="table-responsive"><table class="table align-middle">
+  <thead><tr><th>Mã vé</th><th>Biển số</th><th>Vị trí</th><th>Thời hạn</th><th>Giá</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+  <tbody id="ticket-list">
+    <% if (!tickets.length) { %><tr><td colspan="7" class="text-center text-secondary">Chưa có vé.</td></tr><% } %>
+    <% tickets.forEach(ticket => { %><tr data-ticket-row="<%= ticket.id %>"><td><%= ticket.ticketCode %></td><td><%= ticket.licensePlate %></td><td><%= ticket.slotCode %></td><td><%= ticket.startDate %> – <%= ticket.endDate %></td><td><%= ticket.price %> VND</td><td><%= ticket.status %></td><td><div class="d-flex gap-2">
+      <% if (currentUser.role==='MANAGER') { %><a class="btn btn-sm btn-outline-primary" href="/tickets/<%= ticket.id %>/edit">Sửa</a><form method="post" action="/tickets/<%= ticket.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa vé này?"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-sm btn-outline-danger">Xóa</button></form><% } else { %><span class="text-secondary small">Chỉ xem</span><% } %>
+    </div></td></tr><% }) %>
+  </tbody>
+</table></div></div></div>
+<%- include('../partials/footer') %>

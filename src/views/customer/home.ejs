@@ -1,0 +1,12 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<section class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+  <div class="text-primary fw-bold small text-uppercase">Parking System</div>
+  <h1 class="display-6 fw-bold">Xin chào, <%= currentUser.fullName %></h1>
+  <p class="text-secondary">Quản lý xe của bạn và đăng ký vị trí đỗ còn trống.</p>
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary" href="/customer/parking-map">Mở bản đồ bãi đỗ</a>
+    <a class="btn btn-outline-primary" href="/my-vehicles">Xe của tôi</a>
+    <a class="btn btn-outline-secondary" href="/profile">Cập nhật hồ sơ</a>
+  </div>
+</section>
+<%- include('../partials/footer') %>

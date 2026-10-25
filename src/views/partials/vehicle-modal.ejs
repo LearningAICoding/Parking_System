@@ -1,0 +1,16 @@
+<div class="modal fade" id="vehicle-modal" tabindex="-1" aria-labelledby="vehicle-modal-title" aria-hidden="true">
+  <div class="modal-dialog"><div class="modal-content">
+    <form data-vehicle-create>
+      <div class="modal-header"><h2 class="modal-title fs-5" id="vehicle-modal-title">Thêm xe</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
+      <div class="modal-body">
+        <div class="alert alert-danger d-none" data-vehicle-error role="alert"></div>
+        <% if (typeof customerId !== 'undefined' && customerId) { %><input type="hidden" name="customerId" value="<%= customerId %>"><% } %>
+        <label class="form-label" for="licensePlate">Biển số *</label><input class="form-control mb-3" id="licensePlate" name="licensePlate" required maxlength="20">
+        <label class="form-label" for="vehicleName">Tên xe *</label><input class="form-control mb-3" id="vehicleName" name="vehicleName" required maxlength="100">
+        <label class="form-label" for="brand">Hãng xe</label><input class="form-control mb-3" id="brand" name="brand" maxlength="50">
+        <label class="form-label" for="vehicleType">Loại xe *</label><select class="form-select" id="vehicleType" name="vehicleType" required><option value="MOTORBIKE">Xe máy</option><option value="CAR">Ô tô</option></select>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng</button><button class="btn btn-primary" type="submit">Lưu xe</button></div>
+    </form>
+  </div></div>
+</div>

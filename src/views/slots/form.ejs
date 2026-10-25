@@ -1,0 +1,10 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="mb-4"><a href="/slots">← Danh sách vị trí</a><h1 class="h2 mt-2"><%= slot ? 'Sửa vị trí '+slot.slotCode : 'Thêm vị trí' %></h1></div>
+<div class="card border-0 shadow-sm form-card"><div class="card-body p-4"><% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<form method="post" action="<%= slot ? '/slots/'+slot.id+'/edit' : '/slots/create' %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><div class="row g-3">
+<% if (!slot) { %><div class="col-md-6"><label class="form-label" for="slotCode">Mã vị trí *</label><input class="form-control" id="slotCode" name="slotCode" required maxlength="20" pattern="[A-Za-z0-9-]+" value="<%= slot?.slotCode || '' %>"></div><% } %>
+<div class="col-md-6"><label class="form-label" for="zone">Zone *</label><input class="form-control" id="zone" name="zone" required maxlength="20" value="<%= slot?.zone || '' %>"></div>
+<div class="col-md-6"><label class="form-label" for="status">Trạng thái</label><select class="form-select" id="status" name="status"><option value="AVAILABLE" <%= slot?.status==='AVAILABLE'?'selected':'' %>>AVAILABLE</option><option value="MAINTENANCE" <%= slot?.status==='MAINTENANCE'?'selected':'' %>>MAINTENANCE</option></select></div>
+<div class="col-12"><label class="form-label" for="note">Ghi chú</label><input class="form-control" id="note" name="note" maxlength="255" value="<%= slot?.note || '' %>"></div>
+<div class="col-12"><button class="btn btn-primary">Lưu vị trí</button></div></div></form></div></div>
+<%- include('../partials/footer') %>

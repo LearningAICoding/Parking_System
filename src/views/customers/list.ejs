@@ -1,0 +1,35 @@
+<%- include('../partials/header',{title,currentUser}) %>
+<div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+  <div><h1 class="h2 mb-1">Danh sách khách hàng</h1><p class="text-secondary mb-0">Quản lý hồ sơ khách hàng và tài khoản CUSTOMER.</p></div>
+  <a class="btn btn-primary" href="/customers/create">Thêm khách hàng</a>
+</div>
+<% if (notice==='created') { %><div class="alert alert-success">Đã thêm khách hàng.</div><% } %>
+<% if (notice==='updated') { %><div class="alert alert-success">Đã cập nhật khách hàng.</div><% } %>
+<div id="customer-feedback" aria-live="polite"></div>
+<div class="card border-0 shadow-sm"><div class="card-body">
+  <form class="row g-2 mb-3" method="get">
+    <div class="col-sm-9"><input class="form-control" name="q" maxlength="50" value="<%= q %>" placeholder="Tìm theo tên, điện thoại, email hoặc tài khoản"></div>
+    <div class="col-sm-3 d-grid"><button class="btn btn-outline-primary">Tìm kiếm</button></div>
+  </form>
+  <div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Khách hàng</th><th>Liên hệ</th><th>Tài khoản</th><th>Thao tác</th></tr></thead>
+    <tbody id="customer-list">
+      <% if (!customers.length) { %><tr><td colspan="4" class="text-center text-secondary py-4">Không có khách hàng phù hợp.</td></tr><% } %>
+      <% customers.forEach(customer => { %><tr data-customer-row="<%= customer.id %>">
+        <td><div class="fw-semibold"><%= customer.fullName %></div><span class="small text-secondary">Mã #<%= customer.id %></span></td>
+        <td><div><%= customer.phone %></div><div class="small text-secondary"><%= customer.email || '—' %></div></td>
+        <td><%= customer.username || 'Chưa có tài khoản' %></td>
+        <td><div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-sm btn-outline-secondary" href="/customers/<%= customer.id %>/vehicles">Xe</a>
+          <a class="btn btn-sm btn-outline-primary" href="/customers/<%= customer.id %>/edit">Sửa</a>
+          <form method="post" action="/customers/<%= customer.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa khách hàng này?">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn btn-sm btn-outline-danger" type="submit">Xóa</button>
+          </form>
+        </div></td>
+      </tr><% }) %>
+    </tbody>
+  </table></div>
+  <p class="small text-secondary mb-0" id="customer-count">Tổng cộng: <%= customers.length %> khách hàng hiển thị</p>
+</div></div>
+<%- include('../partials/footer') %>
