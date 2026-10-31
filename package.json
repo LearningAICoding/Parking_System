@@ -10,9 +10,10 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
+    "dev:slots": "node --watch scripts/dev-slots.js",
     "lint": "eslint --no-error-on-unmatched-pattern src/ tests/",
     "test": "jest",
-    "test:integration": "jest tests/integration --runInBand",
+    "test:integration": "jest -c jest.integration.config.js --runInBand",
     "test:coverage": "jest --coverage --runInBand",
     "contract:lint": "redocly lint docs/contracts/openapi.yaml",
     "contract:test": "jest tests/contracts --runInBand",

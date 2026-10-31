@@ -1,0 +1,63 @@
+<%
+  const formatVnd = (value) => `${Number(value).toLocaleString('vi-VN')} đ`;
+%>
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="registerTitle">Đăng ký đỗ xe – vị trí <span data-register-slot></span></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+
+      <div class="modal-body" data-register-step="form">
+        <h3 class="h6">1. Chọn xe</h3>
+        <% if (mode === 'operator') { %>
+          <label for="vehicleKeyword" class="form-label pc-muted">Tìm theo biển số, tên hoặc SĐT khách hàng</label>
+          <input type="search" id="vehicleKeyword" class="form-control mb-2" maxlength="50" autocomplete="off"
+            placeholder="VD: 51F12345 hoặc 0901234567" data-vehicle-keyword>
+        <% } %>
+        <div class="list-group mb-3" data-vehicle-options role="radiogroup" aria-label="Danh sách xe"></div>
+
+        <h3 class="h6">2. Vé áp dụng</h3>
+        <ul class="list-unstyled small mb-0">
+          <li>Loại vé: <strong>DAILY (vé trong ngày)</strong></li>
+          <li>Hiệu lực: <strong>hết ngày hôm nay</strong></li>
+          <li>Giá: <%= labels.vehicleType.MOTORBIKE.toLowerCase() %> <strong><%= formatVnd(dailyPrices.MOTORBIKE) %></strong>,
+            <%= labels.vehicleType.CAR.toLowerCase() %> <strong><%= formatVnd(dailyPrices.CAR) %></strong></li>
+        </ul>
+        <div class="alert alert-danger mt-3 mb-0" role="alert" hidden data-register-error></div>
+      </div>
+
+      <div class="modal-body" hidden data-register-step="receipt">
+        <div class="alert alert-success" role="status">Đăng ký đỗ xe thành công!</div>
+        <dl class="row mb-0" data-receipt>
+          <dt class="col-5">Vị trí</dt><dd class="col-7" data-receipt-field="slotCode"></dd>
+          <dt class="col-5">Mã vé</dt><dd class="col-7 pc-plate" data-receipt-field="ticketCode"></dd>
+          <dt class="col-5">Từ ngày</dt><dd class="col-7" data-receipt-field="startDate"></dd>
+          <dt class="col-5">Đến ngày</dt><dd class="col-7" data-receipt-field="endDate"></dd>
+          <dt class="col-5">Giá vé</dt><dd class="col-7 mb-0" data-receipt-field="price"></dd>
+        </dl>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-register-cancel>Hủy</button>
+        <button type="button" class="btn btn-primary" data-register-submit disabled>Xác nhận đăng ký</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<template data-tpl="vehicle-option">
+  <label class="list-group-item list-group-item-action pc-vehicle-option">
+    <input type="radio" class="form-check-input mt-1 flex-shrink-0" name="vehicleId">
+    <span class="flex-grow-1">
+      <span class="pc-plate" data-field="licensePlate"></span>
+      <span class="pc-subtitle" data-field="subtitle"></span>
+      <span class="pc-warning-text" data-field="disabledReason"></span>
+    </span>
+  </label>
+</template>
+
+<template data-tpl="option-message">
+  <div class="list-group-item pc-muted" data-field="message"></div>
+</template>

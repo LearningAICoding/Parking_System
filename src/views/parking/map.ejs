@@ -1,0 +1,41 @@
+<%- include('../partials/header', { title }) %>
+<%- include('_assets') %>
+<div data-parking-map data-mode="operator">
+  <h1 class="h4 mb-3">Bản đồ vị trí bãi đỗ xe</h1>
+
+  <%- include('_map-board', { canViewVehicle: true, hint: 'Bấm vào một vị trí để xem thông tin xe hoặc đăng ký đỗ xe.' }) %>
+
+  <div class="modal fade" id="vehicleModal" tabindex="-1" aria-labelledby="vehicleTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="vehicleTitle">Thông tin xe – vị trí <span data-vehicle-slot></span></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+          <div class="pc-empty py-3" hidden data-vehicle-loading>
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Đang tải…
+          </div>
+          <p class="pc-muted mb-0" hidden data-vehicle-empty></p>
+          <div class="alert alert-danger mb-0" role="alert" hidden data-vehicle-error></div>
+          <dl class="row mb-0" hidden data-vehicle-info>
+            <dt class="col-5">Biển số</dt><dd class="col-7 pc-plate" data-vehicle-field="licensePlate"></dd>
+            <dt class="col-5">Tên xe</dt><dd class="col-7" data-vehicle-field="vehicleName"></dd>
+            <dt class="col-5">Hãng xe</dt><dd class="col-7" data-vehicle-field="brand"></dd>
+            <dt class="col-5">Loại xe</dt><dd class="col-7" data-vehicle-field="vehicleType"></dd>
+            <dt class="col-5">Khách hàng</dt><dd class="col-7" data-vehicle-field="customerName"></dd>
+            <dt class="col-5">Số điện thoại</dt><dd class="col-7" data-vehicle-field="phone"></dd>
+            <dt class="col-5">Giờ vào</dt><dd class="col-7 mb-0" data-vehicle-field="checkInTime"></dd>
+          </dl>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('_register-modal', { mode: 'operator' }) %>
+</div>
+<script src="/js/parking-map.js" defer></script>
+<%- include('../partials/footer') %>

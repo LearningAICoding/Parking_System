@@ -16,6 +16,20 @@ ALTER TABLE parking_sessions
     FOREIGN KEY (ticket_id) REFERENCES tickets (id)
     ON DELETE RESTRICT ON UPDATE CASCADE;
 
+-- MySQL 8 không cho ON UPDATE CASCADE trên cột là gốc của cột sinh STORED
+-- (open_vehicle_id) hoặc nằm trong CHECK (chk_parking_slots_vehicle_state).
+ALTER TABLE parking_sessions DROP FOREIGN KEY fk_parking_sessions_vehicle;
+ALTER TABLE parking_sessions
+  ADD CONSTRAINT fk_parking_sessions_vehicle
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE parking_slots DROP FOREIGN KEY fk_parking_slots_vehicle;
+ALTER TABLE parking_slots
+  ADD CONSTRAINT fk_parking_slots_vehicle
+    FOREIGN KEY (current_vehicle_id) REFERENCES vehicles (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
+
 ALTER TABLE parking_sessions
   ADD COLUMN open_vehicle_id INT UNSIGNED GENERATED ALWAYS AS (
     CASE WHEN check_out_time IS NULL THEN vehicle_id ELSE NULL END

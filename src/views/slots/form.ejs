@@ -1,0 +1,91 @@
+<%- include('../partials/header', { title }) %>
+<%- include('../parking/_assets') %>
+<%
+  const isEdit = mode === 'edit';
+  const action = isEdit ? `/slots/${slot ? slot.id : ''}/edit` : '/slots/create';
+  const val = (field) => (values && values[field] != null ? values[field] : '');
+  const invalid = (field) => (fieldErrors[field] ? 'is-invalid' : '');
+  const firstError = Object.keys(fieldErrors)[0];
+  const focusField = firstError || (isEdit ? 'zone' : 'slotCode');
+%>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb small">
+    <li class="breadcrumb-item"><a href="/slots">Vị trí đỗ</a></li>
+    <% if (isEdit && slot) { %><li class="breadcrumb-item"><a href="/slots/<%= slot.id %>"><%= slot.slotCode %></a></li><% } %>
+    <li class="breadcrumb-item active" aria-current="page"><%= isEdit ? 'Sửa' : 'Thêm mới' %></li>
+  </ol>
+</nav>
+<h1 class="h4 mb-3"><%= isEdit ? 'Sửa thông tin vị trí đỗ' : 'Thêm mới vị trí đỗ' %></h1>
+
+<% if (locked) { %>
+  <div class="alert alert-warning" role="alert" data-form-locked>
+    Vị trí đang có xe đăng ký hoặc đang đỗ nên không thể sửa. Chờ xe ra khỏi vị trí rồi thử lại.
+  </div>
+<% } %>
+<% if (errorMessage) { %>
+  <div class="alert alert-danger" role="alert" data-form-error><%= errorMessage %></div>
+<% } %>
+
+<form method="post" action="<%= action %>" class="card card-body" style="max-width: 640px" novalidate
+  data-slot-form data-focus="<%= focusField %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <fieldset <%= locked ? 'disabled' : '' %> class="border-0 p-0 m-0">
+
+  <div class="mb-3">
+    <label for="slotCode" class="form-label">Mã vị trí<% if (!isEdit) { %> <span class="text-danger">*</span><% } %></label>
+    <% if (isEdit) { %>
+      <input id="slotCode" class="form-control" value="<%= slot ? slot.slotCode : '' %>" readonly disabled>
+      <div class="form-text">Mã vị trí không được chỉnh sửa.</div>
+    <% } else { %>
+      <input id="slotCode" name="slotCode" class="form-control text-uppercase <%= invalid('slotCode') %>"
+        value="<%= val('slotCode') %>" maxlength="20" pattern="[A-Za-z0-9\-]{1,20}" required
+        placeholder="VD: A-01" autocomplete="off" aria-describedby="slotCodeHelp"
+        data-error-required="Vui lòng nhập mã vị trí"
+        data-error-pattern="Mã vị trí chỉ gồm chữ, số và dấu gạch ngang (tối đa 20 ký tự)">
+      <div id="slotCodeHelp" class="form-text">Chữ in hoa, số và dấu gạch ngang; tự chuyển thành chữ in hoa.</div>
+      <div class="invalid-feedback"><%= fieldErrors.slotCode || '' %></div>
+    <% } %>
+  </div>
+
+  <div class="mb-3">
+    <label for="zone" class="form-label">Khu vực / Tầng <span class="text-danger">*</span></label>
+    <input id="zone" name="zone" class="form-control <%= invalid('zone') %>" value="<%= val('zone') %>"
+      maxlength="20" required placeholder="VD: B1-A" list="zoneOptions" autocomplete="off"
+      data-error-required="Vui lòng nhập khu vực / tầng">
+    <% if (zones && zones.length) { %>
+      <datalist id="zoneOptions">
+        <% zones.forEach((zone) => { %><option value="<%= zone %>"></option><% }) %>
+      </datalist>
+    <% } %>
+    <div class="invalid-feedback"><%= fieldErrors.zone || '' %></div>
+  </div>
+
+  <fieldset class="mb-3">
+    <legend class="form-label fs-6">Trạng thái</legend>
+    <div class="d-flex gap-2 <%= invalid('status') %>" role="radiogroup">
+      <% [SLOT_STATUS.AVAILABLE, SLOT_STATUS.MAINTENANCE].forEach((status) => { %>
+        <% const checked = status === SLOT_STATUS.MAINTENANCE ? val('status') === status : val('status') !== SLOT_STATUS.MAINTENANCE; %>
+        <input type="radio" class="btn-check" name="status" id="status-<%= status %>" value="<%= status %>" <%= checked ? 'checked' : '' %>>
+        <label class="pc-chip" data-status="<%= status %>" for="status-<%= status %>"><%= labels.slotStatus[status] %></label>
+      <% }) %>
+    </div>
+    <div class="invalid-feedback d-block"><%= fieldErrors.status || '' %></div>
+  </fieldset>
+
+  <div class="mb-3">
+    <label for="note" class="form-label d-flex justify-content-between">
+      <span>Ghi chú</span><small class="text-muted" data-char-count="note"><%= String(val('note')).length %>/255</small>
+    </label>
+    <textarea id="note" name="note" class="form-control" rows="2" maxlength="255"><%= val('note') %></textarea>
+  </div>
+
+  </fieldset>
+
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-primary" <%= locked ? 'disabled' : '' %>
+      data-submit-label="<%= isEdit ? 'Đang lưu…' : 'Đang thêm…' %>"><%= isEdit ? 'Lưu' : 'Thêm' %></button>
+    <a href="/slots" class="btn btn-outline-secondary" data-form-cancel>Hủy</a>
+  </div>
+</form>
+<script src="/js/slots.js" defer></script>
+<%- include('../partials/footer') %>

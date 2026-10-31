@@ -1,0 +1,40 @@
+<%- include('../partials/header', { title }) %>
+<%- include('../parking/_assets') %>
+<div data-parking-map data-mode="customer">
+  <h1 class="h4 mb-3">Bản đồ bãi đỗ xe</h1>
+
+  <div class="row g-3">
+    <div class="col-lg-8">
+      <%- include('../parking/_map-board', { canViewVehicle: false, hint: 'Chạm vào một ô trống để đăng ký đỗ xe cho xe của bạn.' }) %>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+          Xe của tôi <span class="pc-chip__count" data-my-vehicles-count></span>
+        </div>
+        <ul class="list-group list-group-flush" data-my-vehicles>
+          <li class="list-group-item pc-muted">Đang tải…</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../parking/_register-modal', { mode: 'customer' }) %>
+
+  <template data-tpl="my-vehicle">
+    <li class="list-group-item d-flex justify-content-between align-items-start gap-2">
+      <div>
+        <span class="pc-plate" data-field="licensePlate"></span>
+        <span class="pc-subtitle" data-field="subtitle"></span>
+        <span class="pc-subtitle" data-field="slotInfo"></span>
+      </div>
+      <span class="pc-badge" data-field="statusLabel"></span>
+    </li>
+  </template>
+
+  <template data-tpl="my-vehicle-message">
+    <li class="list-group-item pc-muted" data-field="message"></li>
+  </template>
+</div>
+<script src="/js/parking-map.js" defer></script>
+<%- include('../partials/footer') %>

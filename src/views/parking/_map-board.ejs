@@ -1,0 +1,66 @@
+<%# Lưới bản đồ dùng chung. Chỉ hiển thị mã ô + khu vực + trạng thái từ GET /api/slots (AGENTS.md mục 9).
+    Các <template data-tpl> là khuôn HTML cho JS nhân bản: đổi giao diện thì sửa ở đây, JS chỉ điền data-field. %>
+<div class="card card-body mb-3">
+  <div class="row g-2 align-items-end">
+    <div class="col-sm-auto">
+      <label for="mapZone" class="form-label pc-muted mb-1">Khu vực / Tầng</label>
+      <select id="mapZone" class="form-select" data-map-zone>
+        <option value="">Tất cả khu vực</option>
+      </select>
+    </div>
+    <div class="col-sm">
+      <div class="d-flex flex-wrap gap-2" role="group" aria-label="Lọc theo trạng thái">
+        <button type="button" class="pc-chip" data-status-filter="" aria-pressed="true">
+          Tất cả <span class="pc-chip__count" data-count="ALL">0</span>
+        </button>
+        <% Object.entries(labels.slotStatus).forEach(([status, label]) => { %>
+          <button type="button" class="pc-chip" data-status="<%= status %>" data-status-filter="<%= status %>" aria-pressed="false">
+            <%= label %> <span class="pc-chip__count" data-count="<%= status %>">0</span>
+          </button>
+        <% }) %>
+      </div>
+    </div>
+    <div class="col-sm-auto text-sm-end">
+      <button type="button" class="btn btn-outline-primary btn-sm" data-map-refresh>Làm mới</button>
+      <div class="pc-muted mt-1" data-map-updated aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
+<p class="pc-muted mb-2"><%= hint %></p>
+
+<div class="alert alert-danger" role="alert" hidden data-map-alert></div>
+<div class="pc-empty" data-map-loading>
+  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Đang tải bản đồ…
+</div>
+<div data-map-board aria-live="polite"></div>
+
+<div class="dropdown-menu shadow" data-slot-menu role="menu" aria-label="Thao tác vị trí">
+  <h6 class="dropdown-header" data-slot-menu-title></h6>
+  <% if (canViewVehicle) { %>
+    <button type="button" class="dropdown-item" role="menuitem" data-menu-action="vehicle">Xem thông tin xe</button>
+  <% } %>
+  <button type="button" class="dropdown-item" role="menuitem" data-menu-action="register">Đăng ký đỗ xe</button>
+  <div class="dropdown-item-text pc-muted" hidden data-slot-menu-note></div>
+</div>
+
+<template data-tpl="zone-section">
+  <section class="pc-zone">
+    <h2 class="pc-zone__title">
+      <span data-field="title"></span>
+      <span class="pc-zone__summary" data-field="summary"></span>
+    </h2>
+    <div class="pc-tile-grid" data-slot-grid></div>
+  </section>
+</template>
+
+<template data-tpl="slot-tile">
+  <button type="button" class="pc-tile" data-slot-tile aria-haspopup="menu" aria-expanded="false">
+    <span class="pc-tile__code" data-field="slotCode"></span>
+    <span class="pc-tile__label" data-field="statusLabel"></span>
+  </button>
+</template>
+
+<template data-tpl="board-message">
+  <p class="pc-empty" data-field="message"></p>
+</template>

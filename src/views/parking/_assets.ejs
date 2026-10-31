@@ -1,0 +1,9 @@
+<%# CSS + nhãn hiển thị dùng chung cho Task 10 và Task 14–16. JS đọc nhãn từ đây, không tự định nghĩa lại. %>
+<link rel="stylesheet" href="/css/parking.css">
+<div hidden data-ui-labels>
+  <% Object.entries(labels).forEach(([group, entries]) => { %>
+    <% Object.entries(entries).forEach(([key, text]) => { %>
+      <span data-group="<%= group %>" data-key="<%= key %>"><%= text %></span>
+    <% }) %>
+  <% }) %>
+</div>
