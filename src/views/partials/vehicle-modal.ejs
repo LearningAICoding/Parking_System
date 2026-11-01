@@ -1,0 +1,82 @@
+<!-- Vehicle Add Modal -->
+<div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="addVehicleForm" method="POST" action="/vehicles/add">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addVehicleModalLabel">Thêm xe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <% if (typeof ownerCustomerId !== 'undefined') { %>
+            <input type="hidden" name="ownerCustomerId" value="<%= ownerCustomerId %>">
+          <% } %>
+          <div class="mb-3">
+            <label class="form-label" for="licensePlate">Biển số *</label>
+            <input type="text" class="form-control" id="licensePlate" name="licensePlate" required>
+            <div class="invalid-feedback" id="licensePlateError"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="vehicleName">Tên xe *</label>
+            <input type="text" class="form-control" id="vehicleName" name="vehicleName" required>
+            <div class="invalid-feedback" id="vehicleNameError"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="brand">Hãng *</label>
+            <input type="text" class="form-control" id="brand" name="brand" required>
+            <div class="invalid-feedback" id="brandError"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="vehicleType">Loại *</label>
+            <select class="form-select" id="vehicleType" name="vehicleType" required>
+              <option value="">Chọn loại</option>
+              <option value="CAR">Ô tô</option>
+              <option value="MOTORBIKE">Xe máy</option>
+            </select>
+            <div class="invalid-feedback" id="vehicleTypeError"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-primary">Thêm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Client‑side validation for vehicle add
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('addVehicleForm');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      // reset feedback
+      ['licensePlate','vehicleName','brand','vehicleType'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.remove('is-invalid');
+        const err = document.getElementById(id + 'Error');
+        if (err) err.textContent = '';
+      });
+      let valid = true;
+      const license = document.getElementById('licensePlate').value.trim().toUpperCase();
+      const plateRegex = /^[0-9A-Z]{6,10}$/;
+      if (!plateRegex.test(license)) {
+        valid = false;
+        const el = document.getElementById('licensePlate');
+        el.classList.add('is-invalid');
+        document.getElementById('licensePlateError').textContent = 'Biển số không hợp lệ (6‑10 ký tự A‑Z hoặc 0‑9)';
+      }
+      const name = document.getElementById('vehicleName').value.trim();
+      if (!name) { valid = false; const el = document.getElementById('vehicleName'); el.classList.add('is-invalid'); document.getElementById('vehicleNameError').textContent = 'Tên xe bắt buộc'; }
+      const brand = document.getElementById('brand').value.trim();
+      if (!brand) { valid = false; const el = document.getElementById('brand'); el.classList.add('is-invalid'); document.getElementById('brandError').textContent = 'Hãng bắt buộc'; }
+      const type = document.getElementById('vehicleType').value;
+      if (!type) { valid = false; const el = document.getElementById('vehicleType'); el.classList.add('is-invalid'); document.getElementById('vehicleTypeError').textContent = 'Loại xe bắt buộc'; }
+      if (!valid) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>

@@ -1,3 +1,31 @@
+<!-- Sidebar Partial -->
+<% const role = currentUser && currentUser.role; %>
+<nav class="sidebar bg-light">
+  <ul class="list-unstyled">
+    <!-- Dashboard: visible to all authenticated users -->
+    <li><a href="/" class="nav-link"><i class="bi bi-house"></i> Trang chủ</a></li>
+    
+    <% if (role === 'MANAGER' || role === 'STAFF') { %>
+      <!-- Khách hàng: MANAGER và STAFF -->
+      <li><a href="/customers" class="nav-link"><i class="bi bi-people"></i> Danh sách khách hàng</a></li>
+    <% } %>
+    
+    <% if (role === 'CUSTOMER') { %>
+      <!-- Xe của khách hàng -->
+      <li><a href="/my-vehicles" class="nav-link"><i class="bi bi-car-front"></i> Xe của tôi</a></li>
+      <!-- Hồ sơ cá nhân -->
+      <li><a href="/profile" class="nav-link"><i class="bi bi-person"></i> Hồ sơ</a></li>
+    <% } else if (role === 'MANAGER' || role === 'STAFF') { %>
+      <!-- Quản lý xe (xem toàn bộ) -->
+      <li><a href="/vehicles" class="nav-link"><i class="bi bi-car-front"></i> Quản lý xe</a></li>
+    <% } %>
+    
+    <% if (role === 'MANAGER') { %>
+      <!-- Nhân viên quản trị -->
+      <li><a href="/employees" class="nav-link"><i class="bi bi-person-badge"></i> Nhân viên</a></li>
+    <% } %>
+  </ul>
+</nav>
 <aside class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="appSidebar" aria-label="Điều hướng chính">
   <div class="offcanvas-header border-bottom d-lg-none">
     <h2 class="h6 mb-0">Điều hướng</h2>

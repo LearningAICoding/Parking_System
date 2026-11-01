@@ -1,0 +1,68 @@
+<% include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<div class="container mt-4">
+  <h1><%= title %></h1>
+  <% if (profile) { %>
+    <% if (query && query.updated) { %>
+      <div class="alert alert-success" role="alert">Cập nhật thành công!</div>
+    <% } %>
+    <form id="profileForm" method="POST" action="/profile">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="mb-3">
+        <label class="form-label" for="fullName">Họ và tên *</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" value="<%= profile.fullName %>" required>
+        <div class="invalid-feedback" id="fullNameError"></div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="phone">Số điện thoại *</label>
+        <input type="text" class="form-control" id="phone" name="phone" value="<%= profile.phone %>" required>
+        <div class="invalid-feedback" id="phoneError"></div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="email">Email *</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%= profile.email %>" required>
+        <div class="invalid-feedback" id="emailError"></div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="address">Địa chỉ</label>
+        <input type="text" class="form-control" id="address" name="address" value="<%= profile.address %>">
+        <div class="invalid-feedback" id="addressError"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+    <hr/>
+    <h2>Xe của tôi</h2>
+    <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#addVehicleModal">Thêm xe</button>
+    <% include('../partials/vehicle-modal', { ownerCustomerId: profile.id }) %>
+    <% include('../vehicles/my-vehicles') %>
+  <% } else { %>
+    <p>Không tìm thấy hồ sơ.</p>
+  <% } %>
+</div>
+<% include('../partials/footer') %>
+
+<script>
+  // Client‑side validation for profile edit
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('profileForm');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      ['fullName','phone','email','address'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.remove('is-invalid');
+        const err = document.getElementById(id + 'Error');
+        if (err) err.textContent = '';
+      });
+      let valid = true;
+      const fullName = document.getElementById('fullName').value.trim();
+      if (!fullName) { valid = false; const el = document.getElementById('fullName'); el.classList.add('is-invalid'); document.getElementById('fullNameError').textContent = 'Họ và tên bắt buộc'; }
+      const phone = document.getElementById('phone').value.trim();
+      const phoneRegex = /^0\d{9}$/;
+      if (!phoneRegex.test(phone)) { valid = false; const el = document.getElementById('phone'); el.classList.add('is-invalid'); document.getElementById('phoneError').textContent = 'Số điện thoại không hợp lệ (0xxxxxxxxx)'; }
+      const email = document.getElementById('email').value.trim();
+      const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailRegex.test(email)) { valid = false; const el = document.getElementById('email'); el.classList.add('is-invalid'); document.getElementById('emailError').textContent = 'Email không hợp lệ'; }
+      if (!valid) e.preventDefault();
+    });
+  });
+</script>

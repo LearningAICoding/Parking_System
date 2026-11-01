@@ -1,0 +1,32 @@
+<% include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<div class="container mt-4">
+  <h1><%= title %></h1>
+  <% if (vehicles && vehicles.length) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Biển số</th>
+          <th>Tên xe</th>
+          <th>Hãng</th>
+          <th>Loại</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% vehicles.forEach(v => { %>
+          <tr>
+            <td><%= v.id %></td>
+            <td><%= v.licensePlate %></td>
+            <td><%= v.vehicleName %></td>
+            <td><%= v.brand %></td>
+            <td><%= v.vehicleType %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>Không có xe.</p>
+  <% } %>
+</div>
+<% include('../partials/footer') %>

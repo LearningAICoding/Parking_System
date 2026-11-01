@@ -1,0 +1,44 @@
+<% include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<div class="container mt-4">
+  <h1><%= title %></h1>
+  <form class="form-inline mb-3" method="GET" action="/customers">
+    <input type="text" name="keyword" class="form-control mr-2" placeholder="Tìm kiếm" value="<%= keyword %>">
+    <button type="submit" class="btn btn-primary">Tìm</button>
+  </form>
+  <% if (customers && customers.length) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Họ và tên</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Địa chỉ</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% customers.forEach((c, idx) => { %>
+          <tr>
+            <td><%= c.id %></td>
+            <td><%= c.fullName %></td>
+            <td><%= c.phone %></td>
+            <td><%= c.email %></td>
+            <td><%= c.address %></td>
+            <td>
+              <a href="/customers/<%= c.id %>/vehicles" class="btn btn-sm btn-info mr-1">Xe</a>
+              <form method="POST" action="/customers/<%= c.id %>/delete" style="display:inline;">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa khách hàng này?');">Xóa</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>Không có khách hàng.</p>
+  <% } %>
+</div>
+<% include('../partials/footer') %>
