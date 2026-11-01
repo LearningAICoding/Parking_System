@@ -20,7 +20,7 @@ Sprint 1 chỉ có các chức năng được liệt kê trong mục 2. Các ch�
 ## 1. Ngăn xếp và cấu trúc chuẩn
 
 - Runtime: Node.js LTS + Express.js.
-- View: EJS + Bootstrap 5 + Vanilla JavaScript; dùng `fetch` cho modal và bản đồ.
+- View: EJS + Tailwind CSS + Vanilla JavaScript; dùng `fetch` cho modal và bản đồ.
 - Cơ sở dữ liệu: MySQL 8.x qua `mysql2/promise`, một pool duy nhất, prepared statements, không ORM.
 - Bảo mật: `express-session`, `bcrypt`, `express-validator`, `multer`, `helmet`, `express-rate-limit`, CSRF token, `nodemailer`.
 - Kiểm thử: Jest, Supertest, Cheerio/JSDOM, ESLint.
@@ -373,7 +373,7 @@ Bắt buộc transaction cho register, check-in, check-out, xóa customer/employ
 
 `docs/design/screens/*/code.html` chỉ là prototype. Khi chuyển sang EJS:
 
-- dùng Bootstrap 5, không copy Tailwind nguyên bản;
+- dùng Tailwind CSS theo Design System ParkCore Precision; prototype chỉ là tham khảo bố cục, không copy JavaScript mô phỏng hoặc nghiệp vụ ngoài Sprint 1;
 - map chỉ hiển thị mã ô + trạng thái từ `/api/slots`; không hard-code hoặc render biển số/customer trong grid;
 - menu “Xem thông tin xe” chỉ tồn tại với MANAGER/STAFF và gọi API riêng;
 - Task 8 chỉ có scan/upload, không có ô tìm kiếm thủ công, không có nút điều khiển barie/RFID/in vé ngoài contract;

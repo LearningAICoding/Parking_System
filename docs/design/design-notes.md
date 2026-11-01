@@ -10,7 +10,7 @@ File này ghi lại **quyết định** và **chỗ lệch** giữa thiết kế
 
 ## Design System đang dùng
 
-Tóm tắt các giá trị **bắt buộc tuân theo** khi chuyển sang EJS/Bootstrap (chi tiết đầy đủ ở `design-system.md`):
+Tóm tắt các giá trị **bắt buộc tuân theo** khi chuyển sang EJS/Tailwind CSS (chi tiết đầy đủ ở `design-system.md`):
 
 - **Màu**: primary `#0066CC`; surface `#F8F9FA`; card `#FFFFFF`; border `#E5E7EB`; text chính `#191C1D`, phụ `#414753`.
 - **Trạng thái ô đỗ** (badge dạng chữ, không chỉ dùng màu):
@@ -61,7 +61,7 @@ Các prototype CUSTOMER được lưu trong `docs/design/screens/` để làm ba
 
 ## Ranh giới prototype và Sprint 1
 
-Các file `code.html` là prototype tham khảo, không phải màn hình chạy thật và không phải API contract. Code thật dùng Bootstrap 5 + EJS theo `AGENTS.md` và `.agents/rules/ejs.md`.
+Các file `code.html` là prototype tham khảo, không phải màn hình chạy thật và không phải API contract. Code thật dùng Tailwind CSS + EJS theo `AGENTS.md` và `.agents/rules/ejs.md`.
 
 Các chi tiết sau trong prototype phải được bỏ khỏi bản EJS Sprint 1 hoặc đánh dấu `OUT OF SCOPE`: RFID/ePass/VETC, camera LPR realtime, điều khiển/mở/khóa barie, thanh toán ngân hàng, in vé QR, cảm biến IoT/LoRaWAN, sạc EV, dữ liệu căn hộ, xuất CAD/PDF/Excel, tạo vé thủ công và các telemetry không có trong schema/API.
 
@@ -75,7 +75,7 @@ Màn hình thống kê chỉ có ba chế độ Theo ngày, Theo tháng và Theo
 
 Thiết kế Stitch AI có một số chỗ chưa khớp rule dự án, cần điều chỉnh khi code:
 
-1. **Bootstrap, không Tailwind**: `code.html` dùng Tailwind. Code thật dùng Bootstrap 5 - chuyển class tương ứng, không copy nguyên.
+1. **Tailwind CSS**: dùng màu và bố cục trong Design System; chuyển prototype thành EJS có dữ liệu thật, không copy nguyên mã HTML/JavaScript mô phỏng.
 2. **Menu bản đồ theo role**: chỉ render "Xem thông tin xe" cho MANAGER/STAFF; CUSTOMER chỉ thấy đăng ký khi ô AVAILABLE.
 3. **Dữ liệu bản đồ tối thiểu**: lưới không hiển thị plate/customer, vì API map chỉ trả id, slot_code, zone, status.
 4. **Modal tìm xe**: include một lần qua `footer.ejs`, chỉ MANAGER/STAFF.

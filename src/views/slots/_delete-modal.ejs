@@ -1,0 +1,18 @@
+<div class="ui-modal" id="slotDeleteModal" tabindex="-1" aria-labelledby="slotDeleteTitle" aria-hidden="true">
+  <div class="ui-modal-dialog ui-modal-centered">
+    <div class="ui-modal-content">
+      <div class="ui-modal-header">
+        <h2 class="ui-modal-title text-lg font-semibold" id="slotDeleteTitle">Xóa vị trí đỗ xe</h2>
+        <button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="ui-modal-body">
+        <p class="mb-2">Bạn có chắc chắn muốn xóa vị trí <strong data-slot-delete-code></strong>?</p>
+        <div class="ui-alert ui-alert-danger mb-0" role="alert" hidden data-slot-delete-error></div>
+      </div>
+      <div class="ui-modal-footer">
+        <button type="button" class="ui-btn ui-btn-outline-secondary" data-ui-dismiss="modal">Hủy</button>
+        <button type="button" class="ui-btn ui-btn-danger" data-slot-delete-confirm>Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%- include('../partials/head', { title }) %><%- include('../partials/header') %><div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<div class="flex justify-between items-center mb-6">
+  <div><a href="/customers">← Danh sách khách hàng</a><h1 class="text-3xl font-bold mt-2 mb-1">Xe của <%= customer.fullName %></h1><p class="text-slate-600 mb-0">Điện thoại: <%= customer.phone %></p></div><button type="button" class="ui-btn ui-btn-primary" data-ui-toggle="modal" data-ui-target="#vehicle-modal">Thêm xe</button>
+</div>
+<div class="ui-card border-0 shadow-sm"><div class="ui-card-body">
+  <% if (!vehicles.length) { %><p class="text-slate-600 mb-0">Khách hàng chưa đăng ký xe.</p><% } else { %>
+    <div class="overflow-x-auto"><table class="ui-table align-middle"><thead><tr><th>Biển số</th><th>Tên xe</th><th>Hãng</th><th>Loại xe</th><th>Trạng thái</th><th>Vị trí</th></tr></thead>
+    <tbody><% vehicles.forEach(vehicle => { %><tr><td><%= vehicle.licensePlate %></td><td><%= vehicle.vehicleName %></td><td><%= vehicle.brand || '—' %></td><td><%= vehicle.vehicleType %></td><td><%= vehicle.derivedStatus %></td><td><%= vehicle.slotCode || '—' %></td></tr><% }) %></tbody></table></div>
+  <% } %>
+</div></div>
+<%- include('../partials/vehicle-modal',{customerId:customer.id}) %>
+<script src="/js/vehicles.js" defer></script>
+</main><%- include('../partials/footer') %>

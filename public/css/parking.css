@@ -1,0 +1,134 @@
+/*
+ * Giao diện module Vị trí đỗ (Task 14–16) và Bản đồ bãi đỗ (Task 10).
+ * Khi có thiết kế Figma: chỉ cần đổi giá trị biến trong :root và các class pc-* bên dưới.
+ * JS và EJS chỉ gắn class pc-* + thuộc tính data-status/aria-*, không gắn màu cụ thể.
+ * Màu mặc định lấy từ design system ParkCore Precision (docs/design/design-system.md).
+ */
+:root {
+  --pc-primary: #0066cc;
+  --pc-primary-hover: #0052a3;
+  --pc-on-primary: #ffffff;
+  --pc-surface: #f8f9fa;
+  --pc-surface-card: #ffffff;
+  --pc-surface-muted: #edeeef;
+  --pc-on-surface: #191c1d;
+  --pc-on-surface-muted: #414753;
+  --pc-outline: #c1c6d5;
+  --pc-radius: 0.5rem;
+  --pc-radius-pill: 999px;
+  --pc-focus-ring: 0 0 0 0.2rem rgba(0, 102, 204, 0.35);
+
+  --pc-available-fg: #00792a;
+  --pc-available-bg: #e3f5e6;
+  --pc-reserved-fg: #8a5300;
+  --pc-reserved-bg: #fff1d6;
+  --pc-occupied-fg: #ba1a1a;
+  --pc-occupied-bg: #ffdad6;
+  --pc-maintenance-fg: #575f67;
+  --pc-maintenance-bg: #e1e3e4;
+
+  --pc-highlight-bg: #d7e3ff;
+  --pc-tile-min-width: 96px;
+}
+
+/* Màu theo trạng thái ô: một chỗ duy nhất cho badge, chip, tile */
+[data-status="AVAILABLE"] { --pc-fg: var(--pc-available-fg); --pc-bg: var(--pc-available-bg); }
+[data-status="RESERVED"] { --pc-fg: var(--pc-reserved-fg); --pc-bg: var(--pc-reserved-bg); }
+[data-status="OCCUPIED"] { --pc-fg: var(--pc-occupied-fg); --pc-bg: var(--pc-occupied-bg); }
+[data-status="MAINTENANCE"] { --pc-fg: var(--pc-maintenance-fg); --pc-bg: var(--pc-maintenance-bg); }
+
+/* Trạng thái dẫn xuất của xe (Xe của tôi) */
+[data-derived-status="REGISTERED"], [data-derived-status="EXITED"] { --pc-fg: var(--pc-available-fg); --pc-bg: var(--pc-available-bg); }
+[data-derived-status="RESERVED"] { --pc-fg: var(--pc-reserved-fg); --pc-bg: var(--pc-reserved-bg); }
+[data-derived-status="PARKED"] { --pc-fg: var(--pc-occupied-fg); --pc-bg: var(--pc-occupied-bg); }
+
+/* Badge trạng thái */
+.pc-badge {
+  display: inline-block;
+  padding: 0.2em 0.65em;
+  border-radius: var(--pc-radius-pill);
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--pc-fg, var(--pc-on-surface-muted));
+  background: var(--pc-bg, var(--pc-surface-muted));
+}
+
+/* Chip lọc trạng thái */
+.pc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--pc-fg, var(--pc-outline));
+  border-radius: var(--pc-radius-pill);
+  background: var(--pc-surface-card);
+  color: var(--pc-fg, var(--pc-on-surface));
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.pc-chip:focus-visible { outline: none; box-shadow: var(--pc-focus-ring); }
+.pc-chip[aria-pressed="true"] {
+  background: var(--pc-fg, var(--pc-on-surface));
+  color: var(--pc-on-primary);
+}
+.ui-radio:checked + .pc-chip {
+  background: var(--pc-fg, var(--pc-on-surface));
+  color: var(--pc-on-primary);
+}
+.ui-radio:focus-visible + .pc-chip { box-shadow: var(--pc-focus-ring); }
+.pc-chip__count {
+  min-width: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: var(--pc-radius-pill);
+  background: var(--pc-bg, var(--pc-surface-muted));
+  color: var(--pc-fg, var(--pc-on-surface));
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Bảng danh sách: dòng vừa thêm/sửa */
+.pc-row[data-highlight] > td { background: var(--pc-highlight-bg); transition: background 0.6s; }
+
+/* Bản đồ */
+.pc-zone { margin-bottom: 1.5rem; }
+.pc-zone__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.pc-zone__summary { font-size: 0.85rem; font-weight: 400; color: var(--pc-on-surface-muted); }
+.pc-tile-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--pc-tile-min-width), 1fr));
+}
+.pc-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.85rem 0.5rem;
+  border: 1.5px solid var(--pc-fg);
+  border-radius: var(--pc-radius);
+  background: var(--pc-bg);
+  color: var(--pc-fg);
+  cursor: pointer;
+}
+.pc-tile:hover { filter: brightness(0.96); }
+.pc-tile:focus-visible { outline: none; box-shadow: var(--pc-focus-ring); }
+.pc-tile[aria-expanded="true"] { background: var(--pc-fg); color: var(--pc-on-primary); }
+.pc-tile__code { font-weight: 700; }
+.pc-tile__label { font-size: 0.8rem; }
+
+.pc-empty { text-align: center; color: var(--pc-on-surface-muted); padding: 3rem 0; margin: 0; }
+.pc-muted { color: var(--pc-on-surface-muted); font-size: 0.875rem; }
+
+/* Danh sách chọn xe / Xe của tôi */
+.pc-vehicle-option { display: flex; gap: 0.5rem; align-items: flex-start; cursor: pointer; }
+.pc-vehicle-option:has(input:disabled) { opacity: 0.6; cursor: not-allowed; }
+.pc-plate { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 600; display: block; }
+.pc-subtitle { display: block; font-size: 0.85rem; color: var(--pc-on-surface-muted); }
+.pc-warning-text { display: block; font-size: 0.85rem; color: var(--pc-occupied-fg); }

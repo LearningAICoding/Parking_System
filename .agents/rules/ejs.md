@@ -25,4 +25,4 @@ Các nút xóa phải có confirmation modal. Server trả 409 thì modal giữ 
 
 ## Prototype
 
-`docs/design/screens/*/code.html` dùng Tailwind/JS mô phỏng và không được copy trực tiếp sang EJS. Những chi tiết ngoài Sprint 1 như RFID/ePass/VETC, camera realtime, barie, EV, IoT, thanh toán, xuất file, dữ liệu căn hộ và vé tháng phải loại bỏ hoặc ghi rõ OUT OF SCOPE khi triển khai.
+`docs/design/screens/*/code.html` dùng Tailwind/JS mô phỏng và không được copy trực tiếp sang EJS. Code thật dùng Tailwind CSS được build từ `public/css/tailwind.css`. Những chi tiết ngoài Sprint 1 như RFID/ePass/VETC, camera realtime, barie, EV, IoT, thanh toán, xuất file, dữ liệu căn hộ và vé tháng phải loại bỏ hoặc ghi rõ OUT OF SCOPE khi triển khai.

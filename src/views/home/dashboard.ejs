@@ -1,0 +1,25 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <main class="w-full py-6 px-4 lg:px-6">
+      <div class="flex flex-wrap justify-between items-end gap-3 mb-6">
+        <div><p class="uppercase text-sm text-primary font-semibold mb-1">Vận hành bãi đỗ</p><h1 class="text-2xl font-semibold mb-1">Tổng quan hôm nay</h1><p class="text-slate-600 mb-0">Theo dõi nhanh hoạt động và tin tức mới nhất.</p></div>
+        <a class="ui-btn ui-btn-primary" href="/parking/checkin-checkout">Mở màn hình xe vào/ra</a>
+      </div>
+      <div class="grid grid-cols-12 gap-4 mb-6">
+        <div class="col-span-6 xl:col-span-3"><div class="ui-card dashboard-card h-full"><div class="ui-card-body"><p class="text-sm text-slate-600 mb-2">Tổng số xe</p><p class="text-4xl font-bold font-semibold mb-0"><%= summary.vehicleCount %></p></div></div></div>
+        <div class="col-span-6 xl:col-span-3"><div class="ui-card dashboard-card h-full"><div class="ui-card-body"><p class="text-sm text-slate-600 mb-2">Ô đang trống</p><p class="text-4xl font-bold font-semibold text-green-700 mb-0"><%= summary.availableSlots %></p></div></div></div>
+        <div class="col-span-6 xl:col-span-3"><div class="ui-card dashboard-card h-full"><div class="ui-card-body"><p class="text-sm text-slate-600 mb-2">Ô đang sử dụng</p><p class="text-4xl font-bold font-semibold text-red-700 mb-0"><%= summary.occupiedSlots %></p></div></div></div>
+        <div class="col-span-6 xl:col-span-3"><div class="ui-card dashboard-card h-full"><div class="ui-card-body"><p class="text-sm text-slate-600 mb-2">Lượt vào / ra hôm nay</p><p class="text-4xl font-bold font-semibold mb-0"><%= summary.entriesToday %> <span class="text-lg text-slate-600">/ <%= summary.exitsToday %></span></p></div></div></div>
+      </div>
+      <section class="ui-card dashboard-card">
+        <div class="ui-card-header bg-white flex justify-between items-center"><h2 class="text-lg font-semibold mb-0">Tin tức bãi đỗ xe</h2><a href="/news" class="text-sm">Xem tất cả</a></div>
+        <div class="ui-list ui-list-flush">
+          <% if (!news.length) { %><div class="p-6 text-slate-600">Chưa có tin tức được công bố.</div><% } %>
+          <% news.forEach((item) => { %><article class="ui-list-item py-4"><h3 class="text-base font-semibold mb-1"><%= item.title %></h3><p class="text-sm text-slate-600 mb-1"><%= item.summary || item.content %></p><time class="text-sm text-slate-600"><%= new Date(item.published_at).toLocaleDateString('vi-VN') %></time></article><% }) %>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>

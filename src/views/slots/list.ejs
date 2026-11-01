@@ -1,0 +1,113 @@
+<%- include('../partials/head', { title }) %><%- include('../partials/header') %><div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<%- include('../parking/_assets') %>
+<%
+  const counts = slots.reduce((acc, slot) => ({ ...acc, [slot.status]: (acc[slot.status] || 0) + 1 }), {});
+  const highlightId = flash && flash.slotId ? String(flash.slotId) : null;
+%>
+<div class="flex flex-wrap justify-between items-center gap-2 mb-4">
+  <div>
+    <h1 class="text-xl font-semibold mb-0">Danh sách vị trí trong bãi xe</h1>
+    <p class="pc-muted mb-0">
+      <%= slots.length %> vị trí<%= selectedZone ? ` tại khu vực ${selectedZone}` : '' %>
+    </p>
+  </div>
+  <% if (canManage) { %>
+    <a href="/slots/create<%= selectedZone ? `?zone=${encodeURIComponent(selectedZone)}` : '' %>" class="ui-btn ui-btn-primary" data-testid="slot-add">
+      + Thêm
+    </a>
+  <% } %>
+</div>
+
+<% if (flash) { %>
+  <div class="ui-alert alert-<%= flash.type === 'success' ? 'success' : 'danger' %>" role="status" data-autodismiss>
+    <%= flash.message %>
+  </div>
+<% } %>
+
+<div class="ui-card ui-card-body mb-4">
+  <div class="grid grid-cols-12 gap-2 items-end">
+    <form method="get" action="/slots" class="col-span-12 sm:col-span-3">
+      <label for="zone" class="ui-label pc-muted mb-1">Khu vực / Tầng</label>
+      <div class="flex gap-2">
+        <select id="zone" name="zone" class="ui-select" data-autosubmit>
+          <option value="">Tất cả</option>
+          <% zones.forEach((zone) => { %>
+            <option value="<%= zone %>" <%= zone === selectedZone ? 'selected' : '' %>><%= zone %></option>
+          <% }) %>
+        </select>
+        <noscript><button type="submit" class="ui-btn ui-btn-outline-secondary">Lọc</button></noscript>
+      </div>
+    </form>
+    <div class="col-span-12 sm:col-span-9">
+      <label for="slotSearch" class="ui-label pc-muted mb-1">Tìm mã vị trí</label>
+      <input type="search" id="slotSearch" class="ui-input" placeholder="VD: A-01" maxlength="20"
+        autocomplete="off" data-slot-search>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2 mt-4" role="group" aria-label="Lọc theo trạng thái">
+    <button type="button" class="pc-chip" data-status-filter="" aria-pressed="true">
+      Tất cả <span class="pc-chip__count"><%= slots.length %></span>
+    </button>
+    <% Object.entries(labels.slotStatus).forEach(([status, label]) => { %>
+      <button type="button" class="pc-chip" data-status="<%= status %>" data-status-filter="<%= status %>" aria-pressed="false">
+        <%= label %> <span class="pc-chip__count"><%= counts[status] || 0 %></span>
+      </button>
+    <% }) %>
+  </div>
+</div>
+
+<div class="overflow-x-auto">
+  <table class="ui-table ui-table-hover align-middle bg-white">
+    <thead class="ui-table-head">
+      <tr>
+        <th scope="col">Vị trí</th>
+        <th scope="col">Khu vực / Tầng</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col" class="text-right">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (!slots.length) { %>
+        <tr>
+          <td colspan="4" class="pc-empty">
+            <p class="mb-2">Chưa có vị trí đỗ nào<%= selectedZone ? ' ở khu vực này' : '' %>.</p>
+            <% if (selectedZone) { %><a href="/slots" class="ui-btn ui-btn-sm ui-btn-outline-secondary">Xem tất cả khu vực</a><% } %>
+            <% if (canManage) { %><a href="/slots/create" class="ui-btn ui-btn-sm ui-btn-primary">Thêm vị trí đầu tiên</a><% } %>
+          </td>
+        </tr>
+      <% } %>
+      <% slots.forEach((slot) => { %>
+        <tr class="pc-row" data-slot-id="<%= slot.id %>" data-slot-row data-status="<%= slot.status %>" data-code="<%= slot.slotCode %>"
+          <%= highlightId === String(slot.id) ? 'data-highlight' : '' %>>
+          <td class="font-semibold"><a href="/slots/<%= slot.id %>" class="text-slate-900 no-underline"><%= slot.slotCode %></a></td>
+          <td><%= slot.zone %></td>
+          <td><%- include('_status-badge', { status: slot.status }) %></td>
+          <td class="text-right whitespace-nowrap">
+            <% if (canManage) { %>
+              <% if (!isModifiable(slot)) { %>
+                <span class="inline-block" tabindex="0" title="Vị trí đang có xe, không thể sửa hoặc xóa" data-locked-hint>
+                  <button type="button" class="ui-btn ui-btn-sm ui-btn-outline-primary" disabled data-slot-locked>Sửa</button>
+                  <button type="button" class="ui-btn ui-btn-sm ui-btn-outline-danger" disabled data-slot-locked>Xóa</button>
+                </span>
+              <% } else { %>
+                <a href="/slots/<%= slot.id %>/edit" class="ui-btn ui-btn-sm ui-btn-outline-primary">Sửa</a>
+                <button type="button" class="ui-btn ui-btn-sm ui-btn-outline-danger" data-slot-delete
+                  data-slot-id="<%= slot.id %>" data-slot-code="<%= slot.slotCode %>">Xóa</button>
+              <% } %>
+            <% } %>
+            <a href="/slots/<%= slot.id %>" class="ui-btn ui-btn-sm ui-btn-outline-secondary">Chi tiết</a>
+          </td>
+        </tr>
+      <% }) %>
+      <tr hidden data-slot-no-match>
+        <td colspan="4" class="pc-empty">Không có vị trí phù hợp với bộ lọc.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<% if (canManage) { %>
+  <%- include('_delete-modal') %>
+<% } %>
+<script src="/js/slots.js" defer></script>
+</main><%- include('../partials/footer') %>

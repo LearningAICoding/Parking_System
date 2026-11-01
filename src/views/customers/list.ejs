@@ -1,0 +1,37 @@
+<%- include('../partials/head', { title }) %><%- include('../partials/header') %><div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<div class="flex justify-between items-center gap-3 mb-6">
+  <div><h1 class="text-3xl font-bold mb-1">Danh sách khách hàng</h1><p class="text-slate-600 mb-0">Quản lý hồ sơ khách hàng và tài khoản CUSTOMER.</p></div>
+  <a class="ui-btn ui-btn-primary" href="/customers/create">Thêm khách hàng</a>
+</div>
+<% if (req.query.notice==='created') { %><div class="ui-alert ui-alert-success">Đã thêm khách hàng.</div><% } %>
+<% if (req.query.notice==='updated') { %><div class="ui-alert ui-alert-success">Đã cập nhật khách hàng.</div><% } %>
+<div id="customer-feedback" aria-live="polite"></div>
+<div class="ui-card border-0 shadow-sm"><div class="ui-card-body">
+  <form class="grid grid-cols-12 gap-2 mb-4" method="get">
+    <div class="col-span-12 sm:col-span-9"><input class="ui-input" name="q" maxlength="50" value="<%= q %>" placeholder="Tìm theo tên, điện thoại, email hoặc tài khoản"></div>
+    <div class="col-span-12 sm:col-span-3 grid"><button class="ui-btn ui-btn-outline-primary">Tìm kiếm</button></div>
+  </form>
+  <div class="overflow-x-auto"><table class="ui-table align-middle">
+    <thead><tr><th>Khách hàng</th><th>Liên hệ</th><th>Tài khoản</th><th>Thao tác</th></tr></thead>
+    <tbody id="customer-list">
+      <% if (!customers.length) { %><tr><td colspan="4" class="text-center text-slate-600 py-6">Không có khách hàng phù hợp.</td></tr><% } %>
+      <% customers.forEach(customer => { %><tr data-customer-row="<%= customer.id %>">
+        <td><div class="font-semibold"><%= customer.fullName %></div><span class="text-sm text-slate-600">Mã #<%= customer.id %></span></td>
+        <td><div><%= customer.phone %></div><div class="text-sm text-slate-600"><%= customer.email || '—' %></div></td>
+        <td><%= customer.username || 'Chưa có tài khoản' %></td>
+        <td><div class="flex flex-wrap gap-2">
+          <a class="ui-btn ui-btn-sm ui-btn-outline-secondary" href="/customers/<%= customer.id %>/vehicles">Xe</a>
+          <a class="ui-btn ui-btn-sm ui-btn-outline-primary" href="/customers/<%= customer.id %>/edit">Sửa</a>
+          <form method="post" action="/customers/<%= customer.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa khách hàng này?">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="ui-btn ui-btn-sm ui-btn-outline-danger" type="submit">Xóa</button>
+          </form>
+        </div></td>
+      </tr><% }) %>
+    </tbody>
+  </table></div>
+  <p class="text-sm text-slate-600 mb-0" id="customer-count">Tổng cộng: <%= customers.length %> khách hàng hiển thị</p>
+</div></div>
+<div class="ui-modal" id="customer-delete-modal" tabindex="-1" aria-hidden="true"><div class="ui-modal-dialog"><div class="ui-modal-content"><div class="ui-modal-header"><h2 class="ui-modal-title text-lg">Xóa khách hàng</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div><div class="ui-modal-body"><p>Bạn chắc chắn muốn xóa khách hàng này?</p><div class="ui-alert ui-alert-danger hidden" id="customer-delete-error" role="alert"></div></div><div class="ui-modal-footer"><button type="button" class="ui-btn ui-btn-secondary" data-ui-dismiss="modal">Hủy</button><button type="button" class="ui-btn ui-btn-danger" id="customer-delete-submit">Xóa</button></div></div></div></div>
+<script src="/js/customer-delete.js" defer></script>
+</main><%- include('../partials/footer') %>

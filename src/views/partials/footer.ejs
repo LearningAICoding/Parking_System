@@ -1,0 +1,13 @@
+      </div>
+    </div>
+  </div>
+  <footer class="border-t bg-white py-4 px-4 lg:px-6 text-sm text-slate-600">
+    Parking System · Quản lý bãi đỗ xe
+  </footer>
+  <script src="/js/ui.js"></script>
+  <% if (currentUser && ['MANAGER', 'STAFF'].includes(currentUser.role)) { %>
+    <div class="ui-modal" id="vehicle-search-modal" tabindex="-1" aria-labelledby="vehicle-search-title" aria-hidden="true"><div class="ui-modal-dialog ui-modal-lg"><div class="ui-modal-content"><div class="ui-modal-header"><h2 class="ui-modal-title text-lg" id="vehicle-search-title">Tìm xe</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div><div class="ui-modal-body"><label for="vehicle-search-keyword" class="ui-label">Tên khách hàng, số điện thoại hoặc biển số xe</label><input id="vehicle-search-keyword" class="ui-input" maxlength="50"><div id="vehicle-search-results" class="ui-list mt-4"></div></div></div></div></div>
+    <script src="/js/vehicle-search.js" defer></script>
+  <% } %>
+</body>
+</html>

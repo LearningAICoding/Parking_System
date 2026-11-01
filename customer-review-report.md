@@ -97,7 +97,7 @@ CUSTOMER không được thực hiện các thao tác scan biển số, check-in
 - [ ] Vehicle form gửi `MOTORBIKE|CAR`, không gửi nhãn tiếng Việt làm enum.
 - [ ] Mutation gửi CSRF; lỗi `409` giữ modal và hiển thị message server.
 - [ ] Sau `201` hiển thị ticket summary và refresh map/my-vehicles.
-- [ ] Không copy nguyên Tailwind prototype sang EJS; chuyển sang Bootstrap 5.
+- [ ] Không copy nguyên prototype sang EJS; chuyển bố cục sang Tailwind CSS và nối dữ liệu thật.
 
 ### Test
 

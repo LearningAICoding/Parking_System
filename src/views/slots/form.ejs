@@ -1,0 +1,91 @@
+<%- include('../partials/head', { title }) %><%- include('../partials/header') %><div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<%- include('../parking/_assets') %>
+<%
+  const isEdit = mode === 'edit';
+  const action = isEdit ? `/slots/${slot ? slot.id : ''}/edit` : '/slots/create';
+  const val = (field) => (values && values[field] != null ? values[field] : '');
+  const invalid = (field) => (fieldErrors[field] ? 'ui-invalid' : '');
+  const firstError = Object.keys(fieldErrors)[0];
+  const focusField = firstError || (isEdit ? 'zone' : 'slotCode');
+%>
+<nav aria-label="breadcrumb">
+  <ol class="ui-breadcrumb text-sm">
+    <li class="ui-breadcrumb-item"><a href="/slots">Vị trí đỗ</a></li>
+    <% if (isEdit && slot) { %><li class="ui-breadcrumb-item"><a href="/slots/<%= slot.id %>"><%= slot.slotCode %></a></li><% } %>
+    <li class="ui-breadcrumb-item active" aria-current="page"><%= isEdit ? 'Sửa' : 'Thêm mới' %></li>
+  </ol>
+</nav>
+<h1 class="text-xl font-semibold mb-4"><%= isEdit ? 'Sửa thông tin vị trí đỗ' : 'Thêm mới vị trí đỗ' %></h1>
+
+<% if (locked) { %>
+  <div class="ui-alert ui-alert-warning" role="alert" data-form-locked>
+    Vị trí đang có xe đăng ký hoặc đang đỗ nên không thể sửa. Chờ xe ra khỏi vị trí rồi thử lại.
+  </div>
+<% } %>
+<% if (errorMessage) { %>
+  <div class="ui-alert ui-alert-danger" role="alert" data-form-error><%= errorMessage %></div>
+<% } %>
+
+<form method="post" action="<%= action %>" class="ui-card ui-card-body max-w-2xl" novalidate
+  data-slot-form data-focus="<%= focusField %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <fieldset <%= locked ? 'disabled' : '' %> class="border-0 p-0 m-0">
+
+  <div class="mb-4">
+    <label for="slotCode" class="ui-label">Mã vị trí<% if (!isEdit) { %> <span class="text-red-700">*</span><% } %></label>
+    <% if (isEdit) { %>
+      <input id="slotCode" class="ui-input" value="<%= slot ? slot.slotCode : '' %>" readonly disabled>
+      <div class="ui-help">Mã vị trí không được chỉnh sửa.</div>
+    <% } else { %>
+      <input id="slotCode" name="slotCode" class="ui-input uppercase <%= invalid('slotCode') %>"
+        value="<%= val('slotCode') %>" maxlength="20" pattern="[A-Za-z0-9\-]{1,20}" required
+        placeholder="VD: A-01" autocomplete="off" aria-describedby="slotCodeHelp"
+        data-error-required="Vui lòng nhập mã vị trí"
+        data-error-pattern="Mã vị trí chỉ gồm chữ, số và dấu gạch ngang (tối đa 20 ký tự)">
+      <div id="slotCodeHelp" class="ui-help">Chữ in hoa, số và dấu gạch ngang; tự chuyển thành chữ in hoa.</div>
+      <div class="ui-invalid-feedback"><%= fieldErrors.slotCode || '' %></div>
+    <% } %>
+  </div>
+
+  <div class="mb-4">
+    <label for="zone" class="ui-label">Khu vực / Tầng <span class="text-red-700">*</span></label>
+    <input id="zone" name="zone" class="ui-input <%= invalid('zone') %>" value="<%= val('zone') %>"
+      maxlength="20" required placeholder="VD: B1-A" list="zoneOptions" autocomplete="off"
+      data-error-required="Vui lòng nhập khu vực / tầng">
+    <% if (zones && zones.length) { %>
+      <datalist id="zoneOptions">
+        <% zones.forEach((zone) => { %><option value="<%= zone %>"></option><% }) %>
+      </datalist>
+    <% } %>
+    <div class="ui-invalid-feedback"><%= fieldErrors.zone || '' %></div>
+  </div>
+
+  <fieldset class="mb-4">
+    <legend class="ui-label text-base">Trạng thái</legend>
+    <div class="flex gap-2 <%= invalid('status') %>" role="radiogroup">
+      <% [SLOT_STATUS.AVAILABLE, SLOT_STATUS.MAINTENANCE].forEach((status) => { %>
+        <% const checked = status === SLOT_STATUS.MAINTENANCE ? val('status') === status : val('status') !== SLOT_STATUS.MAINTENANCE; %>
+        <input type="radio" class="ui-radio" name="status" id="status-<%= status %>" value="<%= status %>" <%= checked ? 'checked' : '' %>>
+        <label class="pc-chip" data-status="<%= status %>" for="status-<%= status %>"><%= labels.slotStatus[status] %></label>
+      <% }) %>
+    </div>
+    <div class="ui-invalid-feedback block"><%= fieldErrors.status || '' %></div>
+  </fieldset>
+
+  <div class="mb-4">
+    <label for="note" class="ui-label flex justify-between">
+      <span>Ghi chú</span><small class="text-slate-500" data-char-count="note"><%= String(val('note')).length %>/255</small>
+    </label>
+    <textarea id="note" name="note" class="ui-input" rows="2" maxlength="255"><%= val('note') %></textarea>
+  </div>
+
+  </fieldset>
+
+  <div class="flex gap-2">
+    <button type="submit" class="ui-btn ui-btn-primary" <%= locked ? 'disabled' : '' %>
+      data-submit-label="<%= isEdit ? 'Đang lưu…' : 'Đang thêm…' %>"><%= isEdit ? 'Lưu' : 'Thêm' %></button>
+    <a href="/slots" class="ui-btn ui-btn-outline-secondary" data-form-cancel>Hủy</a>
+  </div>
+</form>
+<script src="/js/slots.js" defer></script>
+</main><%- include('../partials/footer') %>

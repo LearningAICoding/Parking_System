@@ -1,0 +1,13 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <main class="w-full py-6 px-4 lg:px-6">
+      <div class="mb-6"><a href="/tickets" class="text-sm">← Quay lại danh sách vé</a><h1 class="text-2xl font-semibold mt-2 mb-1">Chỉnh sửa vé</h1><p class="text-slate-600 mb-0">Chỉ thay đổi được thời gian hiệu lực nếu vé chưa được sử dụng.</p></div>
+      <% if (formError) { %><div class="ui-alert ui-alert-danger" role="alert"><%= formError %></div><% } %>
+      <% if (ticket) { %><section class="ui-card dashboard-card"><div class="ui-card-body p-6"><div class="grid grid-cols-12 gap-4 mb-6"><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Mã vé</div><div class="font-mono"><%= ticket.ticketCode %></div></div><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Biển số</div><div><%= ticket.licensePlate %></div></div><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Vị trí</div><div><%= ticket.slotCode %></div></div></div><form method="post" action="/tickets/<%= ticket.id %>/edit"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><div class="grid grid-cols-12 gap-4"><div class="col-span-12 md:col-span-6"><label class="ui-label" for="startDate">Ngày bắt đầu</label><input class="ui-input" id="startDate" name="startDate" type="date" value="<%= values?.startDate || ticket.startDate %>" required></div><div class="col-span-12 md:col-span-6"><label class="ui-label" for="endDate">Ngày kết thúc</label><input class="ui-input" id="endDate" name="endDate" type="date" value="<%= values?.endDate || ticket.endDate %>" required></div></div><div class="grid grid-cols-12 gap-4 mt-2"><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Loại vé</div><div><%= ticket.ticketType %></div></div><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Trạng thái</div><div><%= ticket.status %></div></div><div class="col-span-12 md:col-span-4"><div class="text-sm text-slate-600">Giá tính lại từ server</div><div><%= Number(ticket.price).toLocaleString('vi-VN') %> VND</div></div></div><div class="flex justify-end gap-2 mt-6"><a class="ui-btn ui-btn-secondary" href="/tickets">Hủy</a><button class="ui-btn ui-btn-primary" type="submit">Lưu thay đổi</button></div></form></div></section><% } %>
+    </main>
+    <%- include('../partials/footer') %>
+  </div>
+</div>

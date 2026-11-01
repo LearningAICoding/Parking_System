@@ -1,0 +1,86 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <main class="w-full py-6 px-4 lg:px-6">
+      <div class="flex flex-wrap justify-between items-end gap-3 mb-6">
+        <div><p class="uppercase text-sm text-primary font-semibold mb-1">Vận hành</p><h1 class="text-2xl font-semibold mb-1">Quản lý xe vào/ra</h1><p class="text-slate-600 mb-0">Tải ảnh biển số để nhận diện và tiếp tục thao tác.</p></div>
+        <span class="ui-badge ui-badge-light border">MANAGER / STAFF</span>
+      </div>
+      <div id="parking-alert" class="ui-alert hidden" role="alert"></div>
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 xl:col-span-7">
+          <section class="ui-card dashboard-card h-full">
+            <div class="ui-card-header bg-white"><h2 class="text-lg font-semibold mb-0">1. Scan biển số từ hình ảnh</h2></div>
+            <div class="ui-card-body">
+              <form id="scan-form" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <label class="ui-label" for="plateImage">Ảnh biển số xe</label>
+                <input class="ui-input" id="plateImage" name="plateImage" type="file" accept="image/jpeg,image/png,image/webp" required>
+                <div class="ui-help">JPEG, PNG hoặc WebP; tối đa 5 MB.</div>
+                <img id="plate-preview" class="max-w-full h-auto rounded border mt-4 hidden" alt="Ảnh biển số xem trước">
+                <button class="ui-btn ui-btn-primary mt-4" type="submit"><span aria-hidden="true">⌕</span> Scan biển số</button>
+              </form>
+              <div id="scan-loading" class="text-sm text-slate-600 mt-4 hidden" role="status">Đang nhận diện biển số...</div>
+            </div>
+          </section>
+        </div>
+        <div class="col-span-12 xl:col-span-5">
+          <section class="ui-card dashboard-card h-full">
+            <div class="ui-card-header bg-white"><h2 class="text-lg font-semibold mb-0">2. Thông tin nhận diện</h2></div>
+            <div class="ui-card-body">
+              <div id="scan-empty" class="text-slate-600">Chưa có kết quả scan.</div>
+              <dl id="scan-result" class="grid grid-cols-12 mb-0 hidden">
+                <dt class="col-span-5">Biển số</dt><dd class="col-span-7 font-mono" id="result-licensePlate"></dd>
+                <dt class="col-span-5">Tên xe</dt><dd class="col-span-7" id="result-vehicleName"></dd>
+                <dt class="col-span-5">Hãng xe</dt><dd class="col-span-7" id="result-brand"></dd>
+                <dt class="col-span-5">Khách hàng</dt><dd class="col-span-7" id="result-customerName"></dd>
+                <dt class="col-span-5">Số điện thoại</dt><dd class="col-span-7" id="result-phone"></dd>
+                <dt class="col-span-5">Vị trí đỗ</dt><dd class="col-span-7" id="result-slotCode"></dd>
+              </dl>
+              <button id="open-vehicle-modal" class="ui-btn ui-btn-outline-primary hidden" type="button" data-ui-toggle="modal" data-ui-target="#vehicle-modal">Thêm xe vãng lai</button>
+              <input type="hidden" id="selected-vehicle-id">
+              <input type="hidden" id="scan-token">
+            </div>
+          </section>
+        </div>
+        <div class="col-span-12 lg:col-span-6">
+          <section class="ui-card dashboard-card">
+            <div class="ui-card-header bg-white"><h2 class="text-lg font-semibold mb-0">3. Cho xe vào</h2></div>
+            <div class="ui-card-body">
+              <form id="check-in-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="mb-4"><label class="ui-label" for="slotId">Vị trí đỗ</label><select class="ui-select" id="slotId" required><option value="">Chọn ô AVAILABLE</option></select></div>
+                <div class="mb-4"><label class="ui-label" for="ticketId">Mã vé (nếu có)</label><input class="ui-input" id="ticketId" inputmode="numeric" placeholder="ID vé nội bộ"></div>
+                <button class="ui-btn ui-btn-success" type="submit">Xác nhận xe vào</button>
+              </form>
+            </div>
+          </section>
+        </div>
+        <div class="col-span-12 lg:col-span-6">
+          <section class="ui-card dashboard-card">
+            <div class="ui-card-header bg-white"><h2 class="text-lg font-semibold mb-0">4. Cho xe ra</h2></div>
+            <div class="ui-card-body">
+              <form id="check-out-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="mb-4"><label class="ui-label" for="sessionId">Mã lượt đỗ</label><input class="ui-input" id="sessionId" inputmode="numeric" required></div>
+                <button class="ui-btn ui-btn-danger" type="submit">Xác nhận xe ra</button>
+              </form>
+              <div id="checkout-result" class="text-sm text-slate-600 mt-4"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <%- include('../partials/footer') %>
+  </div>
+</div>
+<div class="ui-modal" id="vehicle-modal" tabindex="-1" aria-labelledby="vehicle-modal-title" aria-hidden="true">
+  <div class="ui-modal-dialog"><div class="ui-modal-content"><form id="vehicle-form">
+    <div class="ui-modal-header"><h2 class="ui-modal-title text-lg font-semibold" id="vehicle-modal-title">Thêm xe vãng lai</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div>
+    <div class="ui-modal-body"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><input type="hidden" id="new-license-plate" name="licensePlate"><div class="mb-4"><label class="ui-label" for="vehicleName">Tên xe</label><input class="ui-input" id="vehicleName" name="vehicleName" required></div><div class="mb-4"><label class="ui-label" for="brand">Hãng xe</label><input class="ui-input" id="brand" name="brand"></div><div><label class="ui-label" for="vehicleType">Loại xe</label><select class="ui-select" id="vehicleType" name="vehicleType"><option value="MOTORBIKE">Xe máy</option><option value="CAR">Ô tô</option></select></div></div>
+    <div class="ui-modal-footer"><button type="button" class="ui-btn ui-btn-secondary" data-ui-dismiss="modal">Đóng</button><button class="ui-btn ui-btn-primary" type="submit">Lưu xe</button></div>
+  </form></div></div>
+</div>
+<script src="/js/parking-checkin.js"></script>

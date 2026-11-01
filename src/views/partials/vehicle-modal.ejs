@@ -1,0 +1,16 @@
+<div class="ui-modal" id="vehicle-modal" tabindex="-1" aria-labelledby="vehicle-modal-title" aria-hidden="true">
+  <div class="ui-modal-dialog"><div class="ui-modal-content">
+    <form data-vehicle-create>
+      <div class="ui-modal-header"><h2 class="ui-modal-title text-lg" id="vehicle-modal-title">Thêm xe</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div>
+      <div class="ui-modal-body">
+        <div class="ui-alert ui-alert-danger hidden" data-vehicle-error role="alert"></div>
+        <% if (typeof customerId !== 'undefined' && customerId) { %><input type="hidden" name="customerId" value="<%= customerId %>"><% } %>
+        <label class="ui-label" for="licensePlate">Biển số *</label><input class="ui-input mb-4" id="licensePlate" name="licensePlate" required maxlength="20">
+        <label class="ui-label" for="vehicleName">Tên xe *</label><input class="ui-input mb-4" id="vehicleName" name="vehicleName" required maxlength="100">
+        <label class="ui-label" for="brand">Hãng xe</label><input class="ui-input mb-4" id="brand" name="brand" maxlength="50">
+        <label class="ui-label" for="vehicleType">Loại xe *</label><select class="ui-select" id="vehicleType" name="vehicleType" required><option value="MOTORBIKE">Xe máy</option><option value="CAR">Ô tô</option></select>
+      </div>
+      <div class="ui-modal-footer"><button type="button" class="ui-btn ui-btn-outline-secondary" data-ui-dismiss="modal">Đóng</button><button class="ui-btn ui-btn-primary" type="submit">Lưu xe</button></div>
+    </form>
+  </div></div>
+</div>

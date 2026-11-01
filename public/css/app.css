@@ -1,0 +1,87 @@
+:root {
+  --parking-primary: #0066cc;
+  --parking-surface: #f8f9fa;
+  --parking-text: #191c1d;
+}
+
+body {
+  color: var(--parking-text);
+  background: var(--parking-surface);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.auth-page .ui-card {
+  border-radius: 8px;
+}
+
+.auth-page a {
+  color: var(--parking-primary);
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.app-sidebar {
+  width: 240px;
+  flex: 0 0 240px;
+  background: #fff;
+  border-right: 1px solid #e1e3e4;
+}
+
+.app-sidebar.is-open { transform: translateX(0); }
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-card {
+  border: 1px solid #e1e3e4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+
+.parking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.parking-cell {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #c1c6d5;
+  border-left-width: 4px;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+}
+
+.parking-cell span,
+.parking-cell small {
+  color: #414753;
+}
+
+.parking-cell.status-available { border-left-color: #28a745; }
+.parking-cell.status-occupied { border-left-color: #dc3545; }
+.parking-cell.status-reserved { border-left-color: #ffc107; }
+.parking-cell.status-maintenance { border-left-color: #6c757d; }
+.parking-cell:not(:disabled):hover { background: #dfe8ff; }
+
+@media (max-width: 1023.98px) {
+  .app-sidebar {
+    width: 280px;
+    flex-basis: 280px;
+  }
+}

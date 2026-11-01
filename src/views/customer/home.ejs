@@ -1,0 +1,24 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <main class="w-full py-6 px-4 lg:px-6">
+      <div class="p-6 lg:p-8 bg-primary text-white rounded-xl mb-6">
+        <p class="uppercase text-sm font-semibold mb-2">Khu vực khách hàng</p>
+        <h1 class="text-2xl font-semibold">Xin chào, <%= currentUser?.fullName || currentUser?.username %></h1>
+        <p class="mb-0 opacity-75">Quản lý xe, xem bản đồ và đăng ký vị trí đỗ trong một nơi.</p>
+      </div>
+      <div class="grid grid-cols-12 gap-4 mb-6">
+        <div class="col-span-12 md:col-span-6"><a class="ui-card dashboard-card h-full no-underline" href="/my-vehicles"><div class="ui-card-body"><h2 class="text-lg font-semibold text-slate-900">Xe của tôi</h2><p class="text-slate-600 mb-0">Xem danh sách và trạng thái xe thuộc tài khoản.</p></div></a></div>
+        <div class="col-span-12 md:col-span-6"><a class="ui-card dashboard-card h-full no-underline" href="/parking/map"><div class="ui-card-body"><h2 class="text-lg font-semibold text-slate-900">Bản đồ bãi đỗ</h2><p class="text-slate-600 mb-0">Xem ô trống và đăng ký chỗ cho xe của bạn.</p></div></a></div>
+      </div>
+      <section class="ui-card dashboard-card">
+        <div class="ui-card-header bg-white"><h2 class="text-lg font-semibold mb-0">Tin tức mới</h2></div>
+        <div class="ui-list ui-list-flush">
+          <% if (!news.length) { %><div class="p-6 text-slate-600">Chưa có tin tức được công bố.</div><% } %>
+          <% news.forEach((item) => { %><article class="ui-list-item py-4"><h3 class="text-base font-semibold mb-1"><%= item.title %></h3><p class="text-sm text-slate-600 mb-0"><%= item.summary || item.content %></p></article><% }) %>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>

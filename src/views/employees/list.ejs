@@ -1,0 +1,53 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+  <div>
+    <div class="text-primary font-bold text-sm uppercase">Quản lý hệ thống</div>
+    <h1 class="text-3xl font-bold mb-1">Danh sách nhân viên</h1>
+    <p class="text-slate-600 mb-0">Quản lý tài khoản MANAGER và STAFF.</p>
+  </div>
+  <a class="ui-btn ui-btn-primary" href="/employees/create">＋ Thêm nhân viên</a>
+</div>
+<% if (req.query.notice) { %>
+  <div class="ui-alert ui-alert-success"><%= req.query.notice==='created'?'Đã thêm nhân viên.':req.query.notice==='updated'?'Đã cập nhật nhân viên.':'Đã xóa nhân viên.' %></div>
+<% } %>
+<div id="employee-feedback" role="status" aria-live="polite"></div>
+<div class="ui-card border-0 shadow-sm">
+  <div class="ui-card-body">
+    <form class="grid grid-cols-12 gap-2 mb-4" method="get">
+      <div class="col-span-12 sm:col-span-9"><input class="ui-input" name="q" value="<%= q %>" maxlength="50" placeholder="Tìm tên, username, email hoặc điện thoại"></div>
+      <div class="col-span-12 sm:col-span-3 grid"><button class="ui-btn ui-btn-outline-primary">Tìm kiếm</button></div>
+    </form>
+    <div class="overflow-x-auto">
+      <table class="ui-table align-middle">
+        <thead><tr><th>Nhân viên</th><th>Liên hệ</th><th>Vai trò</th><th>Chức vụ</th><th>Thao tác</th></tr></thead>
+        <tbody id="employee-list">
+          <% if (!employees.length) { %><tr class="empty-row"><td colspan="5" class="text-center text-slate-600 py-6">Không có nhân viên phù hợp.</td></tr><% } %>
+          <% employees.forEach(e=> { %>
+            <tr data-employee-row="<%= e.id %>">
+              <td><div class="font-semibold"><%= e.fullName %></div><div class="text-sm text-slate-600">@<%= e.username %></div></td>
+              <td><div><%= e.email %></div><div class="text-sm text-slate-600"><%= e.phone || 'Chưa có số điện thoại' %></div></td>
+              <td><span class="ui-badge <%= e.role==='MANAGER'?'ui-badge-primary':'ui-badge-secondary' %>"><%= e.role %></span></td>
+              <td><%= e.position || '—' %></td>
+              <td>
+                <div class="flex gap-2">
+                  <a class="ui-btn ui-btn-sm ui-btn-outline-primary" href="/employees/<%= e.id %>/edit">Sửa</a>
+                  <form method="post" action="/employees/<%= e.id %>" data-confirm-delete data-confirm-message="Bạn chắc chắn muốn xóa nhân viên này?">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="ui-btn ui-btn-sm ui-btn-outline-danger" type="submit">Xóa</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div id="employee-count" class="text-sm text-slate-600" data-count="<%= employees.length %>">Tổng cộng: <%= employees.length %> nhân viên hiển thị</div>
+  </div>
+</div>
+<div class="ui-modal" id="employee-delete-modal" tabindex="-1" aria-hidden="true"><div class="ui-modal-dialog"><div class="ui-modal-content"><div class="ui-modal-header"><h2 class="ui-modal-title text-lg">Xóa nhân viên</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div><div class="ui-modal-body"><p>Bạn chắc chắn muốn xóa nhân viên này?</p><div class="ui-alert ui-alert-danger hidden" id="employee-delete-error" role="alert"></div></div><div class="ui-modal-footer"><button type="button" class="ui-btn ui-btn-secondary" data-ui-dismiss="modal">Hủy</button><button type="button" class="ui-btn ui-btn-danger" id="employee-delete-submit">Xóa</button></div></div></div></div>
+<script src="/js/employee-delete.js" defer></script>
+</main><%- include('../partials/footer') %>
+

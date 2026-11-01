@@ -1,0 +1,13 @@
+<%- include('../partials/head', { title }) %><%- include('../partials/header') %><div class="app-layout"><%- include('../partials/sidebar') %><div class="app-main"><main class="w-full py-6 px-4 lg:px-6">
+<div class="mb-6"><h1 class="text-3xl font-bold mb-1">Thống kê bãi đỗ</h1><p class="text-slate-600">Báo cáo hoạt động và doanh thu theo ngày, tháng hoặc năm.</p></div>
+<div id="stats-error" class="ui-alert ui-alert-danger hidden" role="alert"></div>
+<form id="stats-filter" class="grid grid-cols-12 gap-4 mb-6">
+  <div class="col-span-12 md:col-span-3"><label class="ui-label" for="stats-mode">Gom nhóm</label><select class="ui-select" id="stats-mode" name="mode"><option value="day">Theo ngày</option><option value="month">Theo tháng</option><option value="year">Theo năm</option></select></div>
+  <div class="col-span-12 md:col-span-3"><label class="ui-label" for="stats-from">Từ ngày</label><input class="ui-input" type="date" id="stats-from" name="from" required></div>
+  <div class="col-span-12 md:col-span-3"><label class="ui-label" for="stats-to">Đến ngày</label><input class="ui-input" type="date" id="stats-to" name="to" required></div>
+  <div class="col-span-12 md:col-span-3 flex items-end"><button class="ui-btn ui-btn-primary">Xem báo cáo</button></div>
+</form>
+<div class="grid grid-cols-12 gap-4 mb-6" id="stats-summary"></div>
+<div class="ui-card border-0 shadow-sm"><div class="ui-card-body"><div class="overflow-x-auto"><table class="ui-table"><thead><tr><th>Kỳ</th><th>Lượt vào</th><th>Lượt ra</th><th>Doanh thu vé</th><th>Doanh thu lượt lẻ</th></tr></thead><tbody id="stats-series"><tr><td colspan="5" class="text-slate-600">Chọn khoảng thời gian để tải báo cáo.</td></tr></tbody></table></div></div></div>
+<script src="/js/stats.js" defer></script>
+</main><%- include('../partials/footer') %>

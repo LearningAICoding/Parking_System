@@ -25,7 +25,7 @@ Khi áp dụng bộ quy tắc này vào checkout hoặc database cũ, làm theo 
 
 ## Thiết kế UI
 
-Các file `docs/design/screens/*/code.html` là prototype Stitch AI dùng Tailwind, không dùng trực tiếp. Code thật dùng Bootstrap 5 và tuân theo `.agents/rules/ejs.md`. Prototype không phải API contract và không được dùng để mở rộng Sprint 1 sang các tính năng ngoài `AGENTS.md`.
+Các file `docs/design/screens/*/code.html` là prototype Stitch AI, không dùng trực tiếp. Code thật dùng EJS + Tailwind CSS + Vanilla JavaScript và tuân theo `.agents/rules/ejs.md`. Chạy `npm run build:css` sau khi đổi class hoặc stylesheet; `npm run watch:css` khi phát triển giao diện. Prototype không phải API contract và không được dùng để mở rộng Sprint 1 sang các tính năng ngoài `AGENTS.md`.
 
 ## Kiểm tra trước khi merge
 

@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS parking_slots (
   KEY idx_parking_slots_status (status),
   KEY idx_parking_slots_zone (zone),
   CONSTRAINT fk_parking_slots_vehicle FOREIGN KEY (current_vehicle_id) REFERENCES vehicles (id)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT chk_parking_slots_code CHECK (slot_code REGEXP '^[A-Z0-9-]{1,20}$'),
   CONSTRAINT chk_parking_slots_vehicle_state CHECK (
     (status IN ('AVAILABLE','MAINTENANCE') AND current_vehicle_id IS NULL)
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS parking_sessions (
   KEY idx_parking_sessions_ticket_id (ticket_id),
   KEY idx_parking_sessions_slot_id (slot_id),
   CONSTRAINT fk_parking_sessions_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT fk_parking_sessions_ticket FOREIGN KEY (ticket_id) REFERENCES tickets (id)
     ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT fk_parking_sessions_slot FOREIGN KEY (slot_id) REFERENCES parking_slots (id)

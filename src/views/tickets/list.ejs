@@ -1,0 +1,26 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/header') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <main class="w-full py-6 px-4 lg:px-6">
+      <div class="flex flex-wrap justify-between items-end gap-3 mb-6"><div><p class="uppercase text-sm text-primary font-semibold mb-1">Vé đỗ xe</p><h1 class="text-2xl font-semibold mb-1">Danh sách vé</h1><p class="text-slate-600 mb-0">Theo dõi vé phát sinh từ đăng ký đỗ xe.</p></div><span class="ui-badge ui-badge-light border">Tổng: <%= pagination.total %></span></div>
+      <div id="ticket-alert" class="ui-alert hidden" role="alert"></div>
+      <section class="ui-card dashboard-card">
+        <div class="overflow-x-auto">
+          <table class="ui-table ui-table-hover align-middle mb-0">
+            <thead><tr><th>Mã vé</th><th>Biển số</th><th>Khách hàng</th><th>Vị trí</th><th>Thời hạn</th><th>Giá</th><th>Trạng thái</th><% if (currentUser?.role === 'MANAGER') { %><th class="text-right">Thao tác</th><% } %></tr></thead>
+            <tbody>
+              <% if (!items.length) { %><tr><td colspan="8" class="text-center text-slate-600 py-10">Chưa có vé.</td></tr><% } %>
+              <% items.forEach((ticket) => { %><tr id="ticket-row-<%= ticket.id %>"><td class="font-mono"><% if (currentUser?.role === 'MANAGER') { %><a href="/tickets/<%= ticket.id %>/edit"><%= ticket.ticketCode %></a><% } else { %><%= ticket.ticketCode %><% } %></td><td><strong><%= ticket.licensePlate %></strong><br><span class="text-sm text-slate-600"><%= ticket.vehicleName %></span></td><td><%= ticket.customerName || 'Xe vãng lai' %></td><td><%= ticket.slotCode %></td><td><%= ticket.startDate %> – <%= ticket.endDate %></td><td><%= Number(ticket.price).toLocaleString('vi-VN') %> VND</td><td><span class="ui-badge <%= ticket.status === 'ACTIVE' ? 'ui-badge-success' : ticket.status === 'EXPIRED' ? 'ui-badge-secondary' : 'ui-badge-warning' %>"><%= ticket.status %></span></td><% if (currentUser?.role === 'MANAGER') { %><td class="text-right"><a class="ui-btn ui-btn-sm ui-btn-outline-primary mr-1" href="/tickets/<%= ticket.id %>/edit">Sửa</a><button class="ui-btn ui-btn-sm ui-btn-outline-danger js-delete-ticket" type="button" data-ticket-id="<%= ticket.id %>" data-ticket-code="<%= ticket.ticketCode %>">Xóa</button></td><% } %></tr><% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% if (pagination.totalPages > 1) { %><nav class="p-4" aria-label="Phân trang vé"><ul class="ui-pagination mb-0"><% for (let p = 1; p <= pagination.totalPages; p += 1) { %><li class="ui-page-item <%= p === pagination.page ? 'active' : '' %>"><a class="ui-page-link" href="/tickets?page=<%= p %>&limit=<%= pagination.limit %>"><%= p %></a></li><% } %></ul></nav><% } %>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+  </div>
+</div>
+<div class="ui-modal" id="delete-ticket-modal" tabindex="-1" aria-labelledby="delete-ticket-title" aria-hidden="true"><div class="ui-modal-dialog ui-modal-centered"><div class="ui-modal-content"><div class="ui-modal-header"><h2 class="ui-modal-title text-lg font-semibold" id="delete-ticket-title">Xác nhận xóa vé</h2><button type="button" class="ui-close" data-ui-dismiss="modal" aria-label="Đóng"></button></div><div class="ui-modal-body">Bạn có chắc muốn xóa vé <strong id="delete-ticket-code"></strong>?</div><div class="ui-modal-footer"><button type="button" class="ui-btn ui-btn-secondary" data-ui-dismiss="modal">Hủy</button><button type="button" class="ui-btn ui-btn-danger" id="confirm-delete-ticket">Xóa vé</button></div></div></div></div>
+<script src="/js/tickets.js"></script>

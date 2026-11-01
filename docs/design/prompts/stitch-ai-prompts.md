@@ -11,7 +11,7 @@ Vẽ giao diện thật trực quan cho ParkCore Parking System, dùng tiếng V
 
 Giữ ParkCore Precision: nền #F8F9FA, bề mặt trắng, chữ #191C1D/#414753, viền #E5E7EB, xanh chính #0066CC. Trạng thái ô có màu kèm nhãn chữ: Trống xanh, Đang đỗ đỏ, Đặt trước vàng, Bảo trì xám. Font Inter; JetBrains Mono chỉ cho biển số. Bo góc card 8px, input 4px; icon gọn, tương phản rõ. Không dùng gradient/trang trí kiểu dashboard SaaS đại trà.
 
-Desktop dùng sidebar 240px; mobile chuyển sang drawer/bố cục một cột. Thiết kế đúng role. Frontend thật dùng EJS + Bootstrap 5. Không tự thêm nghiệp vụ, field hay quyền ngoài yêu cầu. Không dùng thông tin cá nhân thật.
+Desktop dùng sidebar 240px; mobile chuyển sang drawer/bố cục một cột. Thiết kế đúng role. Frontend thật dùng EJS + Tailwind CSS. Không tự thêm nghiệp vụ, field hay quyền ngoài yêu cầu. Không dùng thông tin cá nhân thật.
 ```
 
 ## Task 1 — Xác thực

@@ -34,7 +34,7 @@ Trên bản clone/backup đã restore:
 1. Giao từng Task theo `AGENTS.md`; yêu cầu người/AI nhận việc đọc rule lớp liên quan trong `.agents/rules/` và nêu tác động tới route, schema, config, UI, test trước khi sửa.
 2. Bảo toàn `.env` và secrets hiện hữu. Chỉ thêm biến mới có chủ đích từ `.env.example`; không đưa secrets, database dump hoặc ảnh biển số vào Git.
 3. Nâng dependencies có lockfile, kiểm tra audit và test. Ưu tiên thay đổi nhỏ theo Task để dễ review và rollback.
-4. Chuyển UI từng màn hình sang EJS/Bootstrap theo contract; không copy prototype Tailwind vào code thật hoặc mở rộng tính năng ngoài Sprint 1.
+4. Chuyển UI từng màn hình sang EJS/Tailwind CSS theo contract; không copy nguyên prototype vào code thật hoặc mở rộng tính năng ngoài Sprint 1.
 5. Sửa contract/schema/migration/test cùng một thay đổi khi behavior được duyệt thay đổi. Controller → Service → Model vẫn là phân tầng bắt buộc.
 
 ## 5. Kiểm tra, commit và phát hành

@@ -1,0 +1,31 @@
+<%- include('../partials/auth-head', { title }) %>
+<main class="mx-auto w-full max-w-7xl px-4 py-10">
+  <div class="grid grid-cols-12 justify-center">
+    <div class="col-span-12 col-span-12 md:col-span-6 lg:col-span-4">
+      <section class="ui-card shadow-sm border-0">
+        <div class="ui-card-body p-6 lg:p-8">
+          <p class="text-primary font-semibold mb-2">PARKING SYSTEM</p>
+          <h1 class="text-2xl font-semibold mb-1">Đăng nhập</h1>
+          <p class="text-slate-600 mb-6">Truy cập hệ thống quản lý bãi đỗ xe</p>
+          <% if (formError) { %><div class="ui-alert ui-alert-danger" role="alert"><%= formError %></div><% } %>
+          <% if (typeof req !== 'undefined' && req.query && req.query.reset === '1') { %><div class="ui-alert ui-alert-success" role="status">Mật khẩu đã được cập nhật. Bạn có thể đăng nhập.</div><% } %>
+          <form method="post" action="/login" novalidate>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="returnTo" value="<%= returnTo || '/' %>">
+            <div class="mb-4">
+              <label class="ui-label" for="username">Tên đăng nhập</label>
+              <input class="ui-input" id="username" name="username" autocomplete="username" value="<%= values?.username || '' %>" required>
+            </div>
+            <div class="mb-4">
+              <label class="ui-label" for="password">Mật khẩu</label>
+              <input class="ui-input" id="password" name="password" type="password" autocomplete="current-password" required>
+            </div>
+            <button class="ui-btn ui-btn-primary w-full" type="submit">Đăng nhập</button>
+          </form>
+          <div class="text-center mt-4"><a href="/forgot-password">Quên mật khẩu?</a></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<%- include('../partials/auth-foot') %>

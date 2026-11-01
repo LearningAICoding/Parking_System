@@ -1,0 +1,35 @@
+<div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 lg:hidden" aria-hidden="true"></div>
+<aside class="app-sidebar fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col border-r border-slate-200 bg-white transition-transform lg:static lg:translate-x-0" tabindex="-1" id="appSidebar" aria-label="Điều hướng chính">
+  <div class="flex items-center justify-between border-b border-slate-200 px-4 py-4 lg:hidden">
+    <h2 class="text-base font-semibold">Điều hướng</h2>
+    <button type="button" class="ui-close" data-ui-dismiss="offcanvas" aria-label="Đóng"></button>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
+    <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Menu</p>
+    <nav class="ui-nav flex-col gap-1">
+      <a class="ui-nav-link <%= req.path === '/' ? 'active' : '' %>" href="/">Tổng quan</a>
+      <a class="ui-nav-link <%= req.path === '/news' ? 'active' : '' %>" href="/news">Tin tức</a>
+      <% if (currentUser?.role === 'MANAGER' || currentUser?.role === 'STAFF') { %>
+        <a class="ui-nav-link <%= req.path === '/parking/checkin-checkout' ? 'active' : '' %>" href="/parking/checkin-checkout">Xe vào/ra</a>
+        <a class="ui-nav-link <%= req.path === '/parking/map' ? 'active' : '' %>" href="/parking/map">Bản đồ bãi đỗ</a>
+        <a class="ui-nav-link <%= req.path.startsWith('/customers') ? 'active' : '' %>" href="/customers">Khách hàng</a>
+        <a class="ui-nav-link <%= req.path.startsWith('/tickets') ? 'active' : '' %>" href="/tickets">Vé</a>
+        <a class="ui-nav-link <%= req.path.startsWith('/slots') ? 'active' : '' %>" href="/slots">Vị trí đỗ</a>
+        <button class="ui-nav-link text-left" type="button" data-ui-toggle="modal" data-ui-target="#vehicle-search-modal">Tìm xe</button>
+      <% } %>
+      <% if (currentUser?.role === 'MANAGER') { %>
+        <a class="ui-nav-link <%= req.path.startsWith('/employees') ? 'active' : '' %>" href="/employees">Nhân viên</a>
+        <a class="ui-nav-link <%= req.path.startsWith('/stats') ? 'active' : '' %>" href="/stats">Thống kê</a>
+      <% } %>
+      <% if (currentUser?.role === 'CUSTOMER') { %>
+        <a class="ui-nav-link <%= req.path === '/my-vehicles' ? 'active' : '' %>" href="/my-vehicles">Xe của tôi</a>
+        <a class="ui-nav-link <%= req.path === '/parking/map' ? 'active' : '' %>" href="/parking/map">Đăng ký chỗ đỗ</a>
+        <a class="ui-nav-link <%= req.path === '/profile' ? 'active' : '' %>" href="/profile">Hồ sơ</a>
+      <% } %>
+    </nav>
+    <div class="mt-auto border-t border-slate-100 px-3 pt-5">
+      <div class="text-xs uppercase tracking-wide text-slate-500">Vai trò</div>
+      <div class="mt-1 text-sm font-semibold text-slate-800"><%= currentUser?.role %></div>
+    </div>
+  </div>
+</aside>

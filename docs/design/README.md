@@ -34,7 +34,7 @@ docs/design/
 
 **Mỗi màn hình là một thư mục** trong `screens/`, chứa:
 - `screen.png` - ảnh thiết kế (bản gốc từ Stitch AI).
-- `code.html` - HTML/CSS Stitch AI sinh ra (tham khảo, **không** dùng trực tiếp vì dự án render bằng EJS + Bootstrap 5).
+- `code.html` - HTML/CSS Stitch AI sinh ra (tham khảo, **không** dùng trực tiếp vì dự án render bằng EJS và dữ liệu thật).
 
 **Đặt tên thư mục**: `task-<số>-<tên-kebab>` (ví dụ `task-08-checkin-checkout`). Nhiều Task chung một màn hình thì gộp: `task-03-04-employees`, `task-14-15-16-slots`.
 
@@ -48,13 +48,13 @@ Prototype có thể chứa chi tiết minh họa ngoài Sprint 1 như RFID/ePass
 
 ## Quy ước chuyển sang code thật
 
-Frontend thật dùng EJS + Bootstrap 5 + Vanilla JavaScript. Bản đồ chỉ hiển thị mã ô và trạng thái từ API, không hiển thị biển số/tên khách hàng trong lưới; CUSTOMER không được thấy menu xem thông tin xe. Task 8 chỉ scan/upload, thêm xe vãng lai qua modal, check-in và check-out. Thống kê chỉ có Theo ngày/Tháng/Năm và lấy KPI từ API.
+Frontend thật dùng EJS + Tailwind CSS + Vanilla JavaScript. Bản đồ chỉ hiển thị mã ô và trạng thái từ API, không hiển thị biển số/tên khách hàng trong lưới; CUSTOMER không được thấy menu xem thông tin xe. Task 8 chỉ scan/upload, thêm xe vãng lai qua modal, check-in và check-out. Thống kê chỉ có Theo ngày/Tháng/Năm và lấy KPI từ API.
 
 ## Prototype CUSTOMER
 
 Bốn màn hình `customer-home`, `customer-my-vehicles`, `customer-parking-map` và `customer-profile` là prototype dành riêng cho tài khoản `CUSTOMER`, không phải màn hình quản trị khách hàng của MANAGER/STAFF. Chúng tương ứng với trang chủ, `/my-vehicles`, `/parking/map` và `/profile` theo RBAC trong `AGENTS.md`.
 
-Các file này vẫn là prototype tham khảo: code thật phải chuyển sang EJS + Bootstrap 5, lấy dữ liệu từ session/API, gửi CSRF khi thêm xe hoặc đăng ký ô, và không mở quyền xem thông tin xe tại ô cho CUSTOMER.
+Các file này vẫn là prototype tham khảo: code thật phải chuyển sang EJS + Tailwind CSS, lấy dữ liệu từ session/API, gửi CSRF khi thêm xe hoặc đăng ký ô, và không mở quyền xem thông tin xe tại ô cho CUSTOMER.
 
 
 Toàn bộ thiết kế dùng **ParkCore Precision** (xem `design-system.md`):
@@ -66,7 +66,7 @@ Toàn bộ thiết kế dùng **ParkCore Precision** (xem `design-system.md`):
 
 ## Dành cho thành viên
 
-**Frontend dev**: đọc `AGENTS.md` trước, sau đó lấy `screen.png` của màn hình phụ trách, đối chiếu Design System, chuyển sang EJS + Bootstrap 5 theo `.agents/rules/ejs.md`. **Không** copy `code.html` nguyên bản (dùng Tailwind và chỉ là prototype).
+**Frontend dev**: đọc `AGENTS.md` trước, sau đó lấy `screen.png` của màn hình phụ trách, đối chiếu Design System, chuyển sang EJS + Tailwind CSS theo `.agents/rules/ejs.md`. **Không** copy `code.html` nguyên bản (chỉ là prototype).
 
 **Backend dev**: xem `screen.png` để biết UI cần field/validate gì.
 
